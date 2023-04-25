@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "dbseeder.zillow.test",
+    "type": "java.lang.String",
+    "description": "A description for 'dbseeder.zillow.test'"
+  },
+  {
+    "name": "dbseeder.zillow.links[0]",
+    "type": "java.lang.String",
+    "description": "A description for 'dbseeder.zillow.links[0]'"
+  },
+  {
+    "name": "dbseeder.zillow.links[1]",
+    "type": "java.lang.String",
+    "description": "A description for 'dbseeder.zillow.links[1]'"
+  },
+  {
+    "name": "dbseeder.zillow.links[2]",
+    "type": "java.lang.String",
+    "description": "A description for 'dbseeder.zillow.links[2]'"
+  },
+  {
+    "name": "dbseeder.zillow.links[3]",
+    "type": "java.lang.String",
+    "description": "A description for 'dbseeder.zillow.links[3]'"
+  },
+  {
+    "name": "dbseeder.zillow.storagepath",
+    "type": "java.lang.String",
+    "description": "A description for 'dbseeder.zillow.storagepath'"
+  }
+]}

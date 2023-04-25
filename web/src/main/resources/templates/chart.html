@@ -1,0 +1,219 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Google Charts Example - Spring Boot</title>
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script type="text/javascript"
+    src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+    <div align="center" style="width: 1000px;">
+        <h2>Spring Boot Google Charts Example</h2>
+        <!--div id="map_chart"></div-->
+        <div id="table_chart"></div>
+        <div id="line_chart"></div>
+        <div id="line_yoy_chart"></div>
+        <div id="chart_div"></div>
+    </div>
+
+    <script th:inline="javascript">
+        google.charts.load('current', {'packages':['table']});
+        google.charts.setOnLoadCallback(drawTable);
+  
+        function drawTable() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Date');
+          data.addColumn('number', 'Home Value');
+          data.addColumn('number', 'YoY change');
+
+          real_data.forEach(function(key) {
+                data.addRow([ key.date, {v: key.homeValue, f: "$"+key.homeValue}, key.yoyChange ]);
+            });
+  
+          var table = new google.visualization.Table(document.getElementById('table_chart'));
+  
+          table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+        }
+      </script>
+
+    <script th:inline="javascript">
+        google.charts.load('current', {'packages':['line']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+            var data_yoy = new google.visualization.DataTable();
+
+            data.addColumn('string', 'Date');
+            data.addColumn('number', 'Home Value');
+
+            data_yoy.addColumn('string', 'Date');
+            data_yoy.addColumn('number', 'YoY change');
+
+            var result = /*[[${result}]]*/'{}';
+            var real_data = JSON.parse(result);
+
+            real_data.forEach(function(key) {
+                    data.addRow([ key.date, key.homeValue ]);
+                    data_yoy.addRow([ key.date, key.yoyChange ]);
+                });
+
+            var options = {
+                chart: {
+                    title: 'Housing Pricing',
+                    subtitle: 'in dollars (USD)'
+                },
+                width: 900,
+                height: 500
+            };
+            var options_yoy = {
+                chart: {
+                    title: 'Year Over Year Housing Price Change',
+                    subtitle: 'in %'
+                },
+                width: 900,
+                height: 500
+            };
+
+        var chart = new google.charts.Line(document.getElementById('line_chart'));
+        var chart_yoy = new google.charts.Line(document.getElementById('line_yoy_chart'));
+
+        chart.draw(data, google.charts.Line.convertOptions(options));
+        chart_yoy.draw(data_yoy, google.charts.Line.convertOptions(options_yoy));
+        }
+    </script>
+    <!--script th:inline="javascript">
+
+        google.charts.load('current', {
+        'packages':['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': ''
+      });
+      google.charts.setOnLoadCallback(drawMap);
+
+      function drawMap() {
+        var data = google.visualization.arrayToDataTable([
+          ['State', 'Select'],
+          ['US-AL', 10],
+          ['US-AK', 15],
+          ['US-AR', 55],
+          ['US-AK', 80],
+          ['US-AZ', 0],
+          ['US-CA', 541.31],
+          ['US-Colorado', 500],
+          ['US-CO', -500],
+          ['US-DE', 0],
+          ['US-FL', 0],
+          ['US-HI', 115],
+          ['US-KS', -445],
+          ['US-KY', 0],
+          ['US-MI', 0],
+          ['US-MO', 0],
+          ['US-MS', 0],
+          ['US-MT', 0],
+          ['US-NE', 0],
+          ['US-NJ', 0],
+          ['US-NM', 0],
+          ['US-NY', 0],
+          ['US-OR', 0],
+          ['US-PA', 0],
+          ['US-TX', 0],
+          ['US-UT', 0],
+          ['US-VA', 0],
+          ['US-WA', 0],
+          ['US-WV', 0],
+          ['US-WY', 0],
+        ]);
+
+        var options = {
+          region: 'US',
+          displayMode: 'regions',
+        };
+
+        /*var data = google.visualization.arrayToDataTable([
+          ['Country', 'Popularity'],
+          ['Germany', 200],
+          ['United States', 300],
+          ['Brazil', 400],
+          ['Canada', 500],
+          ['France', 600],
+          ['RU', 700]
+        ]);
+
+        var options = {};*/
+        var options = {region: 'US',
+      displayMode: 'regions',
+      resolution: 'provinces',
+      colors: ['#E0FFD4', '#A5EF63', '#50AA00', '#267114'],
+ 
+    };
+    options['colors'] = ['#FF8747', '#FFB581', '#C06000']; 
+        
+        //options['dataMode'] = {'regions'};
+        var container = document.getElementById('map_chart');
+        var geomap = new google.visualization.GeoChart(container);
+
+        geomap.draw(data, options);
+      };
+
+    </script-->
+    <script th:inline="javascript">
+        //var real_data = /*[[${chartData}]]*/'noValue';
+        var result = /*[[${result}]]*/'{}';
+        var real_data = JSON.parse(result);
+        $(document).ready(function() {
+            google.charts.load('current', {
+                packages : [ 'corechart', 'bar' ]
+            });
+            google.charts.setOnLoadCallback(drawColumnChart);
+            google.charts.setOnLoadCallback(drawPieChart);
+        });
+        function drawColumnChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Date');
+            data.addColumn('number', 'Value');
+            data.addColumn('number', 'YoY');
+            //alert(result);
+            //alert(real_data);
+            //Object.keys(real_data).forEach(function(key) {
+            real_data.forEach(function(key) {
+                //alert(key.date + " " + key.homeValue);
+                data.addRow([ key.date, key.homeValue, key.yoyChange ]);
+            });
+            var options = {
+                title : 'House Values',
+                hAxis : {
+                    title : 'Years',
+                },
+                vAxis : {
+                    title : 'Home Value'
+                }
+            };
+            var chart = new google.visualization.ColumnChart(document
+                    .getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+        function drawPieChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Year');
+            data.addColumn('number', 'Views');
+
+            Object.keys(real_data).forEach(function(key) {
+                data.addRow([ key, real_data[key] ]);
+            });
+            var options = {
+                title : 'Blog stats'
+            };
+            var chart = new google.visualization.PieChart(document
+                    .getElementById('piechart'));
+            chart.draw(data, options);
+        }
+    </script>
+</body>
+</html>

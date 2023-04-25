@@ -1,0 +1,15 @@
+{
+    "java.dependency.syncWithFolderExplorer": true,
+    "maven.excludedFolders": [
+
+        "**/.*",
+        "**/node_modules",
+        "**/target",
+        "**/bin",
+        "**/archetype-resources"
+    ],
+    "maven.terminal.customEnv": [
+        
+    ],
+    "maven.view": "hierarchical"
+}
