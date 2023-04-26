@@ -1,5 +1,6 @@
 package com.mialyk.persistence.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -24,10 +25,12 @@ public class County extends Region {
     @Column(name = "metro_code_fips", columnDefinition = "INT")
     private int metroCodeFips;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private State state;
 
-    @ManyToOne
-    private MetroArea metro;
+    //@ManyToOne(cascade = CascadeType.PERSIST)
+    //private MetroArea metro;
+    @Column(name = "metro_state")
+    private String metroState;
 }
 

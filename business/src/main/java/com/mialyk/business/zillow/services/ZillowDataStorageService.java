@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-//@ComponentScan(basePackages = {"com.mialyk.business.services"})
 public class ZillowDataStorageService {
     @Autowired
     private HomeValueRepository homeValueRepository;
@@ -59,7 +58,7 @@ public class ZillowDataStorageService {
         Region region = null;
 
         if (regionType == RegionType.STATE) {
-            region = (Region)regionService.getState(
+            region = (State)regionService.getState(
                             zhviStatesDto.getRegionName(), 
                             zhviStatesDto.getStateName(), 
                             zhviStatesDto.getRegionId(), 
@@ -81,7 +80,7 @@ public class ZillowDataStorageService {
                             zhviStatesDto.getRegionId(), 
                             zhviStatesDto.getSizeRank());
         }
-        else if (regionType == RegionType.COUNTY.METRO) {
+        else if (regionType == RegionType.METRO) {
             regionType = RegionType.METRO;
             region = (MetroArea)regionService.getMetroArea(
                             zhviStatesDto.getRegionName(), 
@@ -98,18 +97,16 @@ public class ZillowDataStorageService {
         switch(csvRegionType) {
             case "state":
                 regionType = RegionType.STATE;
+                break;
             case "county":
                 regionType = RegionType.COUNTY;
+                break;
             case "country":
                 regionType = RegionType.COUNTRY;
+                break;
             case "msa":
                 regionType = RegionType.METRO;
-            /*
-            case "city":
-                regionType = RegionType.CITY;
-            case "zip":
-                regionType = RegionType.ZIP;
-            */
+                break;
         }
         return regionType;
     }

@@ -3,6 +3,7 @@ package com.mialyk.persistence.entities;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -22,9 +23,9 @@ public class MetroArea extends Region {
     @Column(name = "size_rank", columnDefinition = "INT")
     private int sizeRank;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private State state;
 
-    @OneToMany(mappedBy = "metro")
-    private List<County> counties;
+    //@OneToMany(mappedBy = "metro")
+    //private List<County> counties;
 }

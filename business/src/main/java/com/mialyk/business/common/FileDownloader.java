@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FileWorker {
+public class FileDownloader {
 
     private InputStream getHttpInputStream(String urlStr) throws IOException {
         URL url = new URL(urlStr);

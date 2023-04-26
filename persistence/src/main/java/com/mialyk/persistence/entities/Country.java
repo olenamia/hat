@@ -14,9 +14,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class Country extends Region {
 
-    @Column(name = "country_name")
-    private String countryName;
-
     @Column(name = "size_rank", columnDefinition = "INT")
     private int sizeRank;
 }

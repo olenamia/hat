@@ -99,7 +99,7 @@ public class RegionService {
         }
         return metroArea;
     }
-    public County getCounty(String regionName, String stateName, int regionId, int sizeRank, int stateCodeFips, int metroCodeFips, String metroName) {
+    public County getCounty(String regionName, String stateName, int regionId, int sizeRank, int stateCodeFips, int metroCodeFips, String metro) {
         County county;
         Optional <County> countyOptional = countyRepository.findByRegionId(regionId);
         if (countyOptional.isPresent()) {
@@ -117,59 +117,14 @@ public class RegionService {
             if (state.isPresent()) {
                 county.setState(state.get());
             }
-
-            Optional<MetroArea> metro = metroAreaRepository.findByRegionName(metroName);
+            county.setMetroState(metro);
+            /*
+            Optional<MetroArea> metro = metroAreaRepository.findByRegionName(metro);
             if (state.isPresent()) {
                 county.setMetro(metro.get());
             }
+            */
         }
         return county;
     }
-
-
-/*
-    private County getCounty(String regionName, String stateName, int regionId, int sizeRank) {
-        
-        
-        @Column(name = "state_name")
-        private String stateName;
-    
-
-
-
-        @Column(name = "state_code_fips", columnDefinition = "INT")
-        private int stateCodeFips;
-    
-        @Column(name = "metro_code_fips", columnDefinition = "INT")
-        private int metroCodeFips;
-    
-        @ManyToOne
-        private State state;
-    
-        @ManyToOne
-        private MetroArea metro;
-
-
-        State state;
-        County county;
-
-        Optional <State> stateOptional = stateRepository.findByStateName(stateName);
-
-        if(stateOptional.isPresent()) {
-            Optional <County> stateOptional = countyRepository.findByRegionNameAndStateId(regionName, stateOptional.get().getId());
-        }
-
-
-        if (stateOptional.isPresent() && stateOptional.isPresent()) {
-            state = stateOptional.get();
-        }
-        else {
-            state = new State();
-            state.setRegionName(regionName);
-            state.setStateName(stateName);
-            state.setRegionId(regionId);
-            state.setSizeRank(sizeRank);
-        }
-        return state;
-    } */
 }
