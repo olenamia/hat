@@ -1,0 +1,238 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Recent Trends - HAT - Housing Analytics Tool</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+    <div class="row">
+        <div class="col d-flex align-items-center">
+            <h5 class="text-secondary">Recent Analytics by States</h5>
+        </div>
+        <div class="col">
+            <ul id="myButtons" style="float: right;">
+                <li data-toggle="tab" href="#map_pane" class="btn btn-outline-secondary active" style="width: 120px; margin-right: 5px;">Map</li>
+                <li data-toggle="tab" href="#table_pane" class="btn btn-outline-secondary" style="width: 120px;">Table</li>    
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="tab-content py-0">
+                <div class="tab-pane active" id="map_pane">
+                    <div class="btn-group">
+                        <button id="analyticsTypeDropDown" type="button" class="btn btn-secondary dropdown-toggle" style="width:340px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            YoY Values Change
+                        </button>
+                        <div id="analyticsTypeChoice" class="dropdown-menu dropdown-menu-right" style="width:340px; text-align:left;" >
+                            <a class="dropdown-item pl-2" href="#" data-method="updateMap" data-param1="values">Current House Values</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item pl-2" href="#" data-method="updateMap" data-param1="yoy">Year-over-Year (YoY) Values Change</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item pl-2" href="#" data-method="updateMap" data-param1="mom">Month-over-Month (MoM) Values Change</a>
+                        </div>
+                    </div>
+                    <div id="map_chart" ></div>
+                </div>
+                <div class="tab-pane" id="table_pane">
+                    <div id="analytics_table_chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+<!--script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script-->
+<script>
+//$('[data-toggle=dropdown]').dropdown();
+
+    $(document).ready(function() {
+        //$('[data-toggle=dropdown]').dropdown();
+        // Add click event handler to the buttons
+        $('#myButtons li').click(function (e) {
+            e.preventDefault();
+            var href = $(this).attr('href');
+            $('#myButtons li').removeClass('active');
+
+            // Add active class to clicked button
+            $(this).addClass('active');
+
+            // toggle the active class on the clicked tab and its associated pane
+            //$(this).addClass('active').parent().siblings().find('a').removeClass('active');
+            $(href).addClass('active').siblings().removeClass('active');
+        });
+
+        $('#analyticsTypeChoice .dropdown-item').click(function(e) {
+            e.preventDefault();
+            var text = $(this).text(); // Get the text of the clicked dropdown item
+            //$(this).closest('.btn-group').find('.btn').text(text); // Update the button's text
+            $('#analyticsTypeDropDown').text(text); 
+            
+
+            // Get the method name and parameters from the data attributes
+            var method = $(this).data('method');
+            var param1 = $(this).data('param1');
+            var param2 = $(this).data('param2');
+
+            // Call the corresponding JavaScript method with the parameters
+            window[method](param1);
+        });
+    });
+</script>
+   
+<script th:inline="javascript">
+
+    google.charts.load('current', {
+        'packages':['geochart', 'table'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': "/*[[${googleMapsApiKey}]]*/''"
+    });
+    var analyticsGeoMap;
+    var analyticsDataTable;
+    google.charts.setOnLoadCallback(() => {
+        var analyticsJson = /*[[${defaultStateAnalytics}]]*/'{}';
+        var analyticsData = JSON.parse(analyticsJson);
+        analyticsDataTable = createDataTable(analyticsData);
+        var valuesDataView = getDataView("values");
+
+        const dropdownButton = document.querySelector('.dropdown-toggle');
+
+        // Update the button's innerHTML to "MoM Values Change"
+        dropdownButton.innerHTML = 'Current House Values';
+
+        var valuesOptions = getMapOption(valuesDataView);
+        analyticsGeoMap = new google.visualization.GeoChart(document.getElementById('map_chart'));
+
+        drawMap(valuesDataView, valuesOptions);
+        drawTable(analyticsDataTable);
+    });
+
+    function getDataView(type) {
+        var newOrder  = [0,6];
+        if (type == "yoy") {
+            newOrder  = [0,6];
+        }
+        else if (type == "mom") {
+            newOrder  = [0,5];
+        }
+        else if (type == "values") {
+            newOrder  = [0,4];
+        }
+        var data = getDataTable();
+
+        var myView = new google.visualization.DataView(analyticsDataTable);
+        myView.setColumns(newOrder);
+        return myView;
+    }
+
+    function updateMap(type){alert(type);
+        drawMap(getDataView(type), getMapOption(getDataView(type)));
+    }
+
+    function getMapOption(data) {
+        /*
+        var options = {
+          region: 'US',
+          displayMode: 'regions',
+        };*/
+    
+        var options = {region: 'US',
+            displayMode: 'regions',
+            resolution: 'provinces',
+
+            colorAxis: {
+                //colors: [ '#0077cc', '#b3d9ff','#e6ccff', '#6600cc'],
+                colors: [ '#0077cc', '#80bfff', '#fff4b3', '#ffcc00'],
+                //values: [-5, 0, 0, 5]
+                //minValue: -100,
+                //maxValue: 100,
+                minValue: -20, //data.getColumnRange(1).min,
+                maxValue: 20, //data.getColumnRange(1).max,
+                midpoint: 0,
+            }
+            /*
+            for color '#ffd237' : #fff4b3
+                #ffe680
+                #ffd24d
+                #ffbf1a
+                #ffcc00
+            for color '#007bff' : #b3d9ff
+                #80bfff
+                #4d9dff
+                #1a7fff
+                #0077cc
+            */
+            //colors: ['#E0FFD4', '#A5EF63', '#50AA00', '#267114'], //green
+            //colors: ['#e6f4ff', '#008ffb', '#ff4560'] //nice from internet
+            //backgroundColor: '#232323',
+            /*
+            chartArea: { 
+                width: '100%', 
+                height: '100%', 
+                top: 2000, 
+                left: 0 
+            }*/
+        };
+        //options['colors'] = ['#FF8747', '#FFB581', '#C06000']; //my nice colors
+        return options;
+    }
+
+    function createDataTable(analyticsData){
+        var data = new google.visualization.DataTable();
+        data.addColumn({id: 'stateName', label: 'State', type: 'string'});
+        data.addColumn({id: 'stateShortName', label: 'Code', type: 'string'});
+        data.addColumn({id: 'prevYearValue', label: analyticsData[0].prevYearDate, type: 'number'});
+        data.addColumn({id: 'currentValue', label: analyticsData[0].prevMonthDate, type: 'number'});
+        data.addColumn({id: 'prevMonthValue', label: analyticsData[0].date, type: 'number'});
+        data.addColumn({id: 'momChange', label: 'Month-over-Month Change', type: 'number'});
+        data.addColumn({id: 'yoyChange', label: 'Year-over-Year Change', type: 'number'});
+    
+        var rows = analyticsData.map(function(item) {
+            return [item.region.name, "US-" + item.region.shortName, item.prevYearValue, item.prevMonthValue, item.homeValue, item.momChange, item.yoyChange];
+        });
+    
+        data.addRows(rows);
+    
+        var formatterValue = new google.visualization.NumberFormat(
+                {prefix: '$'});
+        formatterValue.format(data, 2);
+        formatterValue.format(data, 3);
+        formatterValue.format(data, 4);
+    
+        var formatterChange = new google.visualization.NumberFormat(
+                {suffix: '%', negativeColor: 'red'});
+        formatterChange.format(data, 5);
+        formatterChange.format(data, 6);
+        analyticsDataTable = data;
+        return data;
+    }
+      
+    function getDataTable(){
+        return analyticsDataTable;
+    }
+      
+    function drawMap(analyticsDataView, options) {
+
+        /*var data = createDataTable(analyticsData);
+        var newOrder = [0,6];
+        var myView = new google.visualization.DataView(data);
+        myView.setColumns(newOrder);
+        var options = getMapOption();
+        var geomap = new google.visualization.GeoChart(container);*/
+        //geomap.draw(data, options);
+        analyticsGeoMap.draw(analyticsDataView, options);
+    };
+    function drawTable(analyticsDataTable){
+        var table = new google.visualization.Table( document.getElementById('analytics_table_chart'));
+        table.draw(analyticsDataTable, {showRowNumber: true, width: '100%', height: '100%'});
+    }
+    </script>
+</body>
+</html>

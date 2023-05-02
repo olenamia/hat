@@ -16,4 +16,7 @@ public interface CountyRepository extends JpaRepository<County, Long> {
     List<County> findByStateId(String username);
 
     Optional<County> findByRegionId(Integer regionId);
+
+
+    List<County> findAll();
 }

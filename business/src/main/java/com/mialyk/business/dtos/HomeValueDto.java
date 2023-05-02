@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
 import org.postgresql.util.PGobject;
 
@@ -12,20 +13,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.mialyk.persistence.entities.HomeValue;
 import com.mialyk.persistence.entities.HomeValue.RegionType;
-import com.mialyk.persistence.entities.Region;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HomeValueDto  implements Serializable {
+@JsonInclude(value = Include.NON_NULL)
+public class HomeValueDto implements Serializable {
     private int id;
     private Date date;
     private Double homeValue;
     private String regionType;
     private Double yoyChange;
-    private Double momChange;
+    private Optional<Double> momChange;
     private RegionDto region;
 
     public HomeValueDto(HomeValue homeValue) {
@@ -54,7 +57,7 @@ public class HomeValueDto  implements Serializable {
         this.yoyChange = yoyChange;
     }
 
-    public HomeValueDto(PGobject pgObject, Double yoyChange, String stateName) throws ParseException {
+    public HomeValueDto(PGobject pgObject, Double yoyChange, String regionName) throws ParseException {
 
         String tupleString = pgObject.getValue();
         String[] fields = tupleString.substring(1, tupleString.length() - 1).split(",");
@@ -64,7 +67,7 @@ public class HomeValueDto  implements Serializable {
         this.date = Date.valueOf(fields[1]);
         this.regionType = fields[2];
         this.homeValue = Double.parseDouble(fields[3]);
-        this.region = new RegionDto(stateName);
+        this.region = new RegionDto(regionName);
         this.yoyChange = yoyChange;
     }
 

@@ -9,8 +9,16 @@ import jakarta.transaction.Transactional;
 
 import com.mialyk.persistence.entities.*;
 import com.mialyk.persistence.entities.HomeValue.RegionType;
+import com.mialyk.persistence.repositories.CountryRepository;
+import com.mialyk.persistence.repositories.CountyRepository;
 import com.mialyk.persistence.repositories.HomeValueRepository;
+import com.mialyk.persistence.repositories.MetroAreaRepository;
+import com.mialyk.persistence.repositories.StateRepository;
+import com.mialyk.business.services.CountryService;
+import com.mialyk.business.services.CountyService;
+import com.mialyk.business.services.MetroAreaService;
 import com.mialyk.business.services.RegionService;
+import com.mialyk.business.services.StateService;
 import com.mialyk.business.zillow.dtos.ZvhiStatesDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +30,14 @@ public class ZillowDataStorageService {
     private HomeValueRepository homeValueRepository;
     @Autowired
     private RegionService regionService;
+    @Autowired
+    private CountryService countryService;
+    @Autowired
+    private StateService stateService;
+    @Autowired
+    private CountyService countyService;
+    @Autowired
+    private MetroAreaService metroAreaService;
 
     @Transactional
     public void saveHomeValues(List<ZvhiStatesDto> zhviStatesDtos) {
@@ -58,14 +74,14 @@ public class ZillowDataStorageService {
         Region region = null;
 
         if (regionType == RegionType.STATE) {
-            region = (State)regionService.getState(
+            region = (State)stateService.getState(
                             zhviStatesDto.getRegionName(), 
                             zhviStatesDto.getStateName(), 
                             zhviStatesDto.getRegionId(), 
                             zhviStatesDto.getSizeRank());
         }
         else if (regionType == RegionType.COUNTY) {
-            region = (County)regionService.getCounty(
+            region = (County)countyService.getCounty(
                             zhviStatesDto.getRegionName(), 
                             zhviStatesDto.getStateName(), 
                             zhviStatesDto.getRegionId(),
@@ -75,14 +91,13 @@ public class ZillowDataStorageService {
                             zhviStatesDto.getMetro());
         }
         else if (regionType == RegionType.COUNTRY) {
-            region = (Country)regionService.getCountry(
+            region = (Country)countryService.getCountry(
                             zhviStatesDto.getRegionName(), 
                             zhviStatesDto.getRegionId(), 
                             zhviStatesDto.getSizeRank());
         }
         else if (regionType == RegionType.METRO) {
-            regionType = RegionType.METRO;
-            region = (MetroArea)regionService.getMetroArea(
+            region = (MetroArea)metroAreaService.getMetroArea(
                             zhviStatesDto.getRegionName(), 
                             zhviStatesDto.getStateName(), 
                             zhviStatesDto.getRegionId(), 
@@ -91,7 +106,6 @@ public class ZillowDataStorageService {
         return region;
     }
 
-    // TODO: Move to ZvhiDto
     public RegionType mapRegionType(String csvRegionType) {
         RegionType regionType = null;
         switch(csvRegionType) {

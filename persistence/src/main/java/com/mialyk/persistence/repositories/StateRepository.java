@@ -1,5 +1,6 @@
 package com.mialyk.persistence.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface StateRepository extends JpaRepository<State, Long> {
     Optional<State> findByStateName(String userName);
 
     Optional<State> findByRegionId(Integer regionId);
+
+    List<State> findAll();
 }

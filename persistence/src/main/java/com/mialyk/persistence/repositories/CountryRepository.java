@@ -1,5 +1,6 @@
 package com.mialyk.persistence.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,6 @@ import com.mialyk.persistence.entities.Country;
 public interface CountryRepository extends JpaRepository<Country, Long> {
 
     Optional<Country> findByRegionId(Integer regionId);
+
+    List<Country> findAll();
 }

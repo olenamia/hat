@@ -1,0 +1,30 @@
+GET http://localhost:8080/hat/api/historical/values/state/California
+content-type: application/json
+
+{
+}
+
+###
+
+GET http://localhost:8080/hat/api/historical/values/state/Florida
+content-type: application/json
+
+{
+}
+
+###
+
+GET http://localhost:8080/hat/api/analitics/states
+content-type: application/json
+
+{
+}
+
+###
+
+
+GET http://localhost:8080/chart/
+content-type: application/json
+
+{
+}

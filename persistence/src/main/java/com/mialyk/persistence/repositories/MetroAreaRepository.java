@@ -1,5 +1,6 @@
 package com.mialyk.persistence.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,6 @@ public interface MetroAreaRepository extends JpaRepository<MetroArea, Long> {
     Optional<MetroArea> findByRegionId(Integer regionId);
 
     Optional<MetroArea> findByRegionName(String metroName);
+
+    List<MetroArea> findAll();
 }

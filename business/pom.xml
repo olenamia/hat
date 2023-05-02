@@ -98,8 +98,36 @@
             <artifactId>commons-collections4</artifactId>
             <version>4.4</version>
         </dependency-->
-	</dependencies>
 
+        <!--Mapper-->
+        <!--dependency>
+    <groupId>org.mapstruct</groupId>
+    <artifactId>mapstruct</artifactId>
+    <version>1.4.2.Final</version>
+</dependency>
+
+<dependency>
+    <groupId>org.mapstruct</groupId>
+    <artifactId>mapstruct-processor</artifactId>
+    <version>1.4.2.Final</version>
+    <scope>provided</scope>
+</dependency-->
+	</dependencies>
+<!--All repositories Added for Mapping -->
+<!--repositories>
+    <repository>
+        <id>central</id>
+        <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+    <repository>
+        <id>jcenter</id>
+        <url>https://jcenter.bintray.com/</url>
+    </repository>
+    <repository>
+        <id>mapstruct</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </repository>
+</repositories-->
 	<build>
 		<plugins>
 			<plugin>
@@ -114,7 +142,24 @@
 					</excludes>
 				</configuration>
 			</plugin>
+            <!--Mapper-->
+
+    <!--plugin>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-maven-plugin</artifactId>
+      <version>1.4.2.Final</version>
+      <executions>
+        <execution>
+          <phase>generate-sources</phase>
+          <goals>
+            <goal>mapstruct</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin-->
+
 		</plugins>
 	</build>
+
 
 </project>

@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "BusinessApplication",
+            "request": "launch",
+            "mainClass": "com.mialyk.business.BusinessApplication",
+            "projectName": "business"
+        },
+        {
+            "type": "java",
+            "name": "DbseederApplication",
+            "request": "launch",
+            "mainClass": "com.mialyk.dbseeder.DbseederApplication",
+            "projectName": "dbseeder"
+        },
+        {
+            "type": "java",
+            "name": "PersistenceApplication",
+            "request": "launch",
+            "mainClass": "com.mialyk.persistence.PersistenceApplication",
+            "projectName": "persistence"
+        },
+        {
+            "type": "java",
+            "name": "WebApplication",
+            "request": "launch",
+            "mainClass": "com.mialyk.web.WebApplication",
+            "projectName": "web"
+        }
+    ]
+}

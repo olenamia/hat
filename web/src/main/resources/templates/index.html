@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>HAT - Housing Analytics Tool</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/" style="font-size: 20px; display: flex; align-items: center; color:#ffd237;">HAT - Housing Analytics Tool</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive"  style="padding:0; margin:0; height:40px; font-size: 16px" >
+            <ul class="navbar-nav ml-auto" style="float: right; margin:0; padding:0; height:40px; display: flex; align-items: center">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Analytics
+                        <span class="sr-only" >(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="margin-bottom: 70px; margin-top: 35px;">
+    <div class="row">
+        <div class="col">
+            <ul class="nav nav-tabs mt-5 my-navbar" id="contentTabs">
+                <li class="nav-item"><a href="#recent" data-url="/map/" class="nav-link active" style="font-size: 16px;">Recent Trends</a></li>
+                <li class="nav-item"><a href="#historical" data-url="/chart/" class="nav-link"  style="font-size: 16px;">Historical Data</a></li>
+            </ul>
+            
+            <!-- Content -->
+            <div class="tab-content pt-3">
+                <div class="tab-pane active" id="recent" data-loaded="false"></div>
+                <div class="tab-pane" id="historical" data-loaded="false"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Footer -->
+<footer class="navbar navbar-light bg-secondaty py-0" style="position: fixed; bottom: 0; width: 100%; background-color: white;">
+    <div class="container border-top py-0 my-0">
+        <span class="navbar-text mr-auto">
+            Developed & Designed by Olena Mialyk © 2023
+        </span>
+        <span class="navbar-text">
+            Data Source: <a href="https://www.zillow.com/research/data/" target="_blank" style="color: #007bff;">Zillow Housing Data</a>
+        </span>
+    </div>
+</footer>
+
+<script>
+
+
+    $('#contentTabs a').click(function (e) {
+        
+        e.preventDefault();
+        var target = $(e.target).attr('href');
+        if($(target).attr('data-loaded') === 'true'){
+            //$(target).find('[data-toggle=dropdown]').dropdown()
+            $(this).tab('show');
+            return;
+        }
+
+        var url = $(this).attr("data-url");
+        var pane = $(this);
+
+        $(target).load(url, function (result) {
+            $(target).attr('data-loaded', 'true');
+            pane.tab('show');
+        });
+    });
+
+    $('#recent').load($('.nav-link.active').attr("data-url"), function (result) {
+        $('#recent').attr('data-loaded', 'true');
+    });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</body>
+</html>

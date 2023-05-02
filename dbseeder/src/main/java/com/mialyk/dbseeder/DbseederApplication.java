@@ -20,6 +20,7 @@ public class DbseederApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DbseederApplication.class, args);
+        System.out.println("DBSEEDER STARTED");
 	}
 
     @Override

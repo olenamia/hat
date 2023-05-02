@@ -12,14 +12,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegionDto implements Serializable  {
-//    private Long id;
+    private Integer id;
     private String name;
 
     public RegionDto(Region region) {
+        this.id = region.getRegionId();
 
         if (region.getRegionName() != null) {
             this.name = region.getRegionName();
         }
+    }
+    public RegionDto(String regionName) {
+            this.name = regionName;
     }
 
 }
