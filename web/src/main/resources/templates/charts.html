@@ -1,0 +1,223 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Google Charts Example - Spring Boot</title>
+<script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!--link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"-->
+<!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script-->
+<!--link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/-->
+<!--script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script-->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script th:src="@{/js/script.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col d-flex align-items-center">
+            <h5 class="text-secondary">Historical Data for <span id="historicalDataFor">[[${defaultState}]]</span></h5>
+        </div>
+        <div class="col">
+            <ul id="chartTypes" style="float: right;">
+                <li data-toggle="tab" href="#historical_values_pane" class="btn btn-outline-secondary active" style="width: 120px; margin-right: 5px;">Values</li>
+                <li data-toggle="tab" href="#historical_yoy_pane" class="btn btn-outline-secondary" style="width: 140px; margin-right: 5px;">Year-over-Year</li>
+                <li data-toggle="tab" href="#historical_table_pane" class="btn btn-outline-secondary" style="width: 120px;">Table</li>   
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col w-100">
+            <div id="region" class="btn-group" style="width:220px;"  >
+                <div class="container">
+                    <div class="row">
+                        <div class="container pl-0 ml-0"  >
+                            <button id="stateDropDown" data-target="stateChoice" data-toggle="dropdown" type="button" th:text="${defaultState}" default-text='Select State' class="btn btn-secondary dropdown-toggle" style="width:205px;"  aria-haspopup="true" aria-expanded="false">
+                                Select State
+                            </button>
+                            <div id="stateChoice" class="dropdown-menu dropdown-menu-right" aria-labelledby="stateDropDown"  style="width:205px; text-align: left; max-height: 500px; overflow-y: scroll;" >
+                                <div th:each="state : ${states}">
+                                <a class="dropdown-item"  href="#" data-method="updateRegion" th:attr="data-param2=${state.name}" data-param1="State" th:text="${state.name}"></a>
+                                <div class="dropdown-divider"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="height:70px; display: flex; align-items: center;">
+                        <div class="container" id="subRegion" style="visibility:hidden;">
+                            <button id="subRegionDropDown" data-target="subRegionDropDownChoice" data-toggle="dropdown" type="button" default-text='Select State' class="btn btn-secondary dropdown-toggle" style="width:375px;"  aria-haspopup="true" aria-expanded="false">
+                                Select Region
+                            </button>
+                            <div id="subRegionDropDownChoice" class="dropdown-menu dropdown-menu-right" aria-labelledby="subRegionDropDown"  style="width:375px; text-align: left; max-height: 500px; overflow-y: scroll;" >
+                                <div id="toAddSubRegions">
+                                <!--a class="dropdown-item"  href="#" data-method="updateRegion" th:attr="data-param2=${subRegion.name}" data-param1="subRegion" th:text="${subRegion.name}"></a>
+                                <div class="dropdown-divider"></div-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="container p-0 m-0">
+                    <div id="regionTypes" class="btn-group" role="group" aria-label="Basic example">
+                        <span class="text-secondary" style="margin-left:60px; margin-right:20px; display: flex; align-items: center;">Region&nbsp;type:&nbsp;</span>
+                        <button type="button" class="btn btn-outline-secondary rounded-left">US</button>
+                        <button type="button" class="btn btn-outline-secondary active">State</button>
+                        <button type="button" class="btn btn-outline-secondary">County</button>
+                        <button type="button" class="btn btn-outline-secondary rounded-right">Metro Area</button>
+                    </div>
+                </div>
+            <!--/div-->
+        </div>
+        <div class="container">
+            <div class="tab-content" >
+                <div class="tab-pane active" id="historical_values_pane">
+                    <div id="historical_values_chart"></div>
+                </div>
+                <div class="tab-pane" id="historical_yoy_pane">
+                    <div id="historical_yoy_chart"></div>
+                </div>
+                <div class="tab-pane" id="historical_table_pane">
+                    <div id="historical_table_chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script th:inline="javascript">
+
+    $(document).ready(function() {
+        // add Remove blur effect
+       // $("#myDiv").css("filter", "blur(5px)");
+        //$("#myDiv").css("filter", "none");
+
+        $('.dropdown-toggle').dropdown();
+
+        $('#chartTypes li').click(function (e) {
+            e.preventDefault();
+            var href = $(this).attr('href');
+
+            // Add active class to clicked button
+            $('#chartTypes li').removeClass('active');
+            $(this).addClass('active');
+            $(href).addClass('active').siblings().removeClass('active');
+        });
+
+        $('#regionTypes button').click(function(e) {
+            
+            e.preventDefault();
+            var regionType = $(this).text();
+            var stateName = $('#stateDropDown').text();
+
+            if(regionType == "US") {
+                //$('#stateDropDown').text('---');
+                // Hide state name - set the button text color to the same as the background color
+                var bgColor = $('#stateDropDown').css('background-color');
+                $('#stateDropDown').css('color', bgColor);
+
+            }
+            else {
+                $('#stateDropDown').prop('disabled', false);
+                //if ($('#stateDropDown').text() =='---') {
+                if ($('#stateDropDown').css('color') == $('#stateDropDown').css('background-color')) {
+                    //$('#stateDropDown').find('.dropdown-toggle-text').css('color', $('#regionTypes button').css('color'));
+                    $('#stateDropDown').css('color', $('#regionTypes button').css('color'));
+                    //$('#stateDropDown').css('color', 'red');
+                    //show sign "Choose the state"
+                }
+                //$('#stateDropDown').text($('#stateDropDown').attr("default-text"));
+            }
+            
+            if(regionType == "US" || regionType == "State" ) {
+                //$('#stateDropDown').text('---');
+                //$('#subRegion').hide();
+                $('#subRegion').css("visibility", "hidden");
+                
+            }
+            else {
+                loadSubRegions(regionType, stateName);
+                $('#subRegion').css("visibility", "visible");
+
+                //show sign "Choose county/metro" && Blur charts area
+            }
+
+            $('#regionTypes button').removeClass('active');
+            $(this).addClass('active');
+
+            if(regionType == "US") {
+                updateRegion("US");
+            }
+            else if(regionType == "State") {
+                updateRegion("State", stateName);
+            }
+        });
+
+        $('#stateChoice .dropdown-item').click(function(e) {
+            e.preventDefault();
+
+            var stateName = $(this).text(); // Get the text of the clicked dropdown item
+            // Set tab header text
+            $('#historicalDataFor').text(stateName); 
+            // Set states dropdown text
+            $('#stateDropDown').text(stateName); 
+
+            var selectedRegionType = $('#regionTypes .active').text();
+
+            if (selectedRegionType == "Metro Area" || selectedRegionType== "County") {
+                loadSubRegions(selectedRegionType, stateName);
+            }
+            else {
+                var method = $(this).data('method');
+                var param1 = $(this).data('param1');
+                var param2 = $(this).data('param2');
+
+                // Call method(param1, param2) => updateRegion("State", "Statename")
+                // Update charts
+                window[method](param1, param2);
+            }
+        });
+    });
+
+    function subRegionDropDownChoiceClick(e, $this) {
+        e.preventDefault();
+        var subRegionName = $this.text();
+        var subRegionId = $this.data('param2');//$(this).text();
+        var stateName = $('#stateDropDown').text();
+
+        // Set states dropdown text
+        $('#subRegionDropDown').text(subRegionName);  
+        // Set tab header text
+        //$('#historicalDataFor').text(stateName); 
+
+        var method = $this.data('method');
+        var regionType = $this.data('param1');
+        var subRegionId = $this.data('param2');
+
+        // Call method updateRegion
+        window[method](regionType, stateName, subRegionId);
+
+    }
+
+    google.charts.load('current', {'packages':['table', 'line', 'bar', 'corechart']});
+
+    google.charts.setOnLoadCallback(() => {
+        var historicalData = /*[[${defaultStateHistoricalData}]]*/'{}';
+        regionData = JSON.parse(historicalData);
+        drawHomeValueChart(regionData, document.getElementById('historical_values_chart'));
+        drawYoYChangeChart(regionData, document.getElementById('historical_yoy_chart'));
+        drawTableChart(regionData, document.getElementById('historical_table_chart'));
+        //drawColumnChart(regionData, document.getElementById('chart_div'));
+
+    });
+</script>
+</body>
+</html>

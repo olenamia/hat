@@ -9,52 +9,51 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
-    <div class="row">
-        <div class="col d-flex align-items-center">
-            <h5 class="text-secondary">Recent Analytics by States</h5>
-        </div>
-        <div class="col">
-            <ul id="myButtons" style="float: right;">
-                <li data-toggle="tab" href="#map_pane" class="btn btn-outline-secondary active" style="width: 120px; margin-right: 5px;">Map</li>
-                <li data-toggle="tab" href="#table_pane" class="btn btn-outline-secondary" style="width: 120px;">Table</li>    
-            </ul>
-        </div>
+<div class="row">
+    <div class="col d-flex align-items-center">
+        <h5 class="text-secondary">Recent Analytics by States</h5>
     </div>
-    <div class="row">
-        <div class="col">
-            <div class="tab-content py-0">
-                <div class="tab-pane active" id="map_pane">
-                    <div class="btn-group">
-                        <button id="analyticsTypeDropDown" type="button" class="btn btn-secondary dropdown-toggle" style="width:340px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            YoY Values Change
-                        </button>
-                        <div id="analyticsTypeChoice" class="dropdown-menu dropdown-menu-right" style="width:340px; text-align:left;" >
-                            <a class="dropdown-item pl-2" href="#" data-method="updateMap" data-param1="values">Current House Values</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item pl-2" href="#" data-method="updateMap" data-param1="yoy">Year-over-Year (YoY) Values Change</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item pl-2" href="#" data-method="updateMap" data-param1="mom">Month-over-Month (MoM) Values Change</a>
-                        </div>
+    <div class="col">
+        <!-- View Types Buttons -->
+        <ul id="myButtons" style="float: right;">
+            <li data-toggle="tab" href="#map_pane" class="btn btn-outline-secondary active" style="width: 120px; margin-right: 5px;">Map</li>
+            <li data-toggle="tab" href="#table_pane" class="btn btn-outline-secondary" style="width: 120px;">Table</li>    
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="tab-content py-0">
+            <!-- Map Tab -->
+            <div class="tab-pane active" id="map_pane">
+                <div class="btn-group">
+                    <!-- Analytics Choise Drop Down -->
+                    <button id="analyticsTypeDropDown" type="button" class="btn btn-secondary dropdown-toggle" style="width:340px;" 
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">YoY Values Change
+                    </button>
+                    <div id="analyticsTypeChoice" class="dropdown-menu dropdown-menu-right" style="width:340px; text-align:left;" >
+                        <a class="dropdown-item pl-2" href="#" data-method="updateMap" data-param1="values">Current House Values</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item pl-2" href="#" data-method="updateMap" data-param1="yoy">Year-over-Year (YoY) Values Change</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item pl-2" href="#" data-method="updateMap" data-param1="mom">Month-over-Month (MoM) Values Change</a>
                     </div>
-                    <div id="map_chart" ></div>
                 </div>
-                <div class="tab-pane" id="table_pane">
-                    <div id="analytics_table_chart"></div>
-                </div>
+                <div id="map_chart" ></div>
+            </div>
+            <!-- Table Tab -->
+            <div class="tab-pane" id="table_pane">
+                <div id="analytics_table_chart"></div>
             </div>
         </div>
     </div>
-
-
-
+</div>
 
 <!--script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script-->
 <script>
-//$('[data-toggle=dropdown]').dropdown();
-
     $(document).ready(function() {
-        //$('[data-toggle=dropdown]').dropdown();
-        // Add click event handler to the buttons
+        //$('.dropdown-toggle').dropdown();
+
         $('#myButtons li').click(function (e) {
             e.preventDefault();
             var href = $(this).attr('href');
@@ -132,7 +131,7 @@
         return myView;
     }
 
-    function updateMap(type){alert(type);
+    function updateMap(type){
         drawMap(getDataView(type), getMapOption(getDataView(type)));
     }
 

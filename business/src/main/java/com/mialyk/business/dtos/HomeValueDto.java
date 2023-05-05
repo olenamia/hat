@@ -59,6 +59,21 @@ public class HomeValueDto implements Serializable {
 
     public HomeValueDto(PGobject pgObject, Double yoyChange, String regionName) throws ParseException {
 
+        /*String tupleString = pgObject.getValue();
+        String[] fields = tupleString.substring(1, tupleString.length() - 1).split(",");
+
+        this.id = Integer.parseInt(fields[0]);
+        //this.date = new SimpleDateFormat("yyyy-MM-dd").parse(fields[1]);
+        this.date = Date.valueOf(fields[1]);
+        this.regionType = fields[2];
+        this.homeValue = Double.parseDouble(fields[3]);
+        this.yoyChange = yoyChange;*/
+        this(pgObject, yoyChange);
+        this.region = new RegionDto(regionName);
+    }
+
+    public HomeValueDto(PGobject pgObject, Double yoyChange) throws ParseException {
+
         String tupleString = pgObject.getValue();
         String[] fields = tupleString.substring(1, tupleString.length() - 1).split(",");
 
@@ -67,7 +82,6 @@ public class HomeValueDto implements Serializable {
         this.date = Date.valueOf(fields[1]);
         this.regionType = fields[2];
         this.homeValue = Double.parseDouble(fields[3]);
-        this.region = new RegionDto(regionName);
         this.yoyChange = yoyChange;
     }
 

@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class MetroArea extends Region {
 
     @Column(name = "size_rank", columnDefinition = "INT")
-    private int sizeRank;
+    private Integer sizeRank;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private State state;

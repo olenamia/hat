@@ -18,7 +18,7 @@ public class HomeValue {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     //@Column(name = "id", columnDefinition = "BIGINT")
-    private int id;
+    private Integer id;
     
     @Column(name = "value", columnDefinition = "DECIMAL(9, 2)")
     private BigDecimal value;

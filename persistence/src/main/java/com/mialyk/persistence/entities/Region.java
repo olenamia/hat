@@ -21,11 +21,11 @@ public abstract class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", columnDefinition = "INT")
-    private int id;
+    private Integer id;
 
     @Column(name = "region_name")
     private String regionName;
 
     @Column(name = "region_id", columnDefinition = "INT")
-    private int regionId;
+    private Integer regionId;
 }

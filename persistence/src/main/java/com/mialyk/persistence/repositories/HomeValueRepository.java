@@ -115,6 +115,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
     Date findMaxDateByRegionIdAndRegionType(@Param("regionId") Integer regionId, @Param("regionType") String regionType);
 
 
+
     @Query("SELECT MAX(hvz.date) FROM HomeValue hvz JOIN hvz.stateValue s WHERE s.regionName = :regionName")
     Date findMaxDateByStateName(@Param("regionName") String regionName);
 
@@ -139,6 +140,42 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
             """, 
         nativeQuery = true)//, resultSetMapping = "HomeValueZillowDtoMapping")
     List<Object[]> getYearlyHomeValuesByState(@Param("regionName") String regionName); 
+
+    @Query(value = """
+        WITH find_max_date AS (
+            SELECT MAX(hv.date) AS max_date
+                FROM home_value_zillow hv
+                    LEFT JOIN home_values_state hvs ON hv.id = hvs.home_id AND :regionType = 'STATE'
+                    LEFT JOIN state s ON s.id = hvs.state_id AND :regionType = 'STATE'
+                    LEFT JOIN home_values_metro hvm ON hv.id = hvm.home_id AND :regionType = 'METRO'
+                    LEFT JOIN metro m ON m.id = hvm.metro_id AND :regionType = 'METRO'
+                    LEFT JOIN home_values_country hvc ON hv.id = hvc.home_id AND :regionType = 'COUNTRY'
+                    LEFT JOIN country c ON c.id = hvc.country_id AND :regionType = 'COUNTRY'
+                    LEFT JOIN home_values_county hvct ON hv.id = hvct.home_id AND :regionType = 'COUNTY'
+                    LEFT JOIN county ct ON ct.id = hvct.county_id AND :regionType = 'COUNTY'
+                WHERE
+                    COALESCE(s.region_id, m.region_id, c.region_id, ct.region_id) = :regionId
+            )
+        SELECT hvz, --.id, hvz.value, hvz.date, hvz.region_type, 
+            100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS value_change_pct
+            FROM home_value_zillow hvz 
+                LEFT JOIN home_values_state hvs ON hvz.id = hvs.home_id AND :regionType = 'STATE'
+                LEFT JOIN state s ON s.id = hvs.state_id AND :regionType = 'STATE'
+                LEFT JOIN home_values_metro hvm ON hvz.id = hvm.home_id AND :regionType = 'METRO'
+                LEFT JOIN metro m ON m.id = hvm.metro_id AND :regionType = 'METRO'
+                LEFT JOIN home_values_country hvc ON hvz.id = hvc.home_id AND :regionType = 'COUNTRY'
+                LEFT JOIN country c ON c.id = hvc.country_id AND :regionType = 'COUNTRY'
+                LEFT JOIN home_values_county hvct ON hvz.id = hvct.home_id AND :regionType = 'COUNTY'
+                LEFT JOIN county ct ON ct.id = hvct.county_id AND :regionType = 'COUNTY'
+            CROSS JOIN find_max_date
+            WHERE 
+                COALESCE(s.region_id, m.region_id, c.region_id, ct.region_id) = :regionId
+                AND extract(month from hvz.date) = extract(month from (find_max_date.max_date))
+            GROUP BY hvz.id, find_max_date.max_date
+            ORDER BY hvz.date;
+        """,
+    nativeQuery = true)
+    List<Object[]> getYearlyHomeValuesByRegionIdAndRegionType(@Param("regionId") Integer regionId, @Param("regionType") String regionType);
 
 
     @Query(value = """

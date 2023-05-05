@@ -21,8 +21,11 @@ import com.mialyk.business.dtos.StateDto;
 import com.mialyk.persistence.entities.Region;
 import com.mialyk.persistence.entities.State;
 import com.mialyk.persistence.entities.HomeValue.RegionType;
+import com.mialyk.persistence.entities.Country;
 import com.mialyk.persistence.entities.HomeValue;
+import com.mialyk.persistence.entities.MetroArea;
 import com.mialyk.persistence.repositories.AnalyticsRepository;
+import com.mialyk.persistence.repositories.CountryRepository;
 //import com.mialyk.persistence.entities.HomeValueZillow.RegionType;
 import com.mialyk.persistence.repositories.HomeValueRepository;
 import com.mialyk.persistence.views.StateAnalyticsView;
@@ -49,6 +52,10 @@ public class HomeValueService {
     //private AnalyticsRepository analyticsRepository;
     @Autowired
     private RegionService regionService;
+    @Autowired
+    private CountryService countryService;
+    @Autowired
+    private MetroAreaService metroService;
 
     public Date getMaxDateByStateName(String stateName) {
         return homeValueZillowRepository.findMaxDateByStateName(stateName);
@@ -74,6 +81,59 @@ public class HomeValueService {
             }).collect(Collectors.toList());
         }
         return Collections.emptyList();
+    }
+    @Transactional
+    public List<HomeValueDto> getHistoricalDataUS(String regionName) {
+        Optional<Country> countryOptional = countryService.getCountry(regionName);
+        Date maxDateByState = null; 
+        if (countryOptional.isPresent()) {
+            maxDateByState =  homeValueZillowRepository.findMaxDateByRegionIdAndRegionType(countryOptional.get().getRegionId(), HomeValue.RegionType.COUNTRY.name());
+        }
+ 
+        if (maxDateByState != null){
+            //List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesForUs();
+            List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesByRegionIdAndRegionType(countryOptional.get().getRegionId(), HomeValue.RegionType.COUNTRY.name());
+            return homeValuesList.stream().map(homeValue -> {
+                try {
+                    return new HomeValueDto(
+                        (PGobject)homeValue[0], 
+                        homeValue[1] == null ? null : ((BigDecimal)homeValue[1]).doubleValue());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }).collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
+/* 
+    @Transactional
+    public List<HomeValueDto> getHistoricalDataMetro(Integer regionId) {
+        Optional<MetroArea> metroOptional = metroService.getMetroArea(regionId);
+        Date maxDateByMetroArea = null; 
+        if (metroOptional.isPresent()) {
+            maxDateByMetroArea =  homeValueZillowRepository.findMaxDateByRegionIdAndRegionType(metroOptional.get().getRegionId(), HomeValue.RegionType.METRO.name());
+        }
+ 
+        if (maxDateByMetroArea != null){
+           return getHistoricalDataByRegionIdAndRegioType(regionId, HomeValue.RegionType.METRO);
+        }
+        return Collections.emptyList();
+    }*/
+
+    @Transactional
+    public List<HomeValueDto> getHistoricalDataByRegionIdAndRegioType(Integer regionId, HomeValue.RegionType regionType) {
+        List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesByRegionIdAndRegionType(regionId, regionType.name());
+        return homeValuesList.stream().map(homeValue -> {
+            try {
+                return new HomeValueDto(
+                    (PGobject)homeValue[0], 
+                    homeValue[1] == null ? null : ((BigDecimal)homeValue[1]).doubleValue());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }).collect(Collectors.toList());
     }
 
     @Transactional

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mialyk.business.dtos.CountyDto;
 import com.mialyk.business.dtos.RegionDto;
 import com.mialyk.persistence.entities.County;
 import com.mialyk.persistence.entities.State;
@@ -20,8 +21,18 @@ public class CountyService {
     @Autowired
     private StateRepository stateRepository;
     
-    public List<RegionDto> getCountiess() {
-        List<RegionDto> regionsDtos = new ArrayList<>();
+    public List<CountyDto> getCountyDtos() {
+/* 
+
+            List<MetroArea> metros = metroAreaRepository.findAll(Sort.by(Sort.Direction.ASC, "regionName"));
+            List<MetroAreaDto> metrosDto = new ArrayList<>();
+            for (MetroArea metro : metros) {
+                metrosDto.add(new MetroAreaDto(metro));
+            }
+            return metrosDto;
+        }*/
+
+        List<CountyDto> regionsDtos = new ArrayList<>();
 
         return regionsDtos;
     }
@@ -47,6 +58,19 @@ public class CountyService {
             county.setMetroState(metro);
         }
         return county;
+    }
+
+    public List<CountyDto> getCountyDtos(String stateName) {
+        Optional<State> state = stateRepository.findByRegionName(stateName);
+        List<CountyDto> countyDtos  = new ArrayList<>();
+        if(state.isPresent()) {
+            List<County>  counties = countyRepository.findByStateIdOrderByRegionNameAsc(state.get().getId());
+
+            for (County county : counties) {
+                countyDtos.add(new CountyDto(county));
+            }
+        }
+        return countyDtos;
     }
 
     

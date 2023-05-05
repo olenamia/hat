@@ -17,13 +17,13 @@ import lombok.NoArgsConstructor;
 public class County extends Region {
 
     @Column(name = "size_rank", columnDefinition = "INT")
-    private int sizeRank;
+    private Integer sizeRank;
 
     @Column(name = "state_code_fips", columnDefinition = "INT")
-    private int stateCodeFips;
+    private Integer stateCodeFips;
 
     @Column(name = "metro_code_fips", columnDefinition = "INT")
-    private int metroCodeFips;
+    private Integer metroCodeFips;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private State state;

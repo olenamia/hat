@@ -19,7 +19,7 @@ public class StateService {
     @Autowired
     StateRepository stateRepository;
 
-    public List<StateDto> getStates() {
+    public List<StateDto> getStateDtos() {
         List<State> states = stateRepository.findAll(Sort.by(Sort.Direction.ASC, "regionName"));
         List<StateDto> statesDto = new ArrayList<>();
         for (State state : states) {

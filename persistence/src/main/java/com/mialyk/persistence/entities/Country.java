@@ -15,5 +15,5 @@ import lombok.NoArgsConstructor;
 public class Country extends Region {
 
     @Column(name = "size_rank", columnDefinition = "INT")
-    private int sizeRank;
+    private Integer sizeRank;
 }

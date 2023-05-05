@@ -28,6 +28,11 @@ public class CountryService {
         return country;
     }
 
+    public Optional<Country> getCountry(String regionName) {
+        Optional <Country> countryOptional = countryRepository.findByRegionName(regionName);
+        return countryOptional;
+    }
+
     
 
 }

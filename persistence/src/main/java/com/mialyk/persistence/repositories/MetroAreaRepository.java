@@ -15,5 +15,9 @@ public interface MetroAreaRepository extends JpaRepository<MetroArea, Long> {
 
     Optional<MetroArea> findByRegionName(String metroName);
 
+    Optional<MetroArea> findByStateId(Integer stateId);
+
+    List<MetroArea> findByStateIdOrderByRegionNameAsc(Integer stateId);
+    
     List<MetroArea> findAll();
 }

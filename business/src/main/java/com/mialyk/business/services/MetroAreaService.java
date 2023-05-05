@@ -40,12 +40,29 @@ public class MetroAreaService {
         return metroArea;
     }
 
-    public List<MetroAreaDto> getMetroAreas() {
+    public List<MetroAreaDto> getMetroAreaDtos() {
         List<MetroArea> metros = metroAreaRepository.findAll(Sort.by(Sort.Direction.ASC, "regionName"));
         List<MetroAreaDto> metrosDto = new ArrayList<>();
         for (MetroArea metro : metros) {
             metrosDto.add(new MetroAreaDto(metro));
         }
         return metrosDto;
+    }
+
+    public List<MetroAreaDto> getMetroAreaDtos(String stateName) {
+        Optional<State> state = stateRepository.findByRegionName(stateName);
+        List<MetroAreaDto> metrosDto  = new ArrayList<>();
+        if(state.isPresent()) {
+            List<MetroArea>  metros = metroAreaRepository.findByStateIdOrderByRegionNameAsc(state.get().getId());
+
+            for (MetroArea metro : metros) {
+                metrosDto.add(new MetroAreaDto(metro));
+            }
+        }
+        return metrosDto;
+    }
+    public Optional<MetroArea> getMetroArea(Integer regionId) {
+        Optional <MetroArea> metroAreaOptional = metroAreaRepository.findByRegionId(regionId);
+        return metroAreaOptional;
     }
 }

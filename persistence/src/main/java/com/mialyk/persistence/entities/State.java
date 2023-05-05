@@ -21,7 +21,7 @@ public class State extends Region {
     private String stateName;
     
     @Column(name = "size_rank", columnDefinition = "INT")
-    private int sizeRank;
+    private Integer sizeRank;
 
     @OneToMany(mappedBy = "state")
     private List<County> counties;
