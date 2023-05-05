@@ -194,19 +194,22 @@
         data.addColumn({id: 'yoyChange', label: 'Year-over-Year Change', type: 'number'});
     
         var rows = analyticsData.map(function(item) {
-            return [item.region.name, "US-" + item.region.shortName, item.prevYearValue, item.prevMonthValue, item.homeValue, item.momChange, item.yoyChange];
+            return [item.region.name, item.region.shortName, item.prevYearValue, item.prevMonthValue, item.homeValue, item.momChange, item.yoyChange];
         });
     
         data.addRows(rows);
     
-        var formatterValue = new google.visualization.NumberFormat(
-                {prefix: '$'});
+        var formatterValue = new google.visualization.NumberFormat({
+            prefix: '$'
+        });
         formatterValue.format(data, 2);
         formatterValue.format(data, 3);
         formatterValue.format(data, 4);
     
-        var formatterChange = new google.visualization.NumberFormat(
-                {suffix: '%', negativeColor: 'red'});
+        var formatterChange = new google.visualization.NumberFormat({
+            suffix: '%', 
+            negativeColor: 'red'
+        });
         formatterChange.format(data, 5);
         formatterChange.format(data, 6);
         analyticsDataTable = data;

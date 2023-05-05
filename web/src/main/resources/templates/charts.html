@@ -52,10 +52,10 @@
                     </div>
                     <div class="row" style="height:70px; display: flex; align-items: center;">
                         <div class="container" id="subRegion" style="visibility:hidden;">
-                            <button id="subRegionDropDown" data-target="subRegionDropDownChoice" data-toggle="dropdown" type="button" default-text='Select State' class="btn btn-secondary dropdown-toggle" style="width:375px;"  aria-haspopup="true" aria-expanded="false">
+                            <button id="subRegionDropDown" data-target="subRegionDropDownChoice" data-toggle="dropdown" type="button" default-text='Select State' class="btn btn-secondary dropdown-toggle" style="width:255px;"  aria-haspopup="true" aria-expanded="false">
                                 Select Region
                             </button>
-                            <div id="subRegionDropDownChoice" class="dropdown-menu dropdown-menu-right" aria-labelledby="subRegionDropDown"  style="width:375px; text-align: left; max-height: 500px; overflow-y: scroll;" >
+                            <div id="subRegionDropDownChoice" class="dropdown-menu dropdown-menu-right" aria-labelledby="subRegionDropDown"  style="width:255px; text-align: left; max-height: 500px; overflow-y: scroll;" >
                                 <div id="toAddSubRegions">
                                 <!--a class="dropdown-item"  href="#" data-method="updateRegion" th:attr="data-param2=${subRegion.name}" data-param1="subRegion" th:text="${subRegion.name}"></a>
                                 <div class="dropdown-divider"></div-->
@@ -77,14 +77,14 @@
             <!--/div-->
         </div>
         <div class="container">
-            <div class="tab-content" >
-                <div class="tab-pane active" id="historical_values_pane">
+            <div class="tab-content" id="chartsArea"style="position: relative; top:0;">
+                <div class="tab-pane active" id="historical_values_pane" style="position: absolute; top:0; display:block; visibility: visible;">
                     <div id="historical_values_chart"></div>
                 </div>
-                <div class="tab-pane" id="historical_yoy_pane">
+                <div class="tab-pane" id="historical_yoy_pane" style="position: absolute; top:0; display:block; visibility: hidden;">
                     <div id="historical_yoy_chart"></div>
                 </div>
-                <div class="tab-pane" id="historical_table_pane">
+                <div class="tab-pane" id="historical_table_pane" style="display:block; visibility: hidden;">
                     <div id="historical_table_chart"></div>
                 </div>
             </div>
@@ -109,7 +109,9 @@
             // Add active class to clicked button
             $('#chartTypes li').removeClass('active');
             $(this).addClass('active');
-            $(href).addClass('active').siblings().removeClass('active');
+            //$(href).addClass('active').siblings().removeClass('active');
+            $(href).css("visibility", "visible");
+            $(href).siblings().css('visibility', 'hidden');
         });
 
         $('#regionTypes button').click(function(e) {
@@ -123,10 +125,14 @@
                 // Hide state name - set the button text color to the same as the background color
                 var bgColor = $('#stateDropDown').css('background-color');
                 $('#stateDropDown').css('color', bgColor);
+                $('#stateDropDown').prop('disabled', true);
+
+                $('#historicalDataFor').text("United States"); 
 
             }
             else {
                 $('#stateDropDown').prop('disabled', false);
+                $('#historicalDataFor').text($('#stateDropDown').text()); 
                 //if ($('#stateDropDown').text() =='---') {
                 if ($('#stateDropDown').css('color') == $('#stateDropDown').css('background-color')) {
                     //$('#stateDropDown').find('.dropdown-toggle-text').css('color', $('#regionTypes button').css('color'));
@@ -141,12 +147,14 @@
                 //$('#stateDropDown').text('---');
                 //$('#subRegion').hide();
                 $('#subRegion').css("visibility", "hidden");
+                $("#chartsArea").css("filter", "none");
                 
             }
             else {
                 loadSubRegions(regionType, stateName);
+                $('#subRegionDropDown').text("Select " + regionType);
                 $('#subRegion').css("visibility", "visible");
-
+                $("#chartsArea").css("filter", "blur(5px)");
                 //show sign "Choose county/metro" && Blur charts area
             }
 
@@ -174,8 +182,12 @@
 
             if (selectedRegionType == "Metro Area" || selectedRegionType== "County") {
                 loadSubRegions(selectedRegionType, stateName);
+                $('#subRegionDropDown').text("Select " + regionType);
+                $('#subRegion').css("visibility", "visible");
+                $("#chartsArea").css("filter", "blur(5px)");
             }
             else {
+                $("#chartsArea").css("filter", "none");
                 var method = $(this).data('method');
                 var param1 = $(this).data('param1');
                 var param2 = $(this).data('param2');
@@ -194,7 +206,8 @@
         var stateName = $('#stateDropDown').text();
 
         // Set states dropdown text
-        $('#subRegionDropDown').text(subRegionName);  
+        $('#subRegionDropDown').text(subRegionName);
+        $("#chartsArea").css("filter", "none");
         // Set tab header text
         //$('#historicalDataFor').text(stateName); 
 
@@ -204,6 +217,7 @@
 
         // Call method updateRegion
         window[method](regionType, stateName, subRegionId);
+
 
     }
 
@@ -216,7 +230,6 @@
         drawYoYChangeChart(regionData, document.getElementById('historical_yoy_chart'));
         drawTableChart(regionData, document.getElementById('historical_table_chart'));
         //drawColumnChart(regionData, document.getElementById('chart_div'));
-
     });
 </script>
 </body>
