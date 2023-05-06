@@ -48,11 +48,5 @@ public class ZvhiStatesDto {
     private String countyName;
     
     @CsvBindAndJoinByName(column = ".*", elementType = Double.class)
-    //private Map<Date, Double> monthlyData;
-    //@CsvCustomBindByName(column = ".*", converter = DateConverter.class)
-    //@CsvDate("yyyy-MM-dd")
     private MultiValuedMap<String, Double> monthlyData;
-    //private MultiValuedMap<String, Double> monthlyData = new TreeMultiValuedMap<>(new TreeMap<>());
-    
-
 }

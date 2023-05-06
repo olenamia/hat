@@ -9,15 +9,11 @@ import jakarta.transaction.Transactional;
 
 import com.mialyk.persistence.entities.*;
 import com.mialyk.persistence.entities.HomeValue.RegionType;
-import com.mialyk.persistence.repositories.CountryRepository;
-import com.mialyk.persistence.repositories.CountyRepository;
 import com.mialyk.persistence.repositories.HomeValueRepository;
-import com.mialyk.persistence.repositories.MetroAreaRepository;
-import com.mialyk.persistence.repositories.StateRepository;
+
 import com.mialyk.business.services.CountryService;
 import com.mialyk.business.services.CountyService;
 import com.mialyk.business.services.MetroAreaService;
-import com.mialyk.business.services.RegionService;
 import com.mialyk.business.services.StateService;
 import com.mialyk.business.zillow.dtos.ZvhiStatesDto;
 
@@ -28,8 +24,6 @@ import org.springframework.stereotype.Service;
 public class ZillowDataStorageService {
     @Autowired
     private HomeValueRepository homeValueRepository;
-    @Autowired
-    private RegionService regionService;
     @Autowired
     private CountryService countryService;
     @Autowired

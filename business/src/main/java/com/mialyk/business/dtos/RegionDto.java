@@ -25,6 +25,5 @@ public class RegionDto implements Serializable  {
     public RegionDto(String regionName) {
             this.name = regionName;
     }
-
 }
 

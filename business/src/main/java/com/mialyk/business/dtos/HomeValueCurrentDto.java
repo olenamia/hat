@@ -2,8 +2,10 @@ package com.mialyk.business.dtos;
 
 import java.sql.Date;
 
-import java.io.Serializable;
+import lombok.Data;
 
+import java.io.Serializable;
+@Data
 public class HomeValueCurrentDto  implements Serializable {
     private int region_id;
     private Date date;

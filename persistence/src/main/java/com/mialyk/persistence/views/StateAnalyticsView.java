@@ -1,10 +1,7 @@
 package com.mialyk.persistence.views;
 
 import java.io.Serializable;
-import java.math.RoundingMode;
 import java.sql.Date;
-import java.text.DecimalFormat;
-
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

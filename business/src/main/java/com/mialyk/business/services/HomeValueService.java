@@ -3,7 +3,6 @@ package com.mialyk.business.services;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -19,42 +18,24 @@ import com.mialyk.business.dtos.AnalyticsDto;
 import com.mialyk.business.dtos.HomeValueDto;
 import com.mialyk.business.dtos.StateDto;
 import com.mialyk.persistence.entities.Region;
-import com.mialyk.persistence.entities.State;
 import com.mialyk.persistence.entities.HomeValue.RegionType;
 import com.mialyk.persistence.entities.Country;
 import com.mialyk.persistence.entities.HomeValue;
-import com.mialyk.persistence.entities.MetroArea;
-import com.mialyk.persistence.repositories.CountryRepository;
-//import com.mialyk.persistence.entities.HomeValueZillow.RegionType;
 import com.mialyk.persistence.repositories.HomeValueRepository;
-import com.mialyk.persistence.views.StateAnalyticsView;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
-import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.postgresql.util.PGobject;
-
 
 @Service
 public class HomeValueService {
     @Autowired
     private HomeValueRepository homeValueZillowRepository;
-    //@Autowired
-    //private AnalyticsRepository analyticsRepository;
-    @Autowired
-    private RegionService regionService;
     @Autowired
     private CountryService countryService;
-    @Autowired
-    private MetroAreaService metroService;
 
     public Date getMaxDateByStateName(String stateName) {
         return homeValueZillowRepository.findMaxDateByStateName(stateName);
@@ -105,20 +86,6 @@ public class HomeValueService {
         }
         return Collections.emptyList();
     }
-/* 
-    @Transactional
-    public List<HomeValueDto> getHistoricalDataMetro(Integer regionId) {
-        Optional<MetroArea> metroOptional = metroService.getMetroArea(regionId);
-        Date maxDateByMetroArea = null; 
-        if (metroOptional.isPresent()) {
-            maxDateByMetroArea =  homeValueZillowRepository.findMaxDateByRegionIdAndRegionType(metroOptional.get().getRegionId(), HomeValue.RegionType.METRO.name());
-        }
- 
-        if (maxDateByMetroArea != null){
-           return getHistoricalDataByRegionIdAndRegioType(regionId, HomeValue.RegionType.METRO);
-        }
-        return Collections.emptyList();
-    }*/
 
     @Transactional
     public List<HomeValueDto> getHistoricalDataByRegionIdAndRegioType(Integer regionId, HomeValue.RegionType regionType) {
@@ -165,22 +132,9 @@ public class HomeValueService {
         return analyticsList;
     }
 
-    /* 
-    @Transactional
-    public List<StateAnalyticsView> GetAnalyticsForStates() {
-
-        List<StateAnalyticsView> result = homeValueZillowRepository.GetAnalyticsForStates();
-
-        return result;
-    }*/
-
-    private Date getMaxHomeValueDate (Region region, RegionType regionType) {
-
-
+    public Date getMaxHomeValueDate (Region region, RegionType regionType) {
         Date lastAddedDate = homeValueZillowRepository.findMaxDateByRegionIdAndRegionType(region.getRegionId(), regionType.name());
-
         return lastAddedDate;
-
     }
 
 }

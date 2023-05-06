@@ -12,7 +12,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.mialyk.business.dtos.CountyDto;
 import com.mialyk.business.dtos.MetroAreaDto;
-import com.mialyk.business.dtos.RegionDto;
 import com.mialyk.business.dtos.StateDto;
 import com.mialyk.business.services.CountyService;
 import com.mialyk.business.services.MetroAreaService;

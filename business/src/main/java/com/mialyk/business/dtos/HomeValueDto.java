@@ -1,10 +1,8 @@
 package com.mialyk.business.dtos;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 import org.postgresql.util.PGobject;
@@ -58,16 +56,6 @@ public class HomeValueDto implements Serializable {
     }
 
     public HomeValueDto(PGobject pgObject, Double yoyChange, String regionName) throws ParseException {
-
-        /*String tupleString = pgObject.getValue();
-        String[] fields = tupleString.substring(1, tupleString.length() - 1).split(",");
-
-        this.id = Integer.parseInt(fields[0]);
-        //this.date = new SimpleDateFormat("yyyy-MM-dd").parse(fields[1]);
-        this.date = Date.valueOf(fields[1]);
-        this.regionType = fields[2];
-        this.homeValue = Double.parseDouble(fields[3]);
-        this.yoyChange = yoyChange;*/
         this(pgObject, yoyChange);
         this.region = new RegionDto(regionName);
     }
@@ -78,7 +66,6 @@ public class HomeValueDto implements Serializable {
         String[] fields = tupleString.substring(1, tupleString.length() - 1).split(",");
 
         this.id = Integer.parseInt(fields[0]);
-        //this.date = new SimpleDateFormat("yyyy-MM-dd").parse(fields[1]);
         this.date = Date.valueOf(fields[1]);
         this.regionType = fields[2];
         this.homeValue = Double.parseDouble(fields[3]);

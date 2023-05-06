@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.mialyk.persistence.entities.HomeValue;
 import com.mialyk.persistence.entities.Region;
 
-
 @Service
 public class RegionService {
 

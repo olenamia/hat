@@ -1,8 +1,5 @@
 package com.mialyk.web.controllers;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -10,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
-import com.mialyk.business.dtos.StateDto;
 import com.mialyk.business.services.CountyService;
 import com.mialyk.business.services.MetroAreaService;
 import com.mialyk.business.services.RegionService;
@@ -21,8 +17,6 @@ public class WebController {
     private RestTemplate restTemplate = new RestTemplate();
     @Autowired
     private StateService stateService;
-    @Autowired
-    private RegionService regionService;
     @Autowired
     private MetroAreaService metroAreaService;
     @Autowired

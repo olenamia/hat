@@ -3,14 +3,12 @@ package com.mialyk.business.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mialyk.business.dtos.StateDto;
-//import com.mialyk.business.mappers.StateMapper;
 import com.mialyk.persistence.entities.State;
 import com.mialyk.persistence.repositories.StateRepository;
 

@@ -59,11 +59,6 @@ public class ZillowDataProcessor {
         for (File csvFile : csvFiles) {
             processStorage(csvFile.getAbsolutePath());
         }
-        /*String[] fileNames = directory.list();
-
-        for (String fileName : fileNames) {
-            processStorage (resourcePath + fileName);
-        }*/
     }
 
     public void processRemoteThroughStorage(String url, String storagePath) throws URISyntaxException, IOException {

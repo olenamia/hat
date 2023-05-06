@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mialyk.business.dtos.CountyDto;
-import com.mialyk.business.dtos.RegionDto;
 import com.mialyk.persistence.entities.County;
 import com.mialyk.persistence.entities.State;
 import com.mialyk.persistence.repositories.CountyRepository;
@@ -22,19 +22,13 @@ public class CountyService {
     private StateRepository stateRepository;
     
     public List<CountyDto> getCountyDtos() {
-/* 
+        List<County> counties = countyRepository.findAll(Sort.by(Sort.Direction.ASC, "regionName"));
+        List<CountyDto> countyDtos = new ArrayList<>();
 
-            List<MetroArea> metros = metroAreaRepository.findAll(Sort.by(Sort.Direction.ASC, "regionName"));
-            List<MetroAreaDto> metrosDto = new ArrayList<>();
-            for (MetroArea metro : metros) {
-                metrosDto.add(new MetroAreaDto(metro));
-            }
-            return metrosDto;
-        }*/
-
-        List<CountyDto> regionsDtos = new ArrayList<>();
-
-        return regionsDtos;
+        for (County county : counties) {
+            countyDtos.add(new CountyDto(county));
+        }
+        return countyDtos;
     }
 
     public County getCounty(String regionName, String stateName, int regionId, int sizeRank, int stateCodeFips, int metroCodeFips, String metro) {
