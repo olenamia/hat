@@ -24,7 +24,6 @@ import com.mialyk.persistence.entities.HomeValue.RegionType;
 import com.mialyk.persistence.entities.Country;
 import com.mialyk.persistence.entities.HomeValue;
 import com.mialyk.persistence.entities.MetroArea;
-import com.mialyk.persistence.repositories.AnalyticsRepository;
 import com.mialyk.persistence.repositories.CountryRepository;
 //import com.mialyk.persistence.entities.HomeValueZillow.RegionType;
 import com.mialyk.persistence.repositories.HomeValueRepository;

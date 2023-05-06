@@ -3,22 +3,12 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Google Charts Example - Spring Boot</title>
-<script
-    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<!--link rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"-->
-<!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script-->
-<!--link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/-->
-<!--script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script-->
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/charts.js}"></script>
 </head>
 <body>
 <div class="container">
@@ -74,7 +64,6 @@
                         <button type="button" class="btn btn-outline-secondary rounded-right">Metro Area</button>
                     </div>
                 </div>
-            <!--/div-->
         </div>
         <div class="container">
             <div class="tab-content" id="chartsArea"style="position: relative; top:0;">
@@ -94,12 +83,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script th:inline="javascript">
-
     $(document).ready(function() {
-        // add Remove blur effect
-       // $("#myDiv").css("filter", "blur(5px)");
-        //$("#myDiv").css("filter", "none");
-
         $('.dropdown-toggle').dropdown();
 
         $('#chartTypes li').click(function (e) {
@@ -109,7 +93,6 @@
             // Add active class to clicked button
             $('#chartTypes li').removeClass('active');
             $(this).addClass('active');
-            //$(href).addClass('active').siblings().removeClass('active');
             $(href).css("visibility", "visible");
             $(href).siblings().css('visibility', 'hidden');
         });
@@ -120,8 +103,7 @@
             var regionType = $(this).text();
             var stateName = $('#stateDropDown').text();
 
-            if(regionType == "US") {
-                //$('#stateDropDown').text('---');
+            if (regionType == "US") {
                 // Hide state name - set the button text color to the same as the background color
                 var bgColor = $('#stateDropDown').css('background-color');
                 $('#stateDropDown').css('color', bgColor);
@@ -133,19 +115,12 @@
             else {
                 $('#stateDropDown').prop('disabled', false);
                 $('#historicalDataFor').text($('#stateDropDown').text()); 
-                //if ($('#stateDropDown').text() =='---') {
                 if ($('#stateDropDown').css('color') == $('#stateDropDown').css('background-color')) {
-                    //$('#stateDropDown').find('.dropdown-toggle-text').css('color', $('#regionTypes button').css('color'));
                     $('#stateDropDown').css('color', $('#regionTypes button').css('color'));
-                    //$('#stateDropDown').css('color', 'red');
-                    //show sign "Choose the state"
                 }
-                //$('#stateDropDown').text($('#stateDropDown').attr("default-text"));
             }
             
-            if(regionType == "US" || regionType == "State" ) {
-                //$('#stateDropDown').text('---');
-                //$('#subRegion').hide();
+            if (regionType == "US" || regionType == "State" ) {
                 $('#subRegion').css("visibility", "hidden");
                 $("#chartsArea").css("filter", "none");
                 
@@ -155,13 +130,12 @@
                 $('#subRegionDropDown').text("Select " + regionType);
                 $('#subRegion').css("visibility", "visible");
                 $("#chartsArea").css("filter", "blur(5px)");
-                //show sign "Choose county/metro" && Blur charts area
             }
 
             $('#regionTypes button').removeClass('active');
             $(this).addClass('active');
 
-            if(regionType == "US") {
+            if (regionType == "US") {
                 updateRegion("US");
             }
             else if(regionType == "State") {
@@ -202,14 +176,12 @@
     function subRegionDropDownChoiceClick(e, $this) {
         e.preventDefault();
         var subRegionName = $this.text();
-        var subRegionId = $this.data('param2');//$(this).text();
+        var subRegionId = $this.data('param2');
         var stateName = $('#stateDropDown').text();
 
         // Set states dropdown text
         $('#subRegionDropDown').text(subRegionName);
         $("#chartsArea").css("filter", "none");
-        // Set tab header text
-        //$('#historicalDataFor').text(stateName); 
 
         var method = $this.data('method');
         var regionType = $this.data('param1');
@@ -217,8 +189,6 @@
 
         // Call method updateRegion
         window[method](regionType, stateName, subRegionId);
-
-
     }
 
     google.charts.load('current', {'packages':['table', 'line', 'bar', 'corechart']});
