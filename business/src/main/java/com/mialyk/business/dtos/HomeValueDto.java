@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.mialyk.persistence.entities.HomeValue;
-import com.mialyk.persistence.entities.HomeValue.RegionType;
+import com.mialyk.persistence.entities.RegionType;
 
 @Data
 @AllArgsConstructor

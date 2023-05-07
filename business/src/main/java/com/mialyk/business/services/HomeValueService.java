@@ -18,9 +18,8 @@ import com.mialyk.business.dtos.AnalyticsDto;
 import com.mialyk.business.dtos.HomeValueDto;
 import com.mialyk.business.dtos.StateDto;
 import com.mialyk.persistence.entities.Region;
-import com.mialyk.persistence.entities.HomeValue.RegionType;
+import com.mialyk.persistence.entities.RegionType;
 import com.mialyk.persistence.entities.Country;
-import com.mialyk.persistence.entities.HomeValue;
 import com.mialyk.persistence.repositories.HomeValueRepository;
 
 import jakarta.transaction.Transactional;
@@ -67,12 +66,12 @@ public class HomeValueService {
         Optional<Country> countryOptional = countryService.getCountry(regionName);
         Date maxDateByState = null; 
         if (countryOptional.isPresent()) {
-            maxDateByState =  homeValueZillowRepository.findMaxDateByRegionIdAndRegionType(countryOptional.get().getRegionId(), HomeValue.RegionType.COUNTRY.name());
+            maxDateByState =  homeValueZillowRepository.findMaxDateByRegionIdAndRegionType(countryOptional.get().getRegionId(), RegionType.COUNTRY.name());
         }
  
         if (maxDateByState != null){
             //List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesForUs();
-            List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesByRegionIdAndRegionType(countryOptional.get().getRegionId(), HomeValue.RegionType.COUNTRY.name());
+            List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesByRegionIdAndRegionType(countryOptional.get().getRegionId(), RegionType.COUNTRY.name());
             return homeValuesList.stream().map(homeValue -> {
                 try {
                     return new HomeValueDto(
@@ -88,7 +87,7 @@ public class HomeValueService {
     }
 
     @Transactional
-    public List<HomeValueDto> getHistoricalDataByRegionIdAndRegioType(Integer regionId, HomeValue.RegionType regionType) {
+    public List<HomeValueDto> getHistoricalDataByRegionIdAndRegioType(Integer regionId, RegionType regionType) {
         List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesByRegionIdAndRegionType(regionId, regionType.name());
         return homeValuesList.stream().map(homeValue -> {
             try {

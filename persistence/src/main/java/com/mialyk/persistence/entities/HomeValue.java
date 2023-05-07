@@ -74,13 +74,6 @@ public class HomeValue {
             countryValue = (Country)region;
         }
     }
-    
-    public enum RegionType {
-        STATE,
-        COUNTY,
-        METRO,
-        COUNTRY
-    }
 }
 
 

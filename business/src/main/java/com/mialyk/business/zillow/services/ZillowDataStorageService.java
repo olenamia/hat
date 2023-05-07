@@ -8,7 +8,7 @@ import java.util.List;
 import jakarta.transaction.Transactional;
 
 import com.mialyk.persistence.entities.*;
-import com.mialyk.persistence.entities.HomeValue.RegionType;
+import com.mialyk.persistence.entities.RegionType;
 import com.mialyk.persistence.repositories.HomeValueRepository;
 
 import com.mialyk.business.services.CountryService;

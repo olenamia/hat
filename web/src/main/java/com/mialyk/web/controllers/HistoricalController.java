@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 import com.mialyk.business.dtos.HomeValueDto;
 import com.mialyk.business.services.HomeValueService;
-import com.mialyk.persistence.entities.HomeValue;
+import com.mialyk.persistence.entities.RegionType;
 
 
 @RestController
@@ -33,11 +33,11 @@ public class HistoricalController {
 
     @GetMapping({"/values/metro/{stateName}/{metroRegionId}/", "/values/metro/{stateName}/{metroRegionId}"})
     public List<HomeValueDto> getHomeValuesByMetro(@PathVariable String stateName, @PathVariable Integer metroRegionId) throws JsonProcessingException, JsonMappingException {
-        return homeValueZillowService.getHistoricalDataByRegionIdAndRegioType(metroRegionId, HomeValue.RegionType.METRO);
+        return homeValueZillowService.getHistoricalDataByRegionIdAndRegioType(metroRegionId, RegionType.METRO);
     }
 
     @GetMapping({"/values/county/{stateName}/{countyRegionId}/", "/values/county/{stateName}/{countyRegionId}"})
     public List<HomeValueDto> getHomeValuesByCounty(@PathVariable String stateName, @PathVariable Integer countyRegionId) throws JsonProcessingException, JsonMappingException {
-        return homeValueZillowService.getHistoricalDataByRegionIdAndRegioType(countyRegionId, HomeValue.RegionType.COUNTY);
+        return homeValueZillowService.getHistoricalDataByRegionIdAndRegioType(countyRegionId, RegionType.COUNTY);
     }
 }
