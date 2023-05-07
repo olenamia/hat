@@ -32,7 +32,4 @@ public class CountryService {
         Optional <Country> countryOptional = countryRepository.findByRegionName(regionName);
         return countryOptional;
     }
-
-    
-
 }
