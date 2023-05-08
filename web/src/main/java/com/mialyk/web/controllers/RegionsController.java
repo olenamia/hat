@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.mialyk.business.dtos.CountyDto;
 import com.mialyk.business.dtos.MetroAreaDto;
 import com.mialyk.business.dtos.StateDto;
@@ -29,32 +27,32 @@ public class RegionsController {
     private CountyService countyService;
 
     @GetMapping("/types")
-    public List<String> getRegionTypes() throws JsonProcessingException, JsonMappingException {
+    public List<String> getRegionTypes() { 
         return RegionService.getRegionTypes();
     }
 
     @GetMapping("/states")
-    public List<StateDto> getStates() throws JsonProcessingException, JsonMappingException {
+    public List<StateDto> getStates() { 
         return stateService.getStateDtos();
     }
 
     @GetMapping("/metros")
-    public List<MetroAreaDto> getMetros() throws JsonProcessingException, JsonMappingException {
+    public List<MetroAreaDto> getMetros() { 
         return metroAreaService.getMetroAreaDtos();
     }
 
     @GetMapping("/{stateName}/metros")
-    public List<MetroAreaDto> getMetros(@PathVariable String stateName) throws JsonProcessingException, JsonMappingException {
+    public List<MetroAreaDto> getMetros(@PathVariable String stateName) { 
         return metroAreaService.getMetroAreaDtos(stateName);
     }
 
     @GetMapping("/counties")
-    public List<CountyDto> getCounties() throws JsonProcessingException, JsonMappingException {
+    public List<CountyDto> getCounties() { 
         return countyService.getCountyDtos();
     }
 
     @GetMapping("/{stateName}/counties")
-    public List<CountyDto> getCounties(@PathVariable String stateName) throws JsonProcessingException, JsonMappingException {
+    public List<CountyDto> getCounties(@PathVariable String stateName) { 
         return countyService.getCountyDtos(stateName);
     }
 }

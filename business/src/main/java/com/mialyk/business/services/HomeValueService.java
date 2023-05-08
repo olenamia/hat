@@ -17,15 +17,11 @@ import org.springframework.stereotype.Service;
 import com.mialyk.business.dtos.AnalyticsDto;
 import com.mialyk.business.dtos.HomeValueDto;
 import com.mialyk.business.dtos.StateDto;
-import com.mialyk.persistence.entities.Region;
 import com.mialyk.persistence.entities.RegionType;
 import com.mialyk.persistence.entities.Country;
 import com.mialyk.persistence.repositories.HomeValueRepository;
 
 import jakarta.transaction.Transactional;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 import org.postgresql.util.PGobject;
 
@@ -40,7 +36,7 @@ public class HomeValueService {
         return homeValueZillowRepository.findMaxDateByStateName(stateName);
     }
     @Transactional
-    public List<HomeValueDto> getHomeValuesByState(String stateName) {//throws JsonProcessingException, JsonMappingException {
+    public List<HomeValueDto> getHomeValuesByState(String stateName) {
 
         Date maxDateByState = homeValueZillowRepository.findMaxDateByStateName(stateName);
         if (maxDateByState != null){
@@ -102,7 +98,7 @@ public class HomeValueService {
     }
 
     @Transactional
-    public List<AnalyticsDto> GetAnalyticsForStates() throws JsonMappingException, JsonProcessingException{
+    public List<AnalyticsDto> GetAnalyticsForStates() {
   
         List<AnalyticsDto> analyticsList =  new ArrayList<>();
         for (Object[] row : homeValueZillowRepository.GetAnalyticsForStates()) {

@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.mialyk.business.dtos.AnalyticsDto;
 import com.mialyk.business.services.HomeValueService;
 
@@ -19,7 +17,7 @@ public class AnalyticsController {
     private HomeValueService homeValueZillowService;
 
     @GetMapping({"/states", "/states/"})
-    public List<AnalyticsDto> getHomeValuesByState() throws JsonProcessingException, JsonMappingException {
+    public List<AnalyticsDto> getHomeValuesByState() { 
         return homeValueZillowService.GetAnalyticsForStates();
     }
 }
