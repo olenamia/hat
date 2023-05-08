@@ -15,7 +15,7 @@ import com.mialyk.business.services.CountryService;
 import com.mialyk.business.services.CountyService;
 import com.mialyk.business.services.MetroAreaService;
 import com.mialyk.business.services.StateService;
-import com.mialyk.business.zillow.dtos.ZvhiStatesDto;
+import com.mialyk.business.zillow.dtos.ZillowHomeValueDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,17 +34,17 @@ public class ZillowDataStorageService {
     private MetroAreaService metroAreaService;
 
     @Transactional
-    public void saveHomeValues(List<ZvhiStatesDto> zhviStatesDtos) {
+    public void saveHomeValues(List<ZillowHomeValueDto> zillowHomeValueDtos) {
         List<HomeValue> homeValueZillowList = new ArrayList<>();
 
-        for (ZvhiStatesDto zhviStatesDto : zhviStatesDtos) {
-            RegionType regionType = mapRegionType(zhviStatesDto.getRegionType());
-            Region region = getRegionByZillowRegionType(zhviStatesDto);
+        for (ZillowHomeValueDto zillowHomeValueDto : zillowHomeValueDtos) {
+            RegionType regionType = mapRegionType(zillowHomeValueDto.getRegionType());
+            Region region = getRegionByZillowRegionType(zillowHomeValueDto);
             Date lastAddedDate = homeValueRepository.findMaxDateByRegionIdAndRegionType(region.getRegionId(), regionType.name());
 
-            for(String key : zhviStatesDto.getMonthlyData().keySet()){
+            for(String key : zillowHomeValueDto.getMonthlyData().keySet()){
 
-                Double value = zhviStatesDto.getMonthlyData().get(key).iterator().next();
+                Double value = zillowHomeValueDto.getMonthlyData().get(key).iterator().next();
                 Date date = Date.valueOf(key);
                 if (value != null) {
                     // For dates after last added or if state's values have never been added before
@@ -63,7 +63,7 @@ public class ZillowDataStorageService {
         homeValueRepository.saveAll(homeValueZillowList);
     }
 
-    private Region getRegionByZillowRegionType(ZvhiStatesDto zhviStatesDto) {
+    private Region getRegionByZillowRegionType(ZillowHomeValueDto zhviStatesDto) {
         RegionType regionType = mapRegionType( zhviStatesDto.getRegionType());
         Region region = null;
 

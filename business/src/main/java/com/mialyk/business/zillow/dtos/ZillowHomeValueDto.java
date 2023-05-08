@@ -8,7 +8,7 @@ import com.opencsv.bean.CsvBindByName;
 import lombok.Data;
 
 @Data
-public class ZvhiStatesDto {
+public class ZillowHomeValueDto {
 
     @CsvBindByName(column = "RegionID")
     private int regionId;

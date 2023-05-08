@@ -8,24 +8,24 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.mialyk.business.zillow.dtos.ZvhiStatesDto;
+import com.mialyk.business.zillow.dtos.ZillowHomeValueDto;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 @Component
 public class ZillowCsvParser {
-    public List<ZvhiStatesDto> getHomeValues(String content) throws URISyntaxException, IOException {
+    public List<ZillowHomeValueDto> getHomeValues(String content) throws URISyntaxException, IOException {
         StringReader reader = new StringReader(content);
 
         return getHomeValues(reader);
     }
 
-    public List<ZvhiStatesDto> getHomeValues(Reader reader) {
-        CsvToBean<ZvhiStatesDto> csvToBean = new CsvToBeanBuilder<ZvhiStatesDto>(reader)
-            .withType(ZvhiStatesDto.class)
+    public List<ZillowHomeValueDto> getHomeValues(Reader reader) {
+        CsvToBean<ZillowHomeValueDto> csvToBean = new CsvToBeanBuilder<ZillowHomeValueDto>(reader)
+            .withType(ZillowHomeValueDto.class)
             .withSeparator(',')
             .build();
-        List<ZvhiStatesDto> housingDataList = csvToBean.parse();
+        List<ZillowHomeValueDto> housingDataList = csvToBean.parse();
 
         return housingDataList;
     }
