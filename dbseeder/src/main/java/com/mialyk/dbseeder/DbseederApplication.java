@@ -10,16 +10,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 import com.mialyk.business.zillow.services.ZillowDataProcessor;
-import com.mialyk.dbseeder.configuration.DbseederConfig;
+import com.mialyk.dbseeder.configuration.DbSeederConfig;
 
-@Import(DbseederConfig.class)
+@Import(DbSeederConfig.class)
 @ComponentScan(basePackages = {"com.mialyk.business"})
-public class DbseederApplication implements CommandLineRunner {
+public class DbSeederApplication implements CommandLineRunner {
     @Autowired
     private ZillowDataProcessor zillowDataProcessor;
 
 	public static void main(String[] args) {
-		SpringApplication.run(DbseederApplication.class, args);
+		SpringApplication.run(DbSeederApplication.class, args);
         System.out.println("DBSEEDER STARTED");
 	}
 
@@ -29,5 +29,4 @@ public class DbseederApplication implements CommandLineRunner {
         //zillowDataProcessor.processAllRemote();
         //zillowDataProcessor.saveAllRemoteToStorage();
     }
-
 }

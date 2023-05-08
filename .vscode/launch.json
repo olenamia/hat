@@ -19,9 +19,9 @@
         },
         {
             "type": "java",
-            "name": "DbseederApplication",
+            "name": "DbSeederApplication",
             "request": "launch",
-            "mainClass": "com.mialyk.dbseeder.DbseederApplication",
+            "mainClass": "com.mialyk.dbseeder.DbSeederApplication",
             "projectName": "dbseeder"
         },
         {
