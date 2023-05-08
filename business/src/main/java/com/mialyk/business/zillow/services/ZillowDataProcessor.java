@@ -27,26 +27,26 @@ public class ZillowDataProcessor {
     @Autowired
     private ZillowConfig config;
 
-    public void processRemote (String url) throws URISyntaxException, IOException {
+    public void processUrl (String url) throws URISyntaxException, IOException {
         String content = fileDownloader.getRemoteContent(url);
         List<ZillowHomeValueDto> zillowDataDto = csvParser.getHomeValues(content);
         dataProcessingService.saveHomeValues(zillowDataDto);
     }
 
-    public void processAllRemote () throws URISyntaxException, IOException {
+    public void processUrls () throws URISyntaxException, IOException {
         for (String link : config.getLinks()) {
-            processRemote(link);
+            processUrl(link);
         }
     }
 
-    public void processStorage (String storagePath) throws URISyntaxException, IOException {
+    public void processFile (String storagePath) throws URISyntaxException, IOException {
         Reader fileReader = Files.newBufferedReader(Paths.get(storagePath));
 
         List<ZillowHomeValueDto> zillowDataDto = csvParser.getHomeValues(fileReader);
         dataProcessingService.saveHomeValues(zillowDataDto);
     }
 
-    public void processAllStorage() throws URISyntaxException, IOException {
+    public void processFiles() throws URISyntaxException, IOException {
         String resourcePath = config.getStoragePath();
         File directory = new File(resourcePath);
         FilenameFilter csvFilter = new FilenameFilter() {
@@ -57,21 +57,21 @@ public class ZillowDataProcessor {
         File[] csvFiles = directory.listFiles(csvFilter);
 
         for (File csvFile : csvFiles) {
-            processStorage(csvFile.getAbsolutePath());
+            processFile(csvFile.getAbsolutePath());
         }
     }
 
     public void processRemoteThroughStorage(String url, String storagePath) throws URISyntaxException, IOException {
         fileDownloader.downloadFileToStorage(url, storagePath);
-        processStorage (storagePath);
+        processFile (storagePath);
     }
 
-    public void processAllRemoteThroughStorage() throws URISyntaxException, IOException {
-        saveAllRemoteToStorage();
-        processAllStorage();
+    public void processUrlsThroughStorage() throws URISyntaxException, IOException {
+        saveUrlsToStorage();
+        processFiles();
     }
 
-    private void saveAllRemoteToStorage() throws URISyntaxException, IOException {
+    public void saveUrlsToStorage() throws URISyntaxException, IOException {
         String storagePath = config.getStoragePath();
 
         for (String link : config.getLinks()) {

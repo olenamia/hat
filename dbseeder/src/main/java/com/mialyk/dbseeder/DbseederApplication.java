@@ -25,8 +25,8 @@ public class DbSeederApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws URISyntaxException, IOException {
-        //zillowDataProcessor.processAllStorage();
-        //zillowDataProcessor.processAllRemote();
-        //zillowDataProcessor.saveAllRemoteToStorage();
+        //zillowDataProcessor.processFiles();
+        //zillowDataProcessor.processUrls();
+        //zillowDataProcessor.saveUrlsToStorage();
     }
 }
