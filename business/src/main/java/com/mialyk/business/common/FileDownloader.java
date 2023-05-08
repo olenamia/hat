@@ -18,15 +18,9 @@ import java.nio.file.Paths;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FileDownloader {
+public class FileDownloader implements IFileDownloader {
 
-    private InputStream getHttpInputStream(String urlStr) throws IOException {
-        URL url = new URL(urlStr);
-        URLConnection connection = url.openConnection();
-        InputStream inputStream =  connection.getInputStream();
-        return inputStream;
-    }
-
+    @Override
     public String getRemoteContent(String urlStr) throws IOException {
         BufferedReader breader = new BufferedReader(getHttpReader(urlStr));
         StringBuilder stringBuilder = new StringBuilder();
@@ -40,11 +34,7 @@ public class FileDownloader {
         return content;
     }
 
-    public Reader getHttpReader(String urlStr) throws IOException {
-        Reader reader = new InputStreamReader(getHttpInputStream(urlStr));
-        return reader;
-    }
-
+    @Override
     public void downloadFileToStorage(String urlString, String pathToStorage) throws IOException, URISyntaxException, FileNotFoundException {
         InputStream inputStream = getHttpInputStream(urlString);
         ReadableByteChannel readableByteChannel = Channels.newChannel(inputStream);
@@ -58,4 +48,15 @@ public class FileDownloader {
         fileOutputStream.close();
     }
 
+    private InputStream getHttpInputStream(String urlStr) throws IOException {
+        URL url = new URL(urlStr);
+        URLConnection connection = url.openConnection();
+        InputStream inputStream =  connection.getInputStream();
+        return inputStream;
+    }
+    
+    private Reader getHttpReader(String urlStr) throws IOException {
+        Reader reader = new InputStreamReader(getHttpInputStream(urlStr));
+        return reader;
+    }
 }

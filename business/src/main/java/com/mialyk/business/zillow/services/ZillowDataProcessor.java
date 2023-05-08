@@ -12,14 +12,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.mialyk.business.common.FileDownloader;
+import com.mialyk.business.common.IFileDownloader;
 import com.mialyk.business.zillow.configuration.ZillowConfig;
 import com.mialyk.business.zillow.dtos.ZillowHomeValueDto;
 
 @Component
 public class ZillowDataProcessor {
     @Autowired
-    private FileDownloader fileDownloader;
+    private IFileDownloader fileDownloader;
     @Autowired
     private ZillowCsvParser csvParser;
     @Autowired
