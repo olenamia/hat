@@ -22,154 +22,20 @@
             <artifactId>persistence</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <!--dependency>
-            <groupId>com.mialyk</groupId>
-            <artifactId>dbseeder</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency-->
-        <!--dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>3.0.5</version>
-        </dependency-->
-
-
-		<!-- REFACTORING dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>5.5.1</version>
-		</dependency-->
 		<dependency>
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>5.4</version>
         </dependency>
-                <dependency>
-	<groupId>com.fasterxml.jackson.core</groupId>
-	<artifactId>jackson-annotations</artifactId>
-	<version>2.12.4</version>
-</dependency>
-<dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    <artifactId>jackson-databind</artifactId>
-    <version>2.12.4</version>
-</dependency>
-        
-        <!--dependency>
-  <groupId>jakarta.enterprise</groupId>
-  <artifactId>jakarta.enterprise.cdi-api</artifactId>
-  <version>3.1.0</version>
-</dependency>
         <dependency>
-    <groupId>jakarta.platform</groupId>
-    <artifactId>jakarta.jakartaee-api</artifactId>
-    <version>9.1.0</version>
-    <scope>provided</scope>
-</dependency-->
-
-		<!--dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency-->
-		<!--dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-rest</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency-->
-		<!--dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId-->
-			<!--scope>runtime</scope-->
-		<!--/dependency-->
-        <!--dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.4</version>
-        </dependency-->
-
-        <!--Mapper-->
-        <!--dependency>
-    <groupId>org.mapstruct</groupId>
-    <artifactId>mapstruct</artifactId>
-    <version>1.4.2.Final</version>
-</dependency>
-
-<dependency>
-    <groupId>org.mapstruct</groupId>
-    <artifactId>mapstruct-processor</artifactId>
-    <version>1.4.2.Final</version>
-    <scope>provided</scope>
-</dependency-->
-
-
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.12.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.4</version>
+        </dependency>
 	</dependencies>
-<!--All repositories Added for Mapping -->
-<!--repositories>
-    <repository>
-        <id>central</id>
-        <url>https://repo.maven.apache.org/maven2</url>
-    </repository>
-    <repository>
-        <id>jcenter</id>
-        <url>https://jcenter.bintray.com/</url>
-    </repository>
-    <repository>
-        <id>mapstruct</id>
-        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-    </repository>
-</repositories-->
-	<build>
-		<plugins>
-			<!--plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin-->
-            <!--Mapper-->
-
-    <!--plugin>
-      <groupId>org.mapstruct</groupId>
-      <artifactId>mapstruct-maven-plugin</artifactId>
-      <version>1.4.2.Final</version>
-      <executions>
-        <execution>
-          <phase>generate-sources</phase>
-          <goals>
-            <goal>mapstruct</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin-->
-
-		</plugins>
-	</build>
-
-
 </project>
