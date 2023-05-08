@@ -130,10 +130,4 @@ public class HomeValueService {
         }
         return analyticsList;
     }
-
-    public Date getMaxHomeValueDate (Region region, RegionType regionType) {
-        Date lastAddedDate = homeValueZillowRepository.findMaxDateByRegionIdAndRegionType(region.getRegionId(), regionType.name());
-        return lastAddedDate;
-    }
-
 }
