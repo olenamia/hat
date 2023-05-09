@@ -63,39 +63,39 @@ public class ZillowDataStorageService {
         homeValueRepository.saveAll(homeValueZillowList);
     }
 
-    private Region getRegionByZillowRegionType(ZillowHomeValueDto zhviStatesDto) {
-        RegionType regionType = mapRegionType( zhviStatesDto.getRegionType());
+    private Region getRegionByZillowRegionType(ZillowHomeValueDto zillowHomeValueDto) {
+        RegionType regionType = mapRegionType( zillowHomeValueDto.getRegionType());
         Region region = null;
 
         if (regionType == RegionType.STATE) {
             region = (State)stateService.getState(
-                            zhviStatesDto.getRegionName(), 
-                            zhviStatesDto.getStateName(), 
-                            zhviStatesDto.getRegionId(), 
-                            zhviStatesDto.getSizeRank());
+                            zillowHomeValueDto.getRegionName(), 
+                            zillowHomeValueDto.getStateName(), 
+                            zillowHomeValueDto.getRegionId(), 
+                            zillowHomeValueDto.getSizeRank());
         }
         else if (regionType == RegionType.COUNTY) {
             region = (County)countyService.getCounty(
-                            zhviStatesDto.getRegionName(), 
-                            zhviStatesDto.getStateName(), 
-                            zhviStatesDto.getRegionId(),
-                            zhviStatesDto.getSizeRank(),
-                            zhviStatesDto.getStateCodeFIPS(),
-                            zhviStatesDto.getMunicipalCodeFIPS(),
-                            zhviStatesDto.getMetro());
+                            zillowHomeValueDto.getRegionName(), 
+                            zillowHomeValueDto.getStateName(), 
+                            zillowHomeValueDto.getRegionId(),
+                            zillowHomeValueDto.getSizeRank(),
+                            zillowHomeValueDto.getStateCodeFIPS(),
+                            zillowHomeValueDto.getMunicipalCodeFIPS(),
+                            zillowHomeValueDto.getMetro());
         }
         else if (regionType == RegionType.COUNTRY) {
             region = (Country)countryService.getCountry(
-                            zhviStatesDto.getRegionName(), 
-                            zhviStatesDto.getRegionId(), 
-                            zhviStatesDto.getSizeRank());
+                            zillowHomeValueDto.getRegionName(), 
+                            zillowHomeValueDto.getRegionId(), 
+                            zillowHomeValueDto.getSizeRank());
         }
         else if (regionType == RegionType.METRO) {
             region = (MetroArea)metroAreaService.getMetroArea(
-                            zhviStatesDto.getRegionName(), 
-                            zhviStatesDto.getStateName(), 
-                            zhviStatesDto.getRegionId(), 
-                            zhviStatesDto.getSizeRank());
+                            zillowHomeValueDto.getRegionName(), 
+                            zillowHomeValueDto.getStateName(), 
+                            zillowHomeValueDto.getRegionId(), 
+                            zillowHomeValueDto.getSizeRank());
         }
         return region;
     }
