@@ -8,8 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
-import com.mialyk.business.services.ICountyService;
-import com.mialyk.business.services.IMetroAreaService;
 import com.mialyk.business.services.IRegionService;
 import com.mialyk.business.services.IStateService;
 
@@ -42,8 +40,6 @@ public class WebController {
 
         model.addAttribute("regionTypes", regionService.getRegionTypes());
         model.addAttribute("states", stateService.getStateDtos());
-        // model.addAttribute("metros", metroAreaService.getMetroAreaDtos());
-        // model.addAttribute("counties", countyService.getCountyDtos());
 
         model.addAttribute("defaultStateHistoricalData", historicalData);
         model.addAttribute("defaultState", defaultState);
