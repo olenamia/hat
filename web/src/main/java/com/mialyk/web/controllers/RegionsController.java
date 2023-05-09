@@ -25,10 +25,12 @@ public class RegionsController {
     private MetroAreaService metroAreaService;
     @Autowired
     private CountyService countyService;
+    @Autowired
+    private RegionService regionService;
 
     @GetMapping("/types")
     public List<String> getRegionTypes() { 
-        return RegionService.getRegionTypes();
+        return regionService.getRegionTypes();
     }
 
     @GetMapping("/states")

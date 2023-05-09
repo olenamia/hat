@@ -11,7 +11,7 @@ import com.mialyk.persistence.entities.RegionType;
 @Service
 public class RegionService {
 
-    public static List<String> getRegionTypes() {
+    public List<String> getRegionTypes() {
         return Arrays.stream(RegionType.values()).map(regionType -> regionType.name()).toList();
     }
     public Boolean isRegionNew(Region region) {

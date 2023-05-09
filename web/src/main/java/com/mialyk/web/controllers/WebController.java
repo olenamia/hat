@@ -21,7 +21,8 @@ public class WebController {
     private MetroAreaService metroAreaService;
     @Autowired
     private CountyService countyService;
-    
+    @Autowired
+    private RegionService regionService;
 
     @Value("${hat.mapsApiKey}")
     private String googleMapsApiKey;
@@ -36,8 +37,7 @@ public class WebController {
         String url = "http://localhost:8080/hat/api/historical/values/state/California";
         String historicalData = restTemplate.getForObject(url, String.class);
 
-        model.addAttribute("regionTypes", RegionService.getRegionTypes());
-
+        model.addAttribute("regionTypes", regionService.getRegionTypes());
         model.addAttribute("states", stateService.getStateDtos());
         model.addAttribute("metros", metroAreaService.getMetroAreaDtos());
         model.addAttribute("counties", countyService.getCountyDtos());
