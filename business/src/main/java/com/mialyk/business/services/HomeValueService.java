@@ -19,6 +19,7 @@ import com.mialyk.business.dtos.HomeValueDto;
 import com.mialyk.business.dtos.StateDto;
 import com.mialyk.persistence.entities.RegionType;
 import com.mialyk.persistence.entities.Country;
+import com.mialyk.persistence.repositories.CountryRepository;
 import com.mialyk.persistence.repositories.HomeValueRepository;
 
 import jakarta.transaction.Transactional;
@@ -30,11 +31,12 @@ public class HomeValueService {
     @Autowired
     private HomeValueRepository homeValueZillowRepository;
     @Autowired
-    private CountryService countryService;
+    private CountryRepository countryRepository;
 
     public Date getMaxDateByStateName(String stateName) {
         return homeValueZillowRepository.findMaxDateByStateName(stateName);
     }
+
     @Transactional
     public List<HomeValueDto> getHomeValuesByState(String stateName) {
 
@@ -57,16 +59,16 @@ public class HomeValueService {
         }
         return Collections.emptyList();
     }
+
     @Transactional
     public List<HomeValueDto> getHistoricalDataUS(String regionName) {
-        Optional<Country> countryOptional = countryService.getCountry(regionName);
+        Optional<Country> countryOptional = countryRepository.findByRegionName(regionName);
         Date maxDateByState = null; 
         if (countryOptional.isPresent()) {
             maxDateByState =  homeValueZillowRepository.findMaxDateByRegionIdAndRegionType(countryOptional.get().getRegionId(), RegionType.COUNTRY.name());
         }
  
         if (maxDateByState != null){
-            //List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesForUs();
             List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesByRegionIdAndRegionType(countryOptional.get().getRegionId(), RegionType.COUNTRY.name());
             return homeValuesList.stream().map(homeValue -> {
                 try {
