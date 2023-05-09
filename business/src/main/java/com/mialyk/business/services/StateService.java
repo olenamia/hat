@@ -13,10 +13,11 @@ import com.mialyk.persistence.entities.State;
 import com.mialyk.persistence.repositories.StateRepository;
 
 @Service
-public class StateService {
+public class StateService implements IStateService {
     @Autowired
     StateRepository stateRepository;
 
+    @Override
     public List<StateDto> getStateDtos() {
         List<State> states = stateRepository.findAll(Sort.by(Sort.Direction.ASC, "regionName"));
         List<StateDto> statesDto = new ArrayList<>();
@@ -26,6 +27,7 @@ public class StateService {
         return statesDto;
     }
 
+    @Override
     public State getState(String regionName, String stateName, int regionId, int sizeRank) {
         State state;
         Optional <State> stateOptional = stateRepository.findByRegionId(regionId);

@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mialyk.business.dtos.AnalyticsDto;
-import com.mialyk.business.services.HomeValueService;
+import com.mialyk.business.services.IHomeValueService;
 
 @RestController
 @RequestMapping("hat/api/analytics")
 public class AnalyticsController {
     @Autowired
-    private HomeValueService homeValueZillowService;
+    private IHomeValueService homeValueZillowService;
 
     @GetMapping({"/states", "/states/"})
     public List<AnalyticsDto> getHomeValuesByState() { 

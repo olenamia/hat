@@ -11,11 +11,10 @@ import jakarta.transaction.Transactional;
 import com.mialyk.persistence.entities.*;
 import com.mialyk.persistence.entities.RegionType;
 import com.mialyk.persistence.repositories.HomeValueRepository;
-
-import com.mialyk.business.services.CountryService;
-import com.mialyk.business.services.CountyService;
-import com.mialyk.business.services.MetroAreaService;
-import com.mialyk.business.services.StateService;
+import com.mialyk.business.services.ICountryService;
+import com.mialyk.business.services.ICountyService;
+import com.mialyk.business.services.IMetroAreaService;
+import com.mialyk.business.services.IStateService;
 import com.mialyk.business.zillow.dtos.ZillowHomeValueDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +25,13 @@ public class ZillowDataStorageService {
     @Autowired
     private HomeValueRepository homeValueRepository;
     @Autowired
-    private CountryService countryService;
+    private ICountryService countryService;
     @Autowired
-    private StateService stateService;
+    private IStateService stateService;
     @Autowired
-    private CountyService countyService;
+    private ICountyService countyService;
     @Autowired
-    private MetroAreaService metroAreaService;
+    private IMetroAreaService metroAreaService;
 
     @Transactional
     public void saveHomeValues(List<ZillowHomeValueDto> zillowHomeValueDtos) {

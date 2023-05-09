@@ -15,12 +15,13 @@ import com.mialyk.persistence.repositories.MetroAreaRepository;
 import com.mialyk.persistence.repositories.StateRepository;
 
 @Service
-public class MetroAreaService {
+public class MetroAreaService implements IMetroAreaService {
     @Autowired
     private StateRepository stateRepository;
     @Autowired
     private MetroAreaRepository metroAreaRepository;
 
+    @Override
     public MetroArea getMetroArea(String regionName, String stateName, int regionId, int sizeRank) {
         MetroArea metroArea;
         Optional <MetroArea> metroAreaOptional = metroAreaRepository.findByRegionId(regionId);
@@ -40,6 +41,7 @@ public class MetroAreaService {
         return metroArea;
     }
 
+    @Override
     public List<MetroAreaDto> getMetroAreaDtos() {
         List<MetroArea> metros = metroAreaRepository.findAll(Sort.by(Sort.Direction.ASC, "regionName"));
         List<MetroAreaDto> metrosDto = new ArrayList<>();
@@ -49,6 +51,7 @@ public class MetroAreaService {
         return metrosDto;
     }
 
+    @Override
     public List<MetroAreaDto> getMetroAreaDtos(String stateName) {
         Optional<State> state = stateRepository.findByRegionName(stateName);
         List<MetroAreaDto> metrosDto  = new ArrayList<>();
@@ -61,6 +64,7 @@ public class MetroAreaService {
         }
         return metrosDto;
     }
+    @Override
     public Optional<MetroArea> getMetroArea(Integer regionId) {
         Optional <MetroArea> metroAreaOptional = metroAreaRepository.findByRegionId(regionId);
         return metroAreaOptional;

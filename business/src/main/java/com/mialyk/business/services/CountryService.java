@@ -9,10 +9,11 @@ import com.mialyk.persistence.entities.Country;
 import com.mialyk.persistence.repositories.CountryRepository;
 
 @Service
-public class CountryService {
+public class CountryService implements ICountryService {
     @Autowired
     private CountryRepository countryRepository;
     
+    @Override
     public Country getCountry(String regionName, int regionId, int sizeRank) {
         Country country;
         Optional <Country> countryOptional = countryRepository.findByRegionId(regionId);
@@ -28,6 +29,7 @@ public class CountryService {
         return country;
     }
 
+    @Override
     public Optional<Country> getCountry(String regionName) {
         Optional <Country> countryOptional = countryRepository.findByRegionName(regionName);
         return countryOptional;

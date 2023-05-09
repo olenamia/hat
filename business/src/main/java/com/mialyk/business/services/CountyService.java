@@ -15,12 +15,13 @@ import com.mialyk.persistence.repositories.CountyRepository;
 import com.mialyk.persistence.repositories.StateRepository;
 
 @Service
-public class CountyService {
+public class CountyService implements ICountyService {
     @Autowired
     private CountyRepository countyRepository;
     @Autowired
     private StateRepository stateRepository;
     
+    @Override
     public List<CountyDto> getCountyDtos() {
         List<County> counties = countyRepository.findAll(Sort.by(Sort.Direction.ASC, "regionName"));
         List<CountyDto> countyDtos = new ArrayList<>();
@@ -31,6 +32,7 @@ public class CountyService {
         return countyDtos;
     }
 
+    @Override
     public County getCounty(String regionName, String stateName, int regionId, int sizeRank, int stateCodeFips, int metroCodeFips, String metro) {
         County county;
         Optional <County> countyOptional = countyRepository.findByRegionId(regionId);
@@ -54,6 +56,7 @@ public class CountyService {
         return county;
     }
 
+    @Override
     public List<CountyDto> getCountyDtos(String stateName) {
         Optional<State> state = stateRepository.findByRegionName(stateName);
         List<CountyDto> countyDtos  = new ArrayList<>();

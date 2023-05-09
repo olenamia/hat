@@ -27,16 +27,18 @@ import jakarta.transaction.Transactional;
 import org.postgresql.util.PGobject;
 
 @Service
-public class HomeValueService {
+public class HomeValueService implements IHomeValueService {
     @Autowired
     private HomeValueRepository homeValueZillowRepository;
     @Autowired
     private CountryRepository countryRepository;
 
+    @Override
     public Date getMaxDateByStateName(String stateName) {
         return homeValueZillowRepository.findMaxDateByStateName(stateName);
     }
 
+    @Override
     @Transactional
     public List<HomeValueDto> getHomeValuesByState(String stateName) {
 
@@ -60,6 +62,7 @@ public class HomeValueService {
         return Collections.emptyList();
     }
 
+    @Override
     @Transactional
     public List<HomeValueDto> getHistoricalDataUS(String regionName) {
         Optional<Country> countryOptional = countryRepository.findByRegionName(regionName);
@@ -84,6 +87,7 @@ public class HomeValueService {
         return Collections.emptyList();
     }
 
+    @Override
     @Transactional
     public List<HomeValueDto> getHistoricalDataByRegionIdAndRegioType(Integer regionId, RegionType regionType) {
         List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesByRegionIdAndRegionType(regionId, regionType.name());
@@ -99,6 +103,7 @@ public class HomeValueService {
         }).collect(Collectors.toList());
     }
 
+    @Override
     @Transactional
     public List<AnalyticsDto> GetAnalyticsForStates() {
   

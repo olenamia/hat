@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mialyk.business.dtos.HomeValueDto;
-import com.mialyk.business.services.HomeValueService;
+import com.mialyk.business.services.IHomeValueService;
 import com.mialyk.persistence.entities.RegionType;
 
 
@@ -16,7 +16,7 @@ import com.mialyk.persistence.entities.RegionType;
 @RequestMapping("hat/api/historical")
 public class HistoricalController {
     @Autowired
-    private HomeValueService homeValueZillowService;
+    private IHomeValueService homeValueZillowService;
 
     @GetMapping({"/values/state/{stateName}", "/values/state/{stateName}"})
     public List<HomeValueDto> getHomeValuesByState(@PathVariable String stateName) { 

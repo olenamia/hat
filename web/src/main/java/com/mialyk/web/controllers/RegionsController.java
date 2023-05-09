@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mialyk.business.dtos.CountyDto;
 import com.mialyk.business.dtos.MetroAreaDto;
 import com.mialyk.business.dtos.StateDto;
-import com.mialyk.business.services.CountyService;
-import com.mialyk.business.services.MetroAreaService;
-import com.mialyk.business.services.RegionService;
-import com.mialyk.business.services.StateService;
+import com.mialyk.business.services.ICountyService;
+import com.mialyk.business.services.IMetroAreaService;
+import com.mialyk.business.services.IRegionService;
+import com.mialyk.business.services.IStateService;
 
 @RestController
 @RequestMapping("hat/api/regions")
 public class RegionsController {
     @Autowired
-    private StateService stateService;
+    private IStateService stateService;
     @Autowired
-    private MetroAreaService metroAreaService;
+    private IMetroAreaService metroAreaService;
     @Autowired
-    private CountyService countyService;
+    private ICountyService countyService;
     @Autowired
-    private RegionService regionService;
+    private IRegionService regionService;
 
     @GetMapping("/types")
     public List<String> getRegionTypes() { 

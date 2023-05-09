@@ -7,22 +7,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
-import com.mialyk.business.services.CountyService;
-import com.mialyk.business.services.MetroAreaService;
-import com.mialyk.business.services.RegionService;
-import com.mialyk.business.services.StateService;
+import com.mialyk.business.services.ICountyService;
+import com.mialyk.business.services.IMetroAreaService;
+import com.mialyk.business.services.IRegionService;
+import com.mialyk.business.services.IStateService;
 
 @Controller
 public class WebController {
     private RestTemplate restTemplate = new RestTemplate();
     @Autowired
-    private StateService stateService;
+    private IStateService stateService;
     @Autowired
-    private MetroAreaService metroAreaService;
+    private IMetroAreaService metroAreaService;
     @Autowired
-    private CountyService countyService;
+    private ICountyService countyService;
     @Autowired
-    private RegionService regionService;
+    private IRegionService regionService;
 
     @Value("${hat.mapsApiKey}")
     private String googleMapsApiKey;
