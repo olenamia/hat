@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.transaction.Transactional;
 
@@ -42,14 +43,13 @@ public class ZillowDataStorageService {
             Region region = getRegionByZillowRegionType(zillowHomeValueDto);
             Date lastAddedDate = homeValueRepository.findMaxDateByRegionIdAndRegionType(region.getRegionId(), regionType.name());
 
-            for(String key : zillowHomeValueDto.getMonthlyData().keySet()){
+            for(Map.Entry<String, Double> entry : zillowHomeValueDto.getMonthlyData().entries()){
+                Double value = entry.getValue();
+                Date date = Date.valueOf(entry.getKey());
 
-                Double value = zillowHomeValueDto.getMonthlyData().get(key).iterator().next();
-                Date date = Date.valueOf(key);
                 if (value != null) {
                     // For dates after last added or if state's values have never been added before
                     if (lastAddedDate == null || date.compareTo(lastAddedDate) > 0) {
-
                         HomeValue homeValue = new HomeValue();
                         homeValue.setRegionType(regionType);
                         homeValue.setRegion(region);
