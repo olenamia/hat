@@ -54,9 +54,3 @@ content-type: application/json
 
 ###
 
-
-GET http://localhost:8080/chart/
-content-type: application/json
-
-{
-}

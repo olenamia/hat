@@ -32,7 +32,7 @@ public class WebController {
         return "index";
     }
 
-    @GetMapping("/charts/")
+    @GetMapping("/charts")
     public String getPieChart(Model model) {
 
         String url = String.format("%s/hat/api/historical/values/state/%s", getBaseUrl(), defaultState);
@@ -40,14 +40,12 @@ public class WebController {
 
         model.addAttribute("regionTypes", regionService.getRegionTypes());
         model.addAttribute("states", stateService.getStateDtos());
-
         model.addAttribute("defaultStateHistoricalData", historicalData);
         model.addAttribute("defaultState", defaultState);
-
         return "charts";
     }
 
-    @GetMapping("/maps/")
+    @GetMapping("/maps")
     public String getActualData(Model model) {
 
         String url = String.format("%s/hat/api/analytics/states", getBaseUrl());

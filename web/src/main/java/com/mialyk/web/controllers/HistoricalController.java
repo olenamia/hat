@@ -18,7 +18,7 @@ public class HistoricalController {
     @Autowired
     private IHomeValueService homeValueZillowService;
 
-    @GetMapping({"/values/state/{stateName}", "/values/state/{stateName}"})
+    @GetMapping({"/values/state/{stateName}"})
     public List<HomeValueDto> getHomeValuesByState(@PathVariable String stateName) { 
         return homeValueZillowService.getHomeValuesByState(stateName);
     }
@@ -28,12 +28,12 @@ public class HistoricalController {
         return homeValueZillowService.getHistoricalDataUS("United States");
     }
 
-    @GetMapping({"/values/metro/{stateName}/{metroRegionId}/", "/values/metro/{stateName}/{metroRegionId}"})
+    @GetMapping({"/values/metro/{stateName}/{metroRegionId}"})
     public List<HomeValueDto> getHomeValuesByMetro(@PathVariable String stateName, @PathVariable Integer metroRegionId) { 
         return homeValueZillowService.getHistoricalDataByRegionIdAndRegioType(metroRegionId, RegionType.METRO);
     }
 
-    @GetMapping({"/values/county/{stateName}/{countyRegionId}/", "/values/county/{stateName}/{countyRegionId}"})
+    @GetMapping({"/values/county/{stateName}/{countyRegionId}"})
     public List<HomeValueDto> getHomeValuesByCounty(@PathVariable String stateName, @PathVariable Integer countyRegionId) { 
         return homeValueZillowService.getHistoricalDataByRegionIdAndRegioType(countyRegionId, RegionType.COUNTY);
     }
