@@ -13,7 +13,7 @@ function loadSubRegions(regionType, stateName){
         .then(subRegions => {
             var subRegionItemsHtml = '';
             for (var i = 0; i < subRegions.length; i++) {
-                subRegionItemsHtml += '<a class="dropdown-item" href="#" data-method="updateRegion" data-param1="' +regionType+ '" data-param2="' + subRegions[i].id + '">' + subRegions[i].name + '</a>';
+                subRegionItemsHtml += '<a class="dropdown-item" href="#" data-method="updateRegion" data-param1="' +regionType+ '" data-param2="' + subRegions[i].regionId + '">' + subRegions[i].name + '</a>';
                 subRegionItemsHtml += '<div class="dropdown-divider"></div>';
             }
             $('#toAddSubRegions').html(subRegionItemsHtml);

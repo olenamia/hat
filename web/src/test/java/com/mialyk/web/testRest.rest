@@ -7,6 +7,14 @@ content-type: application/json
 
 ###
 
+GET http://localhost:8080/hat/api/regions/states
+content-type: application/json
+
+{
+}
+
+###
+
 GET http://localhost:8080/hat/api/regions/California/metros
 content-type: application/json
 

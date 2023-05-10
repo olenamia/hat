@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class StateDto extends RegionDto {
 
         private String shortName;
+        private Integer sizeRank;
 
         public StateDto(State state) {
             super(state);
