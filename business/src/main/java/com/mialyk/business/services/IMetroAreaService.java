@@ -8,7 +8,7 @@ import com.mialyk.persistence.entities.MetroArea;
 
 public interface IMetroAreaService {
 
-    MetroArea getMetroArea(String regionName, String stateName, int regionId, int sizeRank);
+    MetroArea getOrCreateMetroArea(String regionName, String stateName, int regionId, int sizeRank);
 
     List<MetroAreaDto> getMetroAreaDtos();
 

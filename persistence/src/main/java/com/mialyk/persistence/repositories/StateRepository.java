@@ -11,7 +11,7 @@ import com.mialyk.persistence.entities.State;
 @Repository
 public interface StateRepository extends JpaRepository<State, Long> {
 
-    Optional<State> findById(String id);
+    Optional<State> findById(Integer id);
 
     Optional<State> findByRegionName(String regionName);
 

@@ -33,7 +33,7 @@ public class CountyService implements ICountyService {
     }
 
     @Override
-    public County getCounty(String regionName, String stateName, int regionId, int sizeRank, int stateCodeFips, int metroCodeFips, String metro) {
+    public County getOrCreateCounty(String regionName, String stateName, int regionId, int sizeRank, int stateCodeFips, int metroCodeFips, String metro) {
         County county;
         Optional <County> countyOptional = countyRepository.findByRegionId(regionId);
         if (countyOptional.isPresent()) {

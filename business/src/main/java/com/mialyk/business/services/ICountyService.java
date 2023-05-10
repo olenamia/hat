@@ -9,7 +9,7 @@ public interface ICountyService {
 
     List<CountyDto> getCountyDtos();
 
-    County getCounty(String regionName, String stateName, int regionId, int sizeRank, int stateCodeFips,
+    County getOrCreateCounty(String regionName, String stateName, int regionId, int sizeRank, int stateCodeFips,
             int metroCodeFips, String metro);
 
     List<CountyDto> getCountyDtos(String stateName);

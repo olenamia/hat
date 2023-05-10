@@ -6,7 +6,7 @@ import com.mialyk.persistence.entities.Country;
 
 public interface ICountryService {
 
-    Country getCountry(String regionName, int regionId, int sizeRank);
+    Country getOrCreateCountry(String regionName, int regionId, int sizeRank);
 
     Optional<Country> getCountry(String regionName);
 

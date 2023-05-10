@@ -14,7 +14,7 @@ public class CountryService implements ICountryService {
     private CountryRepository countryRepository;
     
     @Override
-    public Country getCountry(String regionName, int regionId, int sizeRank) {
+    public Country getOrCreateCountry(String regionName, int regionId, int sizeRank) {
         Country country;
         Optional <Country> countryOptional = countryRepository.findByRegionId(regionId);
         if (countryOptional.isPresent()) {

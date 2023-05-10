@@ -32,14 +32,21 @@ public class ZillowDataStorageService {
     private ICountyService countyService;
     @Autowired
     private IMetroAreaService metroAreaService;
+    @Autowired
+    private ZillowDataMapper zillowDataMapper;
 
     @Transactional
     public void saveHomeValues(List<ZillowHomeValueDto> zillowHomeValueDtos) {
         List<HomeValue> homeValueZillowList = new ArrayList<>();
 
         for (ZillowHomeValueDto zillowHomeValueDto : zillowHomeValueDtos) {
-            RegionType regionType = mapRegionType(zillowHomeValueDto.getRegionType());
-            Region region = getRegionByZillowRegionType(zillowHomeValueDto);
+            RegionType regionType = zillowDataMapper.getRegionType(zillowHomeValueDto.getRegionType());
+            Region region = getRegionByZillowRegionType(regionType, zillowHomeValueDto);
+
+            if (region == null) {
+                continue;
+            }
+
             Date lastAddedDate = homeValueRepository.findMaxDateByRegionIdAndRegionType(region.getRegionId(), regionType.name());
 
             for(Map.Entry<String, Double> entry : zillowHomeValueDto.getMonthlyData().entries()){
@@ -62,59 +69,37 @@ public class ZillowDataStorageService {
         homeValueRepository.saveAll(homeValueZillowList);
     }
 
-    private Region getRegionByZillowRegionType(ZillowHomeValueDto zillowHomeValueDto) {
-        RegionType regionType = mapRegionType( zillowHomeValueDto.getRegionType());
-        Region region = null;
+    private Region getRegionByZillowRegionType(RegionType regionType, ZillowHomeValueDto zillowHomeValueDto) {
 
-        if (regionType == RegionType.STATE) {
-            region = (State)stateService.getState(
-                            zillowHomeValueDto.getRegionName(), 
-                            zillowHomeValueDto.getStateName(), 
-                            zillowHomeValueDto.getRegionId(), 
-                            zillowHomeValueDto.getSizeRank());
+        switch(regionType) {
+            case STATE:
+                return (State)stateService.getOrCreateState(
+                    zillowHomeValueDto.getRegionName(), 
+                    zillowHomeValueDto.getStateName(), 
+                    zillowHomeValueDto.getRegionId(), 
+                    zillowHomeValueDto.getSizeRank());
+            case COUNTRY:
+                return (Country)countryService.getOrCreateCountry(
+                    zillowHomeValueDto.getRegionName(), 
+                    zillowHomeValueDto.getRegionId(), 
+                    zillowHomeValueDto.getSizeRank());
+            case COUNTY:
+                return (County)countyService.getOrCreateCounty(
+                    zillowHomeValueDto.getRegionName(), 
+                    zillowHomeValueDto.getStateName(), 
+                    zillowHomeValueDto.getRegionId(),
+                    zillowHomeValueDto.getSizeRank(),
+                    zillowHomeValueDto.getStateCodeFIPS(),
+                    zillowHomeValueDto.getMunicipalCodeFIPS(),
+                    zillowHomeValueDto.getMetro());
+            case METRO:
+                return (MetroArea)metroAreaService.getOrCreateMetroArea(
+                    zillowHomeValueDto.getRegionName(), 
+                    zillowHomeValueDto.getStateName(), 
+                    zillowHomeValueDto.getRegionId(), 
+                    zillowHomeValueDto.getSizeRank());
+            default:
+                return null;
         }
-        else if (regionType == RegionType.COUNTY) {
-            region = (County)countyService.getCounty(
-                            zillowHomeValueDto.getRegionName(), 
-                            zillowHomeValueDto.getStateName(), 
-                            zillowHomeValueDto.getRegionId(),
-                            zillowHomeValueDto.getSizeRank(),
-                            zillowHomeValueDto.getStateCodeFIPS(),
-                            zillowHomeValueDto.getMunicipalCodeFIPS(),
-                            zillowHomeValueDto.getMetro());
-        }
-        else if (regionType == RegionType.COUNTRY) {
-            region = (Country)countryService.getCountry(
-                            zillowHomeValueDto.getRegionName(), 
-                            zillowHomeValueDto.getRegionId(), 
-                            zillowHomeValueDto.getSizeRank());
-        }
-        else if (regionType == RegionType.METRO) {
-            region = (MetroArea)metroAreaService.getMetroArea(
-                            zillowHomeValueDto.getRegionName(), 
-                            zillowHomeValueDto.getStateName(), 
-                            zillowHomeValueDto.getRegionId(), 
-                            zillowHomeValueDto.getSizeRank());
-        }
-        return region;
-    }
-
-    public RegionType mapRegionType(String csvRegionType) {
-        RegionType regionType = null;
-        switch(csvRegionType) {
-            case "state":
-                regionType = RegionType.STATE;
-                break;
-            case "county":
-                regionType = RegionType.COUNTY;
-                break;
-            case "country":
-                regionType = RegionType.COUNTRY;
-                break;
-            case "msa":
-                regionType = RegionType.METRO;
-                break;
-        }
-        return regionType;
     }
 }

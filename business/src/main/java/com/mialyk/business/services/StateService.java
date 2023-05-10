@@ -28,7 +28,7 @@ public class StateService implements IStateService {
     }
 
     @Override
-    public State getState(String regionName, String stateName, int regionId, int sizeRank) {
+    public State getOrCreateState(String regionName, String stateName, int regionId, int sizeRank) {
         State state;
         Optional <State> stateOptional = stateRepository.findByRegionId(regionId);
         if (stateOptional.isPresent()) {

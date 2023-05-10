@@ -22,7 +22,7 @@ public class MetroAreaService implements IMetroAreaService {
     private MetroAreaRepository metroAreaRepository;
 
     @Override
-    public MetroArea getMetroArea(String regionName, String stateName, int regionId, int sizeRank) {
+    public MetroArea getOrCreateMetroArea(String regionName, String stateName, int regionId, int sizeRank) {
         MetroArea metroArea;
         Optional <MetroArea> metroAreaOptional = metroAreaRepository.findByRegionId(regionId);
         if (metroAreaOptional.isPresent()) {

@@ -9,6 +9,5 @@ public interface IStateService {
 
     List<StateDto> getStateDtos();
 
-    State getState(String regionName, String stateName, int regionId, int sizeRank);
-
+    State getOrCreateState(String regionName, String stateName, int regionId, int sizeRank);
 }
