@@ -22,6 +22,9 @@ public class StateDto extends RegionDto {
             if (state.getStateName() != null) {
                 this.shortName = state.getStateName();
             }
+            if (state.getSizeRank() != null) {
+                this.sizeRank = state.getSizeRank();
+            }
         }
         public StateDto(Integer regionId, String name, String shortName) {
             super(regionId, name);

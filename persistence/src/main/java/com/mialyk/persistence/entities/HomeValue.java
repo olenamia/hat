@@ -3,6 +3,9 @@ package com.mialyk.persistence.entities;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.AllArgsConstructor;
@@ -31,7 +34,7 @@ public class HomeValue {
     @Column(name = "region_type", insertable=true, updatable=false)
     private RegionType regionType;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     @JoinTable(name = "home_values_state",
             joinColumns = @JoinColumn(name = "home_id"),
             inverseJoinColumns = @JoinColumn(name = "state_id"),
@@ -46,14 +49,14 @@ public class HomeValue {
             uniqueConstraints = @UniqueConstraint(columnNames = {"home_id"}))
     private County countyValue;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     @JoinTable(name = "home_values_metro",
             joinColumns = @JoinColumn(name = "home_id"),
             inverseJoinColumns = @JoinColumn(name = "metro_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"home_id"}))
     private MetroArea metroValue;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     @JoinTable(name = "home_values_country",
             joinColumns = @JoinColumn(name = "home_id"),
             inverseJoinColumns = @JoinColumn(name = "country_id"),
@@ -75,12 +78,3 @@ public class HomeValue {
         }
     }
 }
-
-
-
-
-
-
-
-
-

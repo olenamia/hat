@@ -23,7 +23,7 @@ public class HistoricalController {
         return homeValueZillowService.getHomeValuesByState(stateName);
     }
 
-    @GetMapping({"/values/US", "/values/US/"})
+    @GetMapping({"/values/US"})
     public List<HomeValueDto> getHomeValuesUS() { 
         return homeValueZillowService.getHistoricalDataUS("United States");
     }

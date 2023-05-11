@@ -2,6 +2,7 @@ package com.mialyk.persistence.entities;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -23,10 +24,13 @@ public class State extends Region {
     @Column(name = "size_rank", columnDefinition = "INT")
     private Integer sizeRank;
 
-    @OneToMany(mappedBy = "state")
+    @OneToMany(mappedBy = "stateValue", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    private List<HomeValue> homeValues;
+
+    @OneToMany(mappedBy = "state", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<County> counties;
 
-    @OneToMany(mappedBy = "state")
+    @OneToMany(mappedBy = "state", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<MetroArea> metros;
 }
 

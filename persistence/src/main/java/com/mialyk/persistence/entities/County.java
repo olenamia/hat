@@ -1,10 +1,14 @@
 package com.mialyk.persistence.entities;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +29,10 @@ public class County extends Region {
     @Column(name = "metro_code_fips", columnDefinition = "INT")
     private Integer metroCodeFips;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "countyValue", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    private List<HomeValue> homeValues;
+
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private State state;
 
     //@ManyToOne(cascade = CascadeType.PERSIST)

@@ -17,7 +17,7 @@ public class AnalyticsController {
     private IHomeValueService homeValueZillowService;
 
     @GetMapping({"/states"})
-    public List<AnalyticsDto> getHomeValuesByState() { 
+    public List<AnalyticsDto> getHomeValuesForStates() { 
         return homeValueZillowService.GetAnalyticsForStates();
     }
 }
