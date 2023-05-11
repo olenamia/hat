@@ -11,7 +11,7 @@ public class ApiKeyValidator {
     private String modificationApiKey;
 
     public void validate(String apiKey) {
-        if (apiKey.equals(modificationApiKey)) {
+        if (!apiKey.equals(modificationApiKey)) {
             throw new AccessDeniedException("Invalid API key");
         }
     }
