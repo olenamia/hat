@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException.Unauthorized;
 
 import com.mialyk.business.dtos.CountyDto;
 import com.mialyk.business.dtos.MetroAreaDto;
@@ -26,6 +25,7 @@ import com.mialyk.business.services.ICountyService;
 import com.mialyk.business.services.IMetroAreaService;
 import com.mialyk.business.services.IRegionService;
 import com.mialyk.business.services.IStateService;
+import com.mialyk.web.security.ApiKeyValidator;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -45,23 +45,27 @@ public class RegionsController {
     private ICountyService countyService;
     @Autowired
     private IRegionService regionService;
-
-    @Value("${hat.modification-api-key}")
-    private String modificationApiKey;
+    @Autowired
+    private ApiKeyValidator apiKeyValidator;
 
     /**
      * Read collections of Regions of different types endpoints
      */
-    @Tag(name = "Regions", description = "Endpoints to read regions collections of states, counties, metro areas")
+    @Tag(name = "Regions", description = "Endpoints to read regions' collections of states, counties, metro areas")
     @GetMapping("/types")
-    public List<String> getRegionTypes() { 
-        return regionService.getRegionTypes();
+    @Operation(summary = "Get available region types", description = "Returns collection of available region types")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "OK")
+    })
+    public ResponseEntity<List<String>> getRegionTypes() { 
+        List<String> regionTypes = regionService.getRegionTypes();
+        return ResponseEntity.ok(regionTypes);
     }
     @Tag(name = "Regions")
     @GetMapping("/states")
     @Operation(summary = "Get all states", description = "Get all states. Returns collection of all states")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "States successfully rerurned"),
+        @ApiResponse(responseCode = "200", description = "OK")
     })
     public ResponseEntity<List<StateDto>> getStates() { 
         List<StateDto> stateDtos = stateService.getStateDtos();
@@ -69,8 +73,13 @@ public class RegionsController {
     }
     @Tag(name = "Regions")
     @GetMapping("/counties")
-    public List<CountyDto> getCounties() { 
-        return countyService.getCountyDtos();
+    @Operation(summary = "Get all counties", description = "Get all counties. Returns collection of all counties")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "OK")
+    })
+    public  ResponseEntity<List<CountyDto>> getCounties() { 
+        List<CountyDto> countyDtos = countyService.getCountyDtos();
+        return ResponseEntity.ok(countyDtos);
     }
     @Tag(name = "Regions")
     @GetMapping("/{stateName}/counties")
@@ -79,8 +88,13 @@ public class RegionsController {
     }
     @Tag(name = "Regions")
     @GetMapping("/metros")
-    public List<MetroAreaDto> getMetros() { 
-        return metroAreaService.getMetroAreaDtos();
+    @Operation(summary = "Get all metro areas", description = "Get all metro areas. Returns collection of all metro areas")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "OK")
+    })
+    public ResponseEntity<List<MetroAreaDto>> getMetros() { 
+        List<MetroAreaDto> metroDtos = metroAreaService.getMetroAreaDtos();
+        return ResponseEntity.ok(metroDtos);
     }
     @Tag(name = "Regions")
     @GetMapping("/{stateName}/metros")
@@ -110,7 +124,7 @@ public class RegionsController {
     })
     @PostMapping("/state")
     public ResponseEntity<StateDto> createState(@RequestBody StateDto stateDto, @RequestHeader("api-key") String apiKey) { 
-        validateApiKey(apiKey);
+        apiKeyValidator.validate(apiKey);
         StateDto createdStateDto = stateService.createState(stateDto);
         return ResponseEntity.ok(createdStateDto);
     }
@@ -123,7 +137,7 @@ public class RegionsController {
     })
     @PutMapping("/state/{stateId}")
     public ResponseEntity<StateDto> updateState(@PathVariable Integer stateId, @RequestBody StateDto stateDto, @RequestHeader("api-key") String apiKey) { 
-        validateApiKey(apiKey);
+        apiKeyValidator.validate(apiKey);
         StateDto updatedStateDto =  stateService.updateState(stateId, stateDto);
         return ResponseEntity.ok(updatedStateDto);
     }
@@ -136,13 +150,13 @@ public class RegionsController {
     })
     @DeleteMapping("/state/{stateId}")
     public ResponseEntity<Void> deleteState(@PathVariable Integer stateId, @RequestHeader("api-key") String apiKey) {
-        validateApiKey(apiKey);
+        apiKeyValidator.validate(apiKey);
         stateService.deleteState(stateId);
         return ResponseEntity.noContent().build();
     }
 
     /**
-     * Exception handling
+     * Exceptions handling
      */
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<String> handleEntitytateNotFoundException(EntityNotFoundException ex) {
@@ -159,12 +173,5 @@ public class RegionsController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 
-    /**
-     *  Modification API key Validation 
-     */
-    private void validateApiKey(String apiKey) {
-        if (apiKey.equals(modificationApiKey)) {
-            throw new AccessDeniedException("Invalid API key");
-        }
-    }
+
 }
