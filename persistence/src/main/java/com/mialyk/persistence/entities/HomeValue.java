@@ -3,9 +3,6 @@ package com.mialyk.persistence.entities;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.AllArgsConstructor;
