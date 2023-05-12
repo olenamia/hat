@@ -2,6 +2,7 @@ package com.mialyk.web.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +29,9 @@ public class HistoricalController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
     })
-    public List<HomeValueDto> getHomeValuesByState(@PathVariable String stateName) { 
-        return homeValueZillowService.getHomeValuesByState(stateName);
+    public ResponseEntity<List<HomeValueDto>> getHomeValuesByState(@PathVariable String stateName) { 
+        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHomeValuesByState(stateName);
+        return ResponseEntity.ok(homeValuesDtos);
     }
 
     @GetMapping({"/values/US"})
@@ -37,8 +39,9 @@ public class HistoricalController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
     })
-    public List<HomeValueDto> getHomeValuesUS() { 
-        return homeValueZillowService.getHistoricalDataUS("United States");
+    public ResponseEntity<List<HomeValueDto>> getHomeValuesUS() { 
+        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHistoricalDataUS("United States");
+        return ResponseEntity.ok(homeValuesDtos);
     }
 
     @GetMapping({"/values/metro/{stateName}/{metroRegionId}"})
@@ -46,8 +49,9 @@ public class HistoricalController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
     })
-    public List<HomeValueDto> getHomeValuesByMetro(@PathVariable String stateName, @PathVariable Integer metroRegionId) { 
-        return homeValueZillowService.getHistoricalDataByRegionIdAndRegioType(metroRegionId, RegionType.METRO);
+    public ResponseEntity<List<HomeValueDto>> getHomeValuesByMetro(@PathVariable String stateName, @PathVariable Integer metroRegionId) { 
+        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHistoricalDataByRegionIdAndRegioType(metroRegionId, RegionType.METRO);
+        return ResponseEntity.ok(homeValuesDtos);
     }
 
     @GetMapping({"/values/county/{stateName}/{countyRegionId}"})
@@ -55,7 +59,8 @@ public class HistoricalController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
     })
-    public List<HomeValueDto> getHomeValuesByCounty(@PathVariable String stateName, @PathVariable Integer countyRegionId) { 
-        return homeValueZillowService.getHistoricalDataByRegionIdAndRegioType(countyRegionId, RegionType.COUNTY);
+    public ResponseEntity<List<HomeValueDto>> getHomeValuesByCounty(@PathVariable String stateName, @PathVariable Integer countyRegionId) { 
+        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHistoricalDataByRegionIdAndRegioType(countyRegionId, RegionType.COUNTY);
+        return ResponseEntity.ok(homeValuesDtos);
     }
 }
