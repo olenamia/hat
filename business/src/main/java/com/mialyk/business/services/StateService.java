@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mialyk.business.dtos.StateDto;
 import com.mialyk.persistence.entities.State;
 import com.mialyk.persistence.repositories.StateRepository;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class StateService implements IStateService {
@@ -65,7 +62,7 @@ public class StateService implements IStateService {
         Optional <State> state = stateRepository.findById(id);
 
         if (!state.isPresent()) {
-            throw new EntityNotFoundException("State with ID " + id + " not found");
+            throw new IllegalArgumentException("State with ID " + id + " not found");
         }
 
         return new StateDto(state.get());
@@ -77,7 +74,7 @@ public class StateService implements IStateService {
         Optional <State> stateOptional = stateRepository.findById(id);
 
         if (!stateOptional.isPresent()) {
-            throw new EntityNotFoundException("State with ID " + id + " not found");
+            throw new IllegalArgumentException("State with ID " + id + " not found");
         }
         State state = stateOptional.get();
         state.setRegionName(stateDto.getName());
@@ -94,7 +91,7 @@ public class StateService implements IStateService {
         Optional <State> stateOptional = stateRepository.findById(id);
 
         if (!stateOptional.isPresent()) {
-            throw new EntityNotFoundException("State with ID " + id + " not found");
+            throw new IllegalArgumentException("State with ID " + id + " not found");
         }
         stateRepository.deleteById(id);
     }
