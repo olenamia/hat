@@ -50,8 +50,7 @@ public class HomeValueService implements IHomeValueService {
                 try {
                     return new HomeValueDto(
                         (PGobject)homeValue[0], 
-                        homeValue[1] == null ? null : ((BigDecimal)homeValue[1]).doubleValue(),
-                        stateName);
+                        homeValue[1] == null ? null : ((BigDecimal)homeValue[1]).doubleValue());
                 } catch (ParseException e) {
 
                     e.printStackTrace();
