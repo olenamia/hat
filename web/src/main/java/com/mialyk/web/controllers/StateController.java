@@ -21,7 +21,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 
-@Tag(name = "State", description = "CRUD Endpoints for managing state")
+@Tag(name = "State", description = "Endpoints to manage a state")
 @RestController
 @RequestMapping("hat/api/state")
 public class StateController {
