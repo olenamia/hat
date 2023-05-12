@@ -59,16 +59,18 @@ public class CountyService implements ICountyService {
     @Override
     public List<CountyDto> getCountyDtos(String stateName) {
         Optional<State> state = stateRepository.findByRegionName(stateName);
-        List<CountyDto> countyDtos  = new ArrayList<>();
-        if(state.isPresent()) {
-            List<County>  counties = countyRepository.findByStateIdOrderByRegionNameAsc(state.get().getId());
 
-            for (County county : counties) {
-                countyDtos.add(new CountyDto(county));
-            }
+        if (!state.isPresent()) {
+            throw new IllegalArgumentException("State " + stateName + " not found");
         }
+
+        List<County>  counties = countyRepository.findByStateIdOrderByRegionNameAsc(state.get().getId());
+        List<CountyDto> countyDtos  = new ArrayList<>();
+
+        for (County county : counties) {
+            countyDtos.add(new CountyDto(county));
+        }
+
         return countyDtos;
     }
-
-    
 }

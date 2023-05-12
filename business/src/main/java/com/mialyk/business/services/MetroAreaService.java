@@ -54,14 +54,18 @@ public class MetroAreaService implements IMetroAreaService {
     @Override
     public List<MetroAreaDto> getMetroAreaDtos(String stateName) {
         Optional<State> state = stateRepository.findByRegionName(stateName);
-        List<MetroAreaDto> metrosDto  = new ArrayList<>();
-        if(state.isPresent()) {
-            List<MetroArea>  metros = metroAreaRepository.findByStateIdOrderByRegionNameAsc(state.get().getId());
 
-            for (MetroArea metro : metros) {
-                metrosDto.add(new MetroAreaDto(metro));
-            }
+        if (!state.isPresent()) {
+            throw new IllegalArgumentException("State " + stateName + " not found");
         }
+
+        List<MetroArea>  metros = metroAreaRepository.findByStateIdOrderByRegionNameAsc(state.get().getId());
+        List<MetroAreaDto> metrosDto  = new ArrayList<>();
+
+        for (MetroArea metro : metros) {
+            metrosDto.add(new MetroAreaDto(metro));
+        }
+
         return metrosDto;
     }
     @Override
