@@ -48,7 +48,7 @@ public class StateController {
         @ApiResponse(responseCode = "200", description = "State successfully created"),
         @ApiResponse(responseCode =  "401", description = "Unauthorized")
     })
-    public ResponseEntity<StateDto> createState(@RequestBody StateDto stateDto, @RequestHeader("api-key") String apiKey) { 
+    public ResponseEntity<StateDto> createState(@RequestBody StateDto stateDto, @RequestHeader("apiKey") String apiKey) { 
         apiKeyValidator.validate(apiKey);
         StateDto createdStateDto = stateService.createState(stateDto);
         return ResponseEntity.ok(createdStateDto);
@@ -61,7 +61,7 @@ public class StateController {
         @ApiResponse(responseCode = "404", description = "State not found"),
         @ApiResponse(responseCode =  "401", description = "Unauthorized")
     })
-    public ResponseEntity<StateDto> updateState(@PathVariable Integer stateId, @RequestBody StateDto stateDto, @RequestHeader("api-key") String apiKey) { 
+    public ResponseEntity<StateDto> updateState(@PathVariable Integer stateId, @RequestBody StateDto stateDto, @RequestHeader("apiKey") String apiKey) { 
         apiKeyValidator.validate(apiKey);
         StateDto updatedStateDto =  stateService.updateState(stateId, stateDto);
         return ResponseEntity.ok(updatedStateDto);
@@ -74,7 +74,7 @@ public class StateController {
         @ApiResponse(responseCode = "404", description = "State not found"),
         @ApiResponse(responseCode =  "401", description = "Unauthorized")
     })
-    public ResponseEntity<Void> deleteState(@PathVariable Integer stateId, @RequestHeader("api-key") String apiKey) {
+    public ResponseEntity<Void> deleteState(@PathVariable Integer stateId, @RequestHeader("apiKey") String apiKey) {
         apiKeyValidator.validate(apiKey);
         stateService.deleteState(stateId);
         return ResponseEntity.noContent().build();
