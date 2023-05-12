@@ -61,12 +61,12 @@ public class ZillowDataProcessor {
         }
     }
 
-    public void processRemoteThroughStorage(String url, String storagePath) throws URISyntaxException, IOException {
+    public void saveUrlToStorageAndProcess(String url, String storagePath) throws URISyntaxException, IOException {
         fileDownloader.downloadFileToStorage(url, storagePath);
         processFile (storagePath);
     }
 
-    public void processUrlsThroughStorage() throws URISyntaxException, IOException {
+    public void saveUrlsToStorageAndProcess() throws URISyntaxException, IOException {
         saveUrlsToStorage();
         processFiles();
     }

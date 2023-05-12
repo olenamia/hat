@@ -20,13 +20,10 @@ public class DbSeederApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DbSeederApplication.class, args);
-        System.out.println("DBSEEDER STARTED");
 	}
 
     @Override
     public void run(String... args) throws URISyntaxException, IOException {
-        //zillowDataProcessor.processFiles();
-        //zillowDataProcessor.processUrls();
-        //zillowDataProcessor.saveUrlsToStorage();
+        zillowDataProcessor.saveUrlsToStorageAndProcess();
     }
 }
