@@ -72,8 +72,9 @@ public class RegionsController {
         @ApiResponse(responseCode = "200", description = "OK"),
         @ApiResponse(responseCode = "404", description = "State not fount")
     })
-    public List<CountyDto> getCounties(@PathVariable String stateName) { 
-        return countyService.getCountyDtos(stateName);
+    public ResponseEntity<List<CountyDto>> getCounties(@PathVariable String stateName) { 
+        List<CountyDto> countyDtos = countyService.getCountyDtos(stateName);
+        return ResponseEntity.ok(countyDtos);
     }
 
     @GetMapping("/metros")
@@ -92,7 +93,8 @@ public class RegionsController {
         @ApiResponse(responseCode = "200", description = "OK"),
         @ApiResponse(responseCode = "404", description = "State not fount")
     })
-    public List<MetroAreaDto> getMetros(@PathVariable String stateName) { 
-        return metroAreaService.getMetroAreaDtos(stateName);
+    public ResponseEntity<List<MetroAreaDto>> getMetros(@PathVariable String stateName) { 
+        List<MetroAreaDto> metroDtos = metroAreaService.getMetroAreaDtos(stateName);
+        return ResponseEntity.ok(metroDtos);
     }
 }
