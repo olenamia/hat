@@ -24,7 +24,7 @@ public class AnalyticsController {
     private IHomeValueService homeValueZillowService;
 
     @GetMapping({"/states"})
-    @Operation(summary = "Recent trends by state", description = "Retyrns recent home value, year-over-year and month-over-month change for US states")
+    @Operation(summary = "Recent trends by state", description = "Returns recent home value and year-over-year change for US states")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
     })
