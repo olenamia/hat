@@ -21,6 +21,6 @@ public class Country extends Region {
     @Column(name = "size_rank", columnDefinition = "INT")
     private Integer sizeRank;
 
-    @OneToMany(mappedBy = "countryValue", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "countryValue", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
     private List<HomeValue> homeValues;
 }

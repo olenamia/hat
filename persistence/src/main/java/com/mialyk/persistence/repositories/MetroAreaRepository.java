@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.mialyk.persistence.entities.MetroArea;
 
 @Repository
-public interface MetroAreaRepository extends JpaRepository<MetroArea, Long> {
+public interface MetroAreaRepository extends JpaRepository<MetroArea, Integer> {
 
     Optional<MetroArea> findByRegionId(Integer regionId);
 

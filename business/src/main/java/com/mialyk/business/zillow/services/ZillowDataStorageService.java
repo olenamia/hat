@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.transaction.Transactional;
-
 import com.mialyk.persistence.entities.*;
 import com.mialyk.persistence.entities.RegionType;
 import com.mialyk.persistence.repositories.HomeValueRepository;
@@ -19,6 +17,7 @@ import com.mialyk.business.zillow.dtos.ZillowHomeValueDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ZillowDataStorageService {

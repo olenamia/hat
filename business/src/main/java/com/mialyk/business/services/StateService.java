@@ -1,6 +1,7 @@
 package com.mialyk.business.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,62 @@ import com.mialyk.persistence.repositories.StateRepository;
 public class StateService implements IStateService {
     @Autowired
     StateRepository stateRepository;
+
+    private static HashMap<String, String> shortStateNames;
+    static {
+        shortStateNames = new HashMap<>();
+        shortStateNames.put("California", "CA");
+        shortStateNames.put("Texas", "TX");
+        shortStateNames.put("Florida", "FL");
+        shortStateNames.put("Illinois", "IL");
+        shortStateNames.put("Ohio", "OH");
+        shortStateNames.put("Georgia", "GA");
+        shortStateNames.put("North Carolina", "NC");
+        shortStateNames.put("Michigan", "MI");
+        shortStateNames.put("New Jersey", "NJ");
+        shortStateNames.put("Virginia", "VA");
+        shortStateNames.put("Washington", "WA");
+        shortStateNames.put("Arizona", "AZ");
+        shortStateNames.put("Massachusetts", "MA");
+        shortStateNames.put("Tennessee", "TN");
+        shortStateNames.put("Indiana", "IN");
+        shortStateNames.put("Missouri", "MO");
+        shortStateNames.put("Maryland", "MD");
+        shortStateNames.put("Wisconsin", "WI");
+        shortStateNames.put("Colorado", "CO");
+        shortStateNames.put("Minnesota", "MN");
+        shortStateNames.put("South Carolina", "SC");
+        shortStateNames.put("Alabama", "AL");
+        shortStateNames.put("Louisiana", "LA");
+        shortStateNames.put("Kentucky", "KY");
+        shortStateNames.put("Oregon", "OR");
+        shortStateNames.put("Oklahoma", "OK");
+        shortStateNames.put("Connecticut", "CT");
+        shortStateNames.put("Iowa", "IA");
+        shortStateNames.put("Utah", "UT");
+        shortStateNames.put("Arkansas", "AR");
+        shortStateNames.put("Mississippi", "MS");
+        shortStateNames.put("Nevada", "NV");
+        shortStateNames.put("Kansas", "KS");
+        shortStateNames.put("Nebraska", "NE");
+        shortStateNames.put("West Virginia", "WV");
+        shortStateNames.put("Idaho", "ID");
+        shortStateNames.put("Hawaii", "HI");
+        shortStateNames.put("New Hampshire", "NH");
+        shortStateNames.put("Maine", "ME");
+        shortStateNames.put("Rhode Island", "RI");
+        shortStateNames.put("Delaware", "DE");
+        shortStateNames.put("South Dakota", "SD");
+        shortStateNames.put("District of Columbia", "DC");
+        shortStateNames.put("Vermont", "VT");
+        shortStateNames.put("New York", "NY");
+        shortStateNames.put("Pennsylvania", "PA");
+        shortStateNames.put("New Mexico", "NM");
+        shortStateNames.put("Montana", "MT");
+        shortStateNames.put("North Dakota", "ND");
+        shortStateNames.put("Alaska", "AK");
+        shortStateNames.put("Wyoming", "WY");
+    }
 
     @Override
     public List<StateDto> getStateDtos() {
@@ -39,7 +96,7 @@ public class StateService implements IStateService {
         else {
             state = new State();
             state.setRegionName(regionName);
-            state.setStateName(stateName);
+            state.setStateName(stateName != null && stateName.length() > 0 ? stateName : shortStateNames.get(regionName));
             state.setRegionId(regionId);
             state.setSizeRank(sizeRank);
             return stateRepository.save(state);

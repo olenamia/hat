@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.mialyk.persistence.entities.County;
 
 @Repository
-public interface CountyRepository extends JpaRepository<County, Long> {
+public interface CountyRepository extends JpaRepository<County, Integer> {
 
     Optional<County> findByRegionNameAndStateId(String username, Integer stateid);
 

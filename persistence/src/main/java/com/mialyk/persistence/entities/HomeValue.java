@@ -35,11 +35,10 @@ public class HomeValue {
     @JoinTable(name = "home_values_state",
             joinColumns = @JoinColumn(name = "home_id"),
             inverseJoinColumns = @JoinColumn(name = "state_id"),
-            //uniqueConstraints = @UniqueConstraint(columnNames = {"home_id", "state_id"}))
             uniqueConstraints = @UniqueConstraint(columnNames = {"home_id"}))
     private State stateValue;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     @JoinTable(name = "home_values_county",
             joinColumns = @JoinColumn(name = "home_id"),
             inverseJoinColumns = @JoinColumn(name = "county_id"),

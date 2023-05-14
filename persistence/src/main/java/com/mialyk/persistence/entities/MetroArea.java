@@ -23,10 +23,10 @@ public class MetroArea extends Region {
     @Column(name = "size_rank", columnDefinition = "INT")
     private Integer sizeRank;
 
-    @OneToMany(mappedBy = "metroValue", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "metroValue", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
     private List<HomeValue> homeValues;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private State state;
 
     //@OneToMany(mappedBy = "metro")

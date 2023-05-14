@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mialyk.business.dtos.CountyDto;
 import com.mialyk.persistence.entities.County;
@@ -20,7 +21,8 @@ public class CountyService implements ICountyService {
     private CountyRepository countyRepository;
     @Autowired
     private StateRepository stateRepository;
-    
+
+    @Transactional
     @Override
     public List<CountyDto> getCountyDtos() {
         List<County> counties = countyRepository.findAll(Sort.by(Sort.Direction.ASC, "regionName"));
@@ -32,12 +34,13 @@ public class CountyService implements ICountyService {
         return countyDtos;
     }
 
+    @Transactional
     @Override
     public County getOrCreateCounty(String regionName, String stateName, int regionId, int sizeRank, int stateCodeFips, int metroCodeFips, String metro) {
         County county;
         Optional <County> countyOptional = countyRepository.findByRegionId(regionId);
         if (countyOptional.isPresent()) {
-            county = countyOptional.get();
+            return countyOptional.get();
         }
         else {
             county = new County();
@@ -48,12 +51,13 @@ public class CountyService implements ICountyService {
             county.setMetroCodeFips(metroCodeFips);
 
             Optional<State> state = stateRepository.findByStateName(stateName);
-            if (state.isPresent()) {
-                county.setState(state.get());
+            if (!state.isPresent()) {
+                throw new IllegalArgumentException("State " + stateName + " not found");
             }
+            county.setState(state.get());
             county.setMetroState(metro);
+            return countyRepository.save(county);
         }
-        return county;
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mialyk.business.dtos.MetroAreaDto;
 import com.mialyk.persistence.entities.MetroArea;
@@ -21,24 +22,27 @@ public class MetroAreaService implements IMetroAreaService {
     @Autowired
     private MetroAreaRepository metroAreaRepository;
 
+    @Transactional
     @Override
     public MetroArea getOrCreateMetroArea(String regionName, String stateName, int regionId, int sizeRank) {
         MetroArea metroArea;
         Optional <MetroArea> metroAreaOptional = metroAreaRepository.findByRegionId(regionId);
         if (metroAreaOptional.isPresent()) {
-            metroArea = metroAreaOptional.get();
+            return metroAreaOptional.get();
         }
         else {
             metroArea = new MetroArea();
             metroArea.setRegionName(regionName);
             metroArea.setRegionId(regionId);
             metroArea.setSizeRank(sizeRank);
+
             Optional<State> state = stateRepository.findByStateName(stateName);
-            if (state.isPresent()) {
-                metroArea.setState(state.get());
+            if (!state.isPresent()) {
+                throw new IllegalArgumentException("State " + stateName + " not found");
             }
+            metroArea.setState(state.get());
+            return metroAreaRepository.save(metroArea);
         }
-        return metroArea;
     }
 
     @Override

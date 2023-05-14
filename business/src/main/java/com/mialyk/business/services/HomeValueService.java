@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mialyk.business.dtos.AnalyticsDto;
 import com.mialyk.business.dtos.HomeValueDto;
@@ -21,8 +22,6 @@ import com.mialyk.persistence.entities.RegionType;
 import com.mialyk.persistence.entities.Country;
 import com.mialyk.persistence.repositories.CountryRepository;
 import com.mialyk.persistence.repositories.HomeValueRepository;
-
-import jakarta.transaction.Transactional;
 
 import org.postgresql.util.PGobject;
 
@@ -114,7 +113,7 @@ public class HomeValueService implements IHomeValueService {
 
             PGobject pgObject = ((PGobject)row[2]);
             String[] values = pgObject.getValue().substring(1, pgObject.getValue().length() - 1).split(",");
-            StateDto regionDto = new StateDto(Integer.parseInt(values[2]), values[1].replace("\"", ""), values[4]);
+            StateDto regionDto = new StateDto(Integer.parseInt(values[1]), values[2].replace("\"", ""), values[4]);
 
             Date prevYearDate = (Date) row[3];
             Double prevYearValue = ((BigDecimal)row[4]).doubleValue();

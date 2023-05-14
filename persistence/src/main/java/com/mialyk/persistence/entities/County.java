@@ -29,15 +29,16 @@ public class County extends Region {
     @Column(name = "metro_code_fips", columnDefinition = "INT")
     private Integer metroCodeFips;
 
-    @OneToMany(mappedBy = "countyValue", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "countyValue", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
     private List<HomeValue> homeValues;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private State state;
 
-    //@ManyToOne(cascade = CascadeType.PERSIST)
-    //private MetroArea metro;
     @Column(name = "metro_state")
     private String metroState;
+
+    // @ManyToOne(cascade = CascadeType.PERSIST)
+    // private MetroArea metro;
 }
 
