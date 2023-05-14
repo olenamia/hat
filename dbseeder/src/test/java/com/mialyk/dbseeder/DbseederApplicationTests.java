@@ -3,9 +3,7 @@ package com.mialyk.dbseeder;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.mialyk.dbseeder.configuration.DbSeederConfig;
-
-@SpringBootTest(classes = {DbSeederApplication.class, DbSeederConfig.class})
+@SpringBootTest
 class DbSeederApplicationTests {
 
 	@Test

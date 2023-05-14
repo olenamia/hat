@@ -64,7 +64,9 @@ public class ZillowDataStorageService {
                     }
                 }
             }
+            System.out.println(region.getRegionName());
         }
+        System.out.println("Save All");
         homeValueRepository.saveAll(homeValueZillowList);
     }
 
