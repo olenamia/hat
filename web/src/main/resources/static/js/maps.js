@@ -21,50 +21,22 @@ function updateMap(type){
 }
 
 function getMapOption(data) {
-    /*
-    var options = {
-      region: 'US',
-      displayMode: 'regions',
-    };*/
 
-    var options = {region: 'US',
+    var minValue = data.getColumnRange(1).min;
+    var maxValue = data.getColumnRange(1).max;
+
+    var options = {
+        region: 'US',
         displayMode: 'regions',
         resolution: 'provinces',
 
         colorAxis: {
-            //colors: [ '#0077cc', '#b3d9ff','#e6ccff', '#6600cc'],
-            colors: [ '#0077cc', '#80bfff', '#fff4b3', '#ffcc00'],
-            //values: [-5, 0, 0, 5]
-            //minValue: -100,
-            //maxValue: 100,
-            minValue: -20, //data.getColumnRange(1).min,
-            maxValue: 20, //data.getColumnRange(1).max,
-            midpoint: 0,
+            colors: [ '#0077cc', '#80bfff', '#c0dad9', '#fff4b3', '#ffcc00'],
+            minValue: minValue,
+            maxValue: maxValue,
+            midpoint: minValue < 0 && maxValue > 0 ? 0 : false,
         }
-        /*
-        for color '#ffd237' : #fff4b3
-            #ffe680
-            #ffd24d
-            #ffbf1a
-            #ffcc00
-        for color '#007bff' : #b3d9ff
-            #80bfff
-            #4d9dff
-            #1a7fff
-            #0077cc
-        */
-        //colors: ['#E0FFD4', '#A5EF63', '#50AA00', '#267114'], //green
-        //colors: ['#e6f4ff', '#008ffb', '#ff4560'] //nice from internet
-        //backgroundColor: '#232323',
-        /*
-        chartArea: { 
-            width: '100%', 
-            height: '100%', 
-            top: 2000, 
-            left: 0 
-        }*/
     };
-    //options['colors'] = ['#FF8747', '#FFB581', '#C06000']; //my nice colors
     return options;
 }
 
