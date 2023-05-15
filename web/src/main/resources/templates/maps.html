@@ -53,8 +53,6 @@
 
 <script>
     $(document).ready(function() {
-        //$('.dropdown-toggle').dropdown();
-
         $('#myButtons li').click(function (e) {
             e.preventDefault();
             var href = $(this).attr('href');
@@ -62,9 +60,6 @@
 
             // Add active class to clicked button
             $(this).addClass('active');
-
-            // toggle the active class on the clicked tab and its associated pane
-            //$(this).addClass('active').parent().siblings().find('a').removeClass('active');
             $(href).addClass('active').siblings().removeClass('active');
         });
 
@@ -90,8 +85,6 @@
 
     google.charts.load('current', {
         'packages':['geochart', 'table'],
-        // Note: you will need to get a mapsApiKey for your project.
-        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
         'mapsApiKey': "/*[[${googleMapsApiKey}]]*/''"
     });
     var analyticsGeoMap;

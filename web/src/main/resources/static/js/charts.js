@@ -1,5 +1,4 @@
 function loadSubRegions(regionType, stateName){
-
     var url = '/hat/api/regions/' + stateName;
     if (regionType == "County") {
         url += '/counties';
@@ -32,9 +31,11 @@ function loadSubRegions(regionType, stateName){
 function updateRegion(type) {
     updateRegion(type, null, null);
 }
+
 function updateRegion(type, stateName) {
     updateRegion(type, stateName, null);
 }
+
 function updateRegion(type, stateName, regionId) {
 
     var url = '';
@@ -84,6 +85,7 @@ function drawHomeValueChart(histoticalData, htmlElement) {
     var chart = new google.charts.Line(htmlElement);
     chart.draw(data, google.charts.Line.convertOptions(options));
 }
+
 function drawYoYChangeChart(histoticalData, htmlElement) {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Date');
@@ -100,22 +102,11 @@ function drawYoYChangeChart(histoticalData, htmlElement) {
         },
         width: 900,
         height: 500
-        //chartArea: {  width: "50%", height: "70%" }
-        /*chartArea: {
-            left: 0,
-            height: 250,
-            width: 600
-            },
-            legend: {
-            maxLines: 1,
-            textStyle: {
-                fontSize: 15
-            }
-            },*/
     };
     var chart = new google.charts.Line(htmlElement);
     chart.draw(data, google.charts.Line.convertOptions(options));
 }
+
 function drawTableChart(histoticalData, htmlElement) {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Date');
@@ -133,6 +124,7 @@ function drawTableChart(histoticalData, htmlElement) {
     var table = new google.visualization.Table(htmlElement);
     table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
 }
+
 function drawColumnChart(histoticalData, htmlElement) {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Date');
@@ -154,4 +146,3 @@ function drawColumnChart(histoticalData, htmlElement) {
     var chart = new google.visualization.ColumnChart(htmlElement);
     chart.draw(data, options);
 }
-
