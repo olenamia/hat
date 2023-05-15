@@ -4,11 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import com.mialyk.persistence.entities.MetroArea;
 
-@Repository
 public interface MetroAreaRepository extends JpaRepository<MetroArea, Integer> {
 
     Optional<MetroArea> findByRegionId(Integer regionId);
