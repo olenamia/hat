@@ -1,4 +1,4 @@
-package com.mialyk.web.controllers;
+package com.mialyk.web.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
