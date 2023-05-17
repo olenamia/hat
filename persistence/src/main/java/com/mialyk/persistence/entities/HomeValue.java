@@ -9,7 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "home_value_zillow")
+@Table(name = "home_value_zillow", indexes = {
+    @Index(name = "region_type_date_home_value_zillow_idx", columnList = "region_type, date")
+})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

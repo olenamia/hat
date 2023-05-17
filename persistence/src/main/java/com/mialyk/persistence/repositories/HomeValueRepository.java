@@ -92,8 +92,10 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
 
 
     @Query(value = """
-        WITH find_max_date AS (
-            SELECT MAX(hv.date) AS max_date
+        WITH find_dates AS (
+            SELECT MAX(hv.date) AS max_date,
+            	date_trunc('MONTH', MAX(hv.date) - INTERVAL '1 year') + INTERVAL '1 month' - INTERVAL '1 day' AS year_back_date,
+            	date_trunc('MONTH', MAX(hv.date)) - INTERVAL '1 day' AS month_back_date
                 FROM home_value_zillow hv
                 WHERE region_type = 'STATE'
             ),
@@ -104,10 +106,9 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
                 FROM home_value_zillow hv
                     JOIN home_values_state hvs ON hv.id = hvs.home_id 
                     JOIN state s ON s.id = hvs.state_id
-                    CROSS JOIN find_max_date
+                    CROSS JOIN find_dates
                 WHERE region_type = 'STATE'
-                    AND EXTRACT(MONTH FROM hv.date) = EXTRACT(MONTH FROM find_max_date.max_date)
-                    AND EXTRACT(YEAR FROM hv.date) = EXTRACT(YEAR FROM find_max_date.max_date) - 1
+                    AND hv.date = year_back_date
             ),
         prev_month AS (
             SELECT hv.date AS prev_month_date,
@@ -116,13 +117,11 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
                 FROM home_value_zillow hv
                     JOIN home_values_state hvs ON hv.id = hvs.home_id 
                     JOIN state s ON s.id = hvs.state_id
-                    CROSS JOIN find_max_date
+                    CROSS JOIN find_dates
                 WHERE region_type = 'STATE'
-                    AND EXTRACT(MONTH FROM hv.date) = EXTRACT(MONTH FROM find_max_date.max_date) - 1
-                    AND EXTRACT(YEAR FROM hv.date) = EXTRACT(YEAR FROM find_max_date.max_date)
+                    AND hv.date = month_back_date
             )
-
-        SELECT hvz.date , 
+        SELECT hvz.date, 
                 hvz.value, 
                 state, 
                 prev_year.prev_year_date, 
@@ -130,19 +129,17 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
                 100 * (hvz.value / prev_year.prev_year_value - 1) AS yoy_change, 
                 100 * (hvz.value / prev_month.prev_month_value - 1) AS mom_change, 
                 prev_month.prev_month_date, 
-                prev_month.prev_month_value 
-        
+                prev_month.prev_month_value         
             FROM home_value_zillow hvz 
                 JOIN home_values_state hvs ON hvz.id = hvs.home_id 
                 JOIN state ON state.id = hvs.state_id
-            CROSS JOIN find_max_date
-            CROSS JOIN prev_year
-            CROSS JOIN prev_month
-            WHERE 
-                    hvz.region_type = 'STATE'
-                    and hvz.date = find_max_date.max_date
-                    and state.region_name = prev_year_state
-                 and state.region_name = prev_month_state
+	            CROSS JOIN find_dates
+	            CROSS JOIN prev_year
+	            CROSS JOIN prev_month
+            WHERE hvz.region_type = 'STATE'
+                AND hvz.date = find_dates.max_date
+                AND state.region_name = prev_year_state
+                AND state.region_name = prev_month_state
         """,
         nativeQuery = true)
     List<Object[]> GetAnalyticsForStates();
