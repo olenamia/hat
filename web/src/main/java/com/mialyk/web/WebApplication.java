@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.mialyk.persistence", "com.mialyk.business.services", "com.mialyk.web"})
+@ComponentScan(basePackages = {"com.mialyk.business", "com.mialyk.web"})
 public class WebApplication {
 
 	public static void main(String[] args) {
