@@ -24,7 +24,6 @@ public class HomeValueDto implements Serializable {
     private Date date;
     private Double homeValue;
     private Double yoyChange;
-    //private Optional<Double> momChange;
 
     public HomeValueDto(HomeValue homeValue) {
         if (homeValue.getId() != 0) {
@@ -38,21 +37,5 @@ public class HomeValueDto implements Serializable {
         if (homeValue.getValue() != null) {
             this.homeValue = homeValue.getValue().doubleValue();
         }
-    }
-
-    public HomeValueDto(HomeValue homeValue, Double yoyChange) {
-        this(homeValue);
-        this.yoyChange = yoyChange;
-    }
-
-    public HomeValueDto(PGobject pgObject, Double yoyChange) throws ParseException {
-
-        String tupleString = pgObject.getValue();
-        String[] fields = tupleString.substring(1, tupleString.length() - 1).split(",");
-
-        this.id = Integer.parseInt(fields[0]);
-        this.date = Date.valueOf(fields[1]);
-        this.homeValue = Double.parseDouble(fields[3]);
-        this.yoyChange = yoyChange;
     }
 }

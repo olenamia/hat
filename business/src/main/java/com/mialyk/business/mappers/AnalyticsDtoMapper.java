@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 
 import org.springframework.stereotype.Component;
 
+import com.mialyk.business.common.Utils;
 import com.mialyk.business.dtos.AnalyticsDto;
 import com.mialyk.business.dtos.RegionDto;
 import com.mialyk.business.dtos.StateDto;
@@ -23,14 +24,9 @@ public class AnalyticsDtoMapper {
             regionDto, 
             analyticsView.getPrevYearDate(), 
             analyticsView.getPrevYearValue(), 
-            roundDouble(analyticsView.getYoyChange()), 
-            roundDouble(analyticsView.getMomChange()), 
+            analyticsView.getYoyChange() == null ? null : Utils.roundDouble(analyticsView.getYoyChange()), 
+            analyticsView.getMomChange() == null ? null : Utils.roundDouble(analyticsView.getMomChange()), 
             analyticsView.getPrevMonthDate(), 
             analyticsView.getPrevMonthValue());
-    }
-
-    private Double roundDouble(Double input){
-        BigDecimal bd = new BigDecimal(input).setScale(2, RoundingMode.HALF_UP);
-        return bd.doubleValue();
     }
 }

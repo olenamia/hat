@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import com.mialyk.persistence.entities.HomeValue;
+import com.mialyk.persistence.views.HistoricalTrendsView;
 import com.mialyk.persistence.views.StateAnalyticsView;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -52,8 +53,10 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
                 JOIN state s2 ON s2.id = h2.state_id
                 WHERE s2.region_name = :regionName
             )
-        SELECT hvz, --.id, hvz.value, hvz.date, hvz.region_type, 
-            100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS value_change_pct
+        SELECT hvz.id AS id,
+                hvz.value AS value, 
+                hvz.date AS date, 
+                100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS yoyChange
             FROM home_value_zillow hvz 
             JOIN home_values_state hvs ON hvz.id = hvs.home_id 
             JOIN state s ON s.id = hvs.state_id
@@ -64,7 +67,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
             ORDER BY hvz.date;
             """, 
         nativeQuery = true)
-    List<Object[]> getYearlyHomeValuesByState(@Param("regionName") String regionName); 
+    List<HistoricalTrendsView> getYearlyHomeValuesByState(@Param("regionName") String regionName); 
 
     @Query(value = """
         WITH find_max_date AS (
@@ -81,8 +84,10 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
                 WHERE
                     COALESCE(s.region_id, m.region_id, c.region_id, ct.region_id) = :regionId
             )
-        SELECT hvz, --.id, hvz.value, hvz.date, hvz.region_type, 
-            100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS value_change_pct
+        SELECT hvz.id AS id,
+                hvz.value AS value, 
+                hvz.date AS date, 
+                100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS yoyChange
             FROM home_value_zillow hvz 
                 LEFT JOIN home_values_state hvs ON hvz.id = hvs.home_id AND :regionType = 'STATE'
                 LEFT JOIN state s ON s.id = hvs.state_id AND :regionType = 'STATE'
@@ -100,7 +105,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
             ORDER BY hvz.date;
         """,
     nativeQuery = true)
-    List<Object[]> getYearlyHomeValuesByRegionIdAndRegionType(@Param("regionId") Integer regionId, @Param("regionType") String regionType);
+    List<HistoricalTrendsView> getYearlyHomeValuesByRegionIdAndRegionType(@Param("regionId") Integer regionId, @Param("regionType") String regionType);
     //TODO: Remove getYearlyHomeValuesByRegionIdAndRegionType
 
     @Query(value = """
@@ -112,8 +117,10 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
                 WHERE
                     ct.region_id = :regionId
             )
-        SELECT hvz, 
-            100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS value_change_pct
+        SELECT hvz.id AS id,
+                hvz.value AS value, 
+                hvz.date AS date, 
+                100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS yoyChange
             FROM home_value_zillow hvz 
                 JOIN home_values_county hvct ON hvz.id = hvct.home_id
                 JOIN county ct ON ct.id = hvct.county_id
@@ -125,7 +132,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
             ORDER BY hvz.date;
         """,
     nativeQuery = true)
-    List<Object[]> getYearlyHomeValuesByCountyRegionId(@Param("regionId") Integer regionId);
+    List<HistoricalTrendsView> getYearlyHomeValuesByCountyRegionId(@Param("regionId") Integer regionId);
 
     @Query(value = """
         WITH find_max_date AS (
@@ -136,8 +143,10 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
                 WHERE
                     m.region_id = :regionId
             )
-        SELECT hvz, 
-            100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS value_change_pct
+        SELECT hvz.id AS id,
+                hvz.value AS value, 
+                hvz.date AS date, 
+                100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS yoyChange
             FROM home_value_zillow hvz 
                 JOIN home_values_metro hvm ON hvz.id = hvm.home_id
                 JOIN metro m ON m.id = hvm.metro_id
@@ -149,8 +158,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
             ORDER BY hvz.date;
         """,
     nativeQuery = true)
-    List<Object[]> getYearlyHomeValuesByMetroRegionId(@Param("regionId") Integer regionId);
-
+    List<HistoricalTrendsView> getYearlyHomeValuesByMetroRegionId(@Param("regionId") Integer regionId);
 
     @Query(value = """
         WITH find_max_date AS (
@@ -159,8 +167,10 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
                 WHERE
                     hv.region_type = 'COUNTRY'
             )
-        SELECT hvz, 
-            100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS value_change_pct
+        SELECT hvz.id AS id,
+                hvz.value AS value, 
+                hvz.date AS date, 
+                100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS yoyChange
             FROM home_value_zillow hvz 
                 CROSS JOIN find_max_date
             WHERE 
@@ -170,7 +180,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
             ORDER BY hvz.date;
         """,
     nativeQuery = true)
-    List<Object[]> getYearlyHomeValuesByUS();
+    List<HistoricalTrendsView> getYearlyHomeValuesByUS();
 
     @Query(value = """
         WITH find_dates AS (
