@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mialyk.business.dtos.HomeValueDto;
 import com.mialyk.business.services.IHomeValueService;
-import com.mialyk.persistence.entities.RegionType;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -40,7 +39,7 @@ public class HistoricalController {
         @ApiResponse(responseCode = "200", description = "OK"),
     })
     public ResponseEntity<List<HomeValueDto>> getHomeValuesUS() { 
-        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHistoricalDataUS("United States");
+        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHistoricalDataUS();
         return ResponseEntity.ok(homeValuesDtos);
     }
 
@@ -50,7 +49,7 @@ public class HistoricalController {
         @ApiResponse(responseCode = "200", description = "OK"),
     })
     public ResponseEntity<List<HomeValueDto>> getHomeValuesByMetro(@PathVariable String stateName, @PathVariable Integer metroRegionId) { 
-        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHistoricalDataByRegionIdAndRegioType(metroRegionId, RegionType.METRO);
+        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHistoricalDataByMetroRegionId(metroRegionId);
         return ResponseEntity.ok(homeValuesDtos);
     }
 
@@ -60,7 +59,7 @@ public class HistoricalController {
         @ApiResponse(responseCode = "200", description = "OK"),
     })
     public ResponseEntity<List<HomeValueDto>> getHomeValuesByCounty(@PathVariable String stateName, @PathVariable Integer countyRegionId) { 
-        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHistoricalDataByRegionIdAndRegioType(countyRegionId, RegionType.COUNTY);
+        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHistoricalDataByCountyRegionId(countyRegionId);
         return ResponseEntity.ok(homeValuesDtos);
     }
 }

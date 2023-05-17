@@ -33,11 +33,6 @@ public class HomeValueService implements IHomeValueService {
     private CountryRepository countryRepository;
 
     @Override
-    public Date getMaxDateByStateName(String stateName) {
-        return homeValueZillowRepository.findMaxDateByStateName(stateName);
-    }
-
-    @Override
     @Transactional
     public List<HomeValueDto> getHomeValuesByState(String stateName) {
 
@@ -50,8 +45,8 @@ public class HomeValueService implements IHomeValueService {
                     return new HomeValueDto(
                         (PGobject)homeValue[0], 
                         homeValue[1] == null ? null : ((BigDecimal)homeValue[1]).doubleValue());
-                } catch (ParseException e) {
-
+                } 
+                catch (ParseException e) {
                     e.printStackTrace();
                 }
                 return null;
@@ -62,33 +57,42 @@ public class HomeValueService implements IHomeValueService {
 
     @Override
     @Transactional
-    public List<HomeValueDto> getHistoricalDataUS(String regionName) {
-        Optional<Country> countryOptional = countryRepository.findByRegionName(regionName);
-        Date maxDateByState = null; 
-        if (countryOptional.isPresent()) {
-            maxDateByState =  homeValueZillowRepository.findMaxDateByRegionIdAndRegionType(countryOptional.get().getRegionId(), RegionType.COUNTRY.name());
-        }
- 
-        if (maxDateByState != null){
-            List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesByRegionIdAndRegionType(countryOptional.get().getRegionId(), RegionType.COUNTRY.name());
-            return homeValuesList.stream().map(homeValue -> {
-                try {
-                    return new HomeValueDto(
-                        (PGobject)homeValue[0], 
-                        homeValue[1] == null ? null : ((BigDecimal)homeValue[1]).doubleValue());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }).collect(Collectors.toList());
-        }
-        return Collections.emptyList();
+    public List<HomeValueDto> getHistoricalDataUS() {
+
+        List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesByUS();
+        return homeValuesList.stream().map(homeValue -> {
+            try {
+                return new HomeValueDto(
+                    (PGobject)homeValue[0], 
+                    homeValue[1] == null ? null : ((BigDecimal)homeValue[1]).doubleValue());
+            }
+            catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public List<HomeValueDto> getHistoricalDataByRegionIdAndRegioType(Integer regionId, RegionType regionType) {
-        List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesByRegionIdAndRegionType(regionId, regionType.name());
+    public List<HomeValueDto> getHistoricalDataByCountyRegionId(Integer regionId) {
+        List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesByCountyRegionId(regionId);
+        return homeValuesList.stream().map(homeValue -> {
+            try {
+                return new HomeValueDto(
+                    (PGobject)homeValue[0], 
+                    homeValue[1] == null ? null : ((BigDecimal)homeValue[1]).doubleValue());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<HomeValueDto> getHistoricalDataByMetroRegionId(Integer regionId) {
+        List<Object[]> homeValuesList = homeValueZillowRepository.getYearlyHomeValuesByMetroRegionId(regionId);
         return homeValuesList.stream().map(homeValue -> {
             try {
                 return new HomeValueDto(

@@ -27,7 +27,18 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
         nativeQuery = true)
     Date findMaxDateByRegionIdAndRegionType(@Param("regionId") Integer regionId, @Param("regionType") String regionType);
 
-
+    @Query(value = """
+        SELECT MAX(hv.date) AS max_date
+                FROM home_value_zillow hv
+                    LEFT JOIN home_values_state hvs ON hv.id = hvs.home_id AND :regionType = 'STATE'
+                    LEFT JOIN home_values_metro hvm ON hv.id = hvm.home_id AND :regionType = 'METRO'
+                    LEFT JOIN home_values_country hvc ON hv.id = hvc.home_id AND :regionType = 'COUNTRY'
+                    LEFT JOIN home_values_county hvct ON hv.id = hvct.home_id AND :regionType = 'COUNTY'
+                WHERE
+                    COALESCE(hvs.state_id, hvm.metro_id, hvc.country_id, hvct.county_id) = :id
+        """,
+        nativeQuery = true)
+    Date findMaxDateByIdAndRegionType(@Param("id") Integer regionId, @Param("regionType") String regionType);
 
     @Query("SELECT MAX(hvz.date) FROM HomeValue hvz JOIN hvz.stateValue s WHERE s.regionName = :regionName")
     Date findMaxDateByStateName(@Param("regionName") String regionName);
@@ -51,7 +62,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
             GROUP BY hvz.id, find_max_date.max_date
             ORDER BY hvz.date;
             """, 
-        nativeQuery = true)//, resultSetMapping = "HomeValueZillowDtoMapping")
+        nativeQuery = true)
     List<Object[]> getYearlyHomeValuesByState(@Param("regionName") String regionName); 
 
     @Query(value = """
@@ -89,8 +100,79 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
         """,
     nativeQuery = true)
     List<Object[]> getYearlyHomeValuesByRegionIdAndRegionType(@Param("regionId") Integer regionId, @Param("regionType") String regionType);
+    //TODO: Remove getYearlyHomeValuesByRegionIdAndRegionType
+
+    @Query(value = """
+        WITH find_max_date AS (
+            SELECT MAX(hv.date) AS max_date
+                FROM home_value_zillow hv
+                    JOIN home_values_county hvct ON hv.id = hvct.home_id
+                    JOIN county ct ON ct.id = hvct.county_id
+                WHERE
+                    ct.region_id = :regionId
+            )
+        SELECT hvz, 
+            100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS value_change_pct
+            FROM home_value_zillow hvz 
+                JOIN home_values_county hvct ON hvz.id = hvct.home_id
+                JOIN county ct ON ct.id = hvct.county_id
+                CROSS JOIN find_max_date
+            WHERE 
+                ct.region_id = :regionId
+                AND EXTRACT(MONTH FROM hvz.date) = EXTRACT(MONTH FROM (find_max_date.max_date))
+            GROUP BY hvz.id, find_max_date.max_date
+            ORDER BY hvz.date;
+        """,
+    nativeQuery = true)
+    List<Object[]> getYearlyHomeValuesByCountyRegionId(@Param("regionId") Integer regionId);
+
+    @Query(value = """
+        WITH find_max_date AS (
+            SELECT MAX(hv.date) AS max_date
+                FROM home_value_zillow hv
+                    JOIN home_values_metro hvm ON hv.id = hvm.home_id
+                    JOIN metro m ON m.id = hvm.metro_id
+                WHERE
+                    m.region_id = :regionId
+            )
+        SELECT hvz, 
+            100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS value_change_pct
+            FROM home_value_zillow hvz 
+                JOIN home_values_metro hvm ON hvz.id = hvm.home_id
+                JOIN metro m ON m.id = hvm.metro_id
+                CROSS JOIN find_max_date
+            WHERE 
+                m.region_id = :regionId
+                AND EXTRACT(MONTH FROM hvz.date) = EXTRACT(MONTH FROM (find_max_date.max_date))
+            GROUP BY hvz.id, find_max_date.max_date
+            ORDER BY hvz.date;
+        """,
+    nativeQuery = true)
+    List<Object[]> getYearlyHomeValuesByMetroRegionId(@Param("regionId") Integer regionId);
 
 
+    @Query(value = """
+        WITH find_max_date AS (
+            SELECT MAX(hv.date) AS max_date
+                FROM home_value_zillow hv
+                WHERE
+                    hv.region_type = 'COUNTRY'
+            )
+        SELECT hvz, 
+            100 * (hvz.value / lag(hvz.value) OVER (ORDER BY hvz.date) - 1) AS value_change_pct
+            FROM home_value_zillow hvz 
+                CROSS JOIN find_max_date
+            WHERE 
+                hvz.region_type = 'COUNTRY'
+                AND EXTRACT(MONTH FROM hvz.date) = EXTRACT(MONTH FROM (find_max_date.max_date))
+            GROUP BY hvz.id, find_max_date.max_date
+            ORDER BY hvz.date;
+        """,
+    nativeQuery = true)
+    List<Object[]> getYearlyHomeValuesByUS();
+
+
+    
     @Query(value = """
         WITH find_dates AS (
             SELECT MAX(hv.date) AS max_date,
@@ -129,7 +211,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
                 100 * (hvz.value / prev_year.prev_year_value - 1) AS yoy_change, 
                 100 * (hvz.value / prev_month.prev_month_value - 1) AS mom_change, 
                 prev_month.prev_month_date, 
-                prev_month.prev_month_value         
+                prev_month.prev_month_value 
             FROM home_value_zillow hvz 
                 JOIN home_values_state hvs ON hvz.id = hvs.home_id 
                 JOIN state ON state.id = hvs.state_id

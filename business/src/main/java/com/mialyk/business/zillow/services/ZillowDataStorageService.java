@@ -46,7 +46,7 @@ public class ZillowDataStorageService {
                 continue;
             }
 
-            Date lastAddedDate = homeValueRepository.findMaxDateByRegionIdAndRegionType(region.getRegionId(), regionType.name());
+            Date lastAddedDate = homeValueRepository.findMaxDateByIdAndRegionType(region.getId(), regionType.name());
 
             for(Map.Entry<String, Double> entry : zillowHomeValueDto.getMonthlyData().entries()){
                 Double value = entry.getValue();
