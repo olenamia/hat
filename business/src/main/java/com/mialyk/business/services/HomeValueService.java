@@ -1,14 +1,10 @@
 package com.mialyk.business.services;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.Date;
-import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mialyk.business.dtos.AnalyticsDto;
 import com.mialyk.business.dtos.HomeValueDto;
-import com.mialyk.business.dtos.StateDto;
-import com.mialyk.persistence.entities.RegionType;
-import com.mialyk.persistence.entities.Country;
-import com.mialyk.persistence.repositories.CountryRepository;
+import com.mialyk.business.mappers.AnalyticsDtoMapper;
 import com.mialyk.persistence.repositories.HomeValueRepository;
+import com.mialyk.persistence.views.StateAnalyticsView;
 
 import org.postgresql.util.PGobject;
 
@@ -30,7 +24,7 @@ public class HomeValueService implements IHomeValueService {
     @Autowired
     private HomeValueRepository homeValueZillowRepository;
     @Autowired
-    private CountryRepository countryRepository;
+    private AnalyticsDtoMapper analyticsDtoMapper;
 
     @Override
     @Transactional
@@ -108,31 +102,10 @@ public class HomeValueService implements IHomeValueService {
     @Override
     @Transactional
     public List<AnalyticsDto> GetAnalyticsForStates() {
-  
-        List<AnalyticsDto> analyticsList =  new ArrayList<>();
-        for (Object[] row : homeValueZillowRepository.GetAnalyticsForStates()) {
+        List<StateAnalyticsView> analyticsList = homeValueZillowRepository.GetAnalyticsForStates();
 
-            Date date = (Date) row[0];
-            Double homeValue = ((BigDecimal)row[1]).doubleValue();
-
-            PGobject pgObject = ((PGobject)row[2]);
-            String[] values = pgObject.getValue().substring(1, pgObject.getValue().length() - 1).split(",");
-            StateDto regionDto = new StateDto(Integer.parseInt(values[1]), values[2].replace("\"", ""), values[4]);
-
-            Date prevYearDate = (Date) row[3];
-            Double prevYearValue = ((BigDecimal)row[4]).doubleValue();
-
-            DecimalFormat format = new DecimalFormat("#.##");
-            format.setRoundingMode(RoundingMode.HALF_UP);
-
-            Double yoyChange = Double.valueOf(format.format(((BigDecimal)row[5])));
-            Double momChange = Double.valueOf(format.format(((BigDecimal)row[6])));
-            Date prevMonthDate = (Date) row[7];
-            Double prevMonthValue =((BigDecimal)row[8]).doubleValue();
-
-            AnalyticsDto analytics = new AnalyticsDto(date, homeValue, regionDto, prevYearDate, prevYearValue, yoyChange, momChange, prevMonthDate, prevMonthValue);
-            analyticsList.add(analytics);
-        }
-        return analyticsList;
+        return analyticsList.stream().map(analyticsView -> {
+            return analyticsDtoMapper.map(analyticsView);
+        }).collect(Collectors.toList());
     }
 }

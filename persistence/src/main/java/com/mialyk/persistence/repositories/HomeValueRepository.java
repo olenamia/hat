@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import com.mialyk.persistence.entities.HomeValue;
+import com.mialyk.persistence.views.StateAnalyticsView;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -171,8 +172,6 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
     nativeQuery = true)
     List<Object[]> getYearlyHomeValuesByUS();
 
-
-    
     @Query(value = """
         WITH find_dates AS (
             SELECT MAX(hv.date) AS max_date,
@@ -181,48 +180,50 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
                 FROM home_value_zillow hv
                 WHERE region_type = 'STATE'
             ),
-        prev_year AS (
-            SELECT hv.date AS prev_year_date,
-                    hv.value AS prev_year_value,
-                    s.region_name AS prev_year_state
-                FROM home_value_zillow hv
-                    JOIN home_values_state hvs ON hv.id = hvs.home_id 
-                    JOIN state s ON s.id = hvs.state_id
-                    CROSS JOIN find_dates
-                WHERE region_type = 'STATE'
-                    AND hv.date = year_back_date
-            ),
-        prev_month AS (
-            SELECT hv.date AS prev_month_date,
-                    hv.value AS prev_month_value,
-                    s.region_name AS prev_month_state
-                FROM home_value_zillow hv
-                    JOIN home_values_state hvs ON hv.id = hvs.home_id 
-                    JOIN state s ON s.id = hvs.state_id
-                    CROSS JOIN find_dates
-                WHERE region_type = 'STATE'
-                    AND hv.date = month_back_date
-            )
-        SELECT hvz.date, 
-                hvz.value, 
-                state, 
-                prev_year.prev_year_date, 
-                prev_year.prev_year_value,
-                100 * (hvz.value / prev_year.prev_year_value - 1) AS yoy_change, 
-                100 * (hvz.value / prev_month.prev_month_value - 1) AS mom_change, 
-                prev_month.prev_month_date, 
-                prev_month.prev_month_value 
+            prev_year AS (
+                SELECT hv.date AS prev_year_date,
+                        hv.value AS prev_year_value,
+                        s.region_name AS prev_year_state
+                    FROM home_value_zillow hv
+                        JOIN home_values_state hvs ON hv.id = hvs.home_id 
+                        JOIN state s ON s.id = hvs.state_id
+                        CROSS JOIN find_dates
+                    WHERE region_type = 'STATE'
+                        AND hv.date = year_back_date
+                ),
+            prev_month AS (
+                SELECT hv.date AS prev_month_date,
+                        hv.value AS prev_month_value,
+                        s.region_name AS prev_month_state
+                    FROM home_value_zillow hv
+                        JOIN home_values_state hvs ON hv.id = hvs.home_id 
+                        JOIN state s ON s.id = hvs.state_id
+                        CROSS JOIN find_dates
+                    WHERE region_type = 'STATE'
+                        AND hv.date = month_back_date
+                )
+            SELECT hvz.date AS date, 
+                hvz.value AS value, 
+                state.region_name AS stateRegionName, 
+                state.region_id AS stateRegionId, 
+                state.state_name AS stateShortName, 
+                prev_year.prev_year_date AS prevYearDate, 
+                prev_year.prev_year_value AS prevYearValue,
+                100 * (hvz.value / prev_year.prev_year_value - 1) AS yoyChange, 
+                100 * (hvz.value / prev_month.prev_month_value - 1) AS momChange, 
+                prev_month.prev_month_date AS prevMonthDate, 
+                prev_month.prev_month_value AS prevMonthValue
             FROM home_value_zillow hvz 
                 JOIN home_values_state hvs ON hvz.id = hvs.home_id 
                 JOIN state ON state.id = hvs.state_id
-	            CROSS JOIN find_dates
-	            CROSS JOIN prev_year
-	            CROSS JOIN prev_month
+                CROSS JOIN find_dates
+                CROSS JOIN prev_year
+                CROSS JOIN prev_month
             WHERE hvz.region_type = 'STATE'
                 AND hvz.date = find_dates.max_date
                 AND state.region_name = prev_year_state
                 AND state.region_name = prev_month_state
-        """,
+            """,
         nativeQuery = true)
-    List<Object[]> GetAnalyticsForStates();
+        List<StateAnalyticsView> GetAnalyticsForStates();
 }
