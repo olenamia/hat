@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mialyk.business.dtos.StateDto;
-import com.mialyk.business.services.IStateService;
+import com.mialyk.business.services.StateService;
 import com.mialyk.web.security.ApiKeyValidator;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.Operation;
 public class StateController {
 
     @Autowired
-    private IStateService stateService;
+    private StateService stateService;
     @Autowired
     private ApiKeyValidator apiKeyValidator;
 

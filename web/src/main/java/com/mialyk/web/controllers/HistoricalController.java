@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mialyk.business.dtos.HomeValueDto;
-import com.mialyk.business.services.IHomeValueService;
+import com.mialyk.business.services.HomeValueService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,7 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("hat/api/historical")
 public class HistoricalController {
     @Autowired
-    private IHomeValueService homeValueZillowService;
+    private HomeValueService homeValueZillowService;
 
     @GetMapping({"/values/state/{stateName}"})
     @Operation(summary = "Historical data for the state", description = "Returns home values and year-over-year changes for the state for more than 20 years")

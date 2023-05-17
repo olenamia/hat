@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mialyk.business.dtos.CountyDto;
 import com.mialyk.business.dtos.MetroAreaDto;
 import com.mialyk.business.dtos.StateDto;
-import com.mialyk.business.services.ICountyService;
-import com.mialyk.business.services.IMetroAreaService;
-import com.mialyk.business.services.IRegionService;
-import com.mialyk.business.services.IStateService;
+import com.mialyk.business.services.CountyService;
+import com.mialyk.business.services.MetroAreaService;
+import com.mialyk.business.services.RegionService;
+import com.mialyk.business.services.StateService;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -28,13 +28,13 @@ import io.swagger.v3.oas.annotations.Operation;
 public class RegionsController {
 
     @Autowired
-    private IStateService stateService;
+    private StateService stateService;
     @Autowired
-    private IMetroAreaService metroAreaService;
+    private MetroAreaService metroAreaService;
     @Autowired
-    private ICountyService countyService;
+    private CountyService countyService;
     @Autowired
-    private IRegionService regionService;
+    private RegionService regionService;
 
     @GetMapping("/types")
     @Operation(summary = "Get available region types", description = "Returns collection of available region types")

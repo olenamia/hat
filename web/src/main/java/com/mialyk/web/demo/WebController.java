@@ -8,16 +8,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
-import com.mialyk.business.services.IRegionService;
-import com.mialyk.business.services.IStateService;
+import com.mialyk.business.services.RegionService;
+import com.mialyk.business.services.StateService;
 
 @Controller
 public class WebController {
     private RestTemplate restTemplate = new RestTemplate();
     @Autowired
-    private IStateService stateService;
+    private StateService stateService;
     @Autowired
-    private IRegionService regionService;
+    private RegionService regionService;
     @Autowired
     private Environment env;
 
