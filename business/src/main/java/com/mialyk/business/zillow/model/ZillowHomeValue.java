@@ -1,4 +1,4 @@
-package com.mialyk.business.zillow.dtos;
+package com.mialyk.business.zillow.model;
 
 import org.apache.commons.collections4.MultiValuedMap;
 
@@ -8,7 +8,7 @@ import com.opencsv.bean.CsvBindByName;
 import lombok.Data;
 
 @Data
-public class ZillowHomeValueDto {
+public class ZillowHomeValue {
 
     @CsvBindByName(column = "RegionID")
     private int regionId;
@@ -47,6 +47,7 @@ public class ZillowHomeValueDto {
     @CsvBindByName(column = "CountyName")
     private String countyName;
     
+    // values, dates
     @CsvBindAndJoinByName(column = ".*", elementType = Double.class)
     private MultiValuedMap<String, Double> monthlyData;
 }

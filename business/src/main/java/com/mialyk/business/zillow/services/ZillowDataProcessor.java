@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.mialyk.business.common.FileDownloader;
 import com.mialyk.business.zillow.configuration.ZillowConfig;
-import com.mialyk.business.zillow.dtos.ZillowHomeValueDto;
+import com.mialyk.business.zillow.model.ZillowHomeValue;
 
 @Component
 public class ZillowDataProcessor {
@@ -29,7 +29,7 @@ public class ZillowDataProcessor {
 
     public void processUrl (String url) throws URISyntaxException, IOException {
         String content = fileDownloader.getRemoteContent(url);
-        List<ZillowHomeValueDto> zillowDataDto = csvParser.getHomeValues(content);
+        List<ZillowHomeValue> zillowDataDto = csvParser.getHomeValues(content);
         dataProcessingService.saveHomeValues(zillowDataDto);
     }
 
@@ -42,7 +42,7 @@ public class ZillowDataProcessor {
     public void processFile (String storagePath) throws URISyntaxException, IOException {
         Reader fileReader = Files.newBufferedReader(Paths.get(storagePath));
 
-        List<ZillowHomeValueDto> zillowDataDto = csvParser.getHomeValues(fileReader);
+        List<ZillowHomeValue> zillowDataDto = csvParser.getHomeValues(fileReader);
         dataProcessingService.saveHomeValues(zillowDataDto);
     }
 

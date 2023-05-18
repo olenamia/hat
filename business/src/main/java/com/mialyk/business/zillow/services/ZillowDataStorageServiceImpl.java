@@ -13,7 +13,7 @@ import com.mialyk.business.services.CountryService;
 import com.mialyk.business.services.CountyService;
 import com.mialyk.business.services.MetroAreaService;
 import com.mialyk.business.services.StateService;
-import com.mialyk.business.zillow.dtos.ZillowHomeValueDto;
+import com.mialyk.business.zillow.model.ZillowHomeValue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,10 +36,10 @@ public class ZillowDataStorageServiceImpl implements ZillowDataStorageService {
 
     @Override
     @Transactional
-    public void saveHomeValues(List<ZillowHomeValueDto> zillowHomeValueDtos) {
+    public void saveHomeValues(List<ZillowHomeValue> zillowHomeValueDtos) {
         List<HomeValue> homeValueZillowList = new ArrayList<>();
 
-        for (ZillowHomeValueDto zillowHomeValueDto : zillowHomeValueDtos) {
+        for (ZillowHomeValue zillowHomeValueDto : zillowHomeValueDtos) {
             RegionType regionType = zillowDataMapper.getRegionType(zillowHomeValueDto.getRegionType());
             Region region = getRegionByZillowRegionType(regionType, zillowHomeValueDto);
 
@@ -71,7 +71,7 @@ public class ZillowDataStorageServiceImpl implements ZillowDataStorageService {
         homeValueRepository.saveAll(homeValueZillowList);
     }
 
-    private Region getRegionByZillowRegionType(RegionType regionType, ZillowHomeValueDto zillowHomeValueDto) {
+    private Region getRegionByZillowRegionType(RegionType regionType, ZillowHomeValue zillowHomeValueDto) {
 
         switch(regionType) {
             case STATE:
