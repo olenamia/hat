@@ -2,18 +2,13 @@ package com.mialyk.business.dtos;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.text.ParseException;
-import java.util.Optional;
-
-import org.postgresql.util.PGobject;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.mialyk.persistence.entities.HomeValue;
 
 @Data
 @AllArgsConstructor
@@ -25,17 +20,9 @@ public class HomeValueDto implements Serializable {
     private Double homeValue;
     private Double yoyChange;
 
-    public HomeValueDto(HomeValue homeValue) {
-        if (homeValue.getId() != 0) {
-            this.id = homeValue.getId();
-        }
-
-        if (homeValue.getDate() != null) {
-            this.date = homeValue.getDate();
-        }
-
-        if (homeValue.getValue() != null) {
-            this.homeValue = homeValue.getValue().doubleValue();
-        }
+    public HomeValueDto(int id, Date date, Double homeValue) {
+            this.id = id;
+            this.date = date;
+            this.homeValue = homeValue;
     }
 }

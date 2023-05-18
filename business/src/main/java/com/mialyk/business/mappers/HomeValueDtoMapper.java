@@ -4,12 +4,12 @@ import org.springframework.stereotype.Component;
 
 import com.mialyk.business.common.Utils;
 import com.mialyk.business.dtos.HomeValueDto;
+import com.mialyk.persistence.entities.HomeValue;
 import com.mialyk.persistence.views.HistoricalTrendsView;
 
 @Component
 public class HomeValueDtoMapper {
     public HomeValueDto map(HistoricalTrendsView historicalTrendsView) {
-
         HomeValueDto homeValueDto = new HomeValueDto();
 
         homeValueDto.setId(historicalTrendsView.getId());
@@ -18,6 +18,16 @@ public class HomeValueDtoMapper {
         if (historicalTrendsView.getYoyChange() != null) {
             homeValueDto.setYoyChange(Utils.roundDouble(historicalTrendsView.getYoyChange()));
         }
+
+        return homeValueDto;
+    }
+
+    public HomeValueDto map(HomeValue homeValue) {
+        HomeValueDto homeValueDto = new HomeValueDto();
+
+        homeValueDto.setId(homeValue.getId());
+        homeValueDto.setHomeValue(Utils.roundDouble(homeValue.getValue()));
+        homeValueDto.setDate(homeValue.getDate());
 
         return homeValueDto;
     }
