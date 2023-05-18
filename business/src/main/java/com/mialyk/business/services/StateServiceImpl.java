@@ -144,7 +144,6 @@ public class StateServiceImpl implements StateService {
     @Transactional
     @Override
     public void deleteState(Integer id) {
-
         Optional <State> stateOptional = stateRepository.findById(id);
 
         if (!stateOptional.isPresent()) {

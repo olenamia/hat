@@ -3,8 +3,8 @@ package com.mialyk.business.dtos;
 import java.io.Serializable;
 import java.sql.Date;
 
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

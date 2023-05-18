@@ -8,14 +8,16 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "state")
 @DiscriminatorValue("STATE")
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class State extends Region {
 
     @Column(name = "state_name")

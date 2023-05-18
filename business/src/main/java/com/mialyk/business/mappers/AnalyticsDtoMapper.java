@@ -15,7 +15,6 @@ import com.mialyk.persistence.views.StateAnalyticsView;
 public class AnalyticsDtoMapper {
 
     public AnalyticsDto map(StateAnalyticsView analyticsView) {
-
         RegionDto regionDto = new StateDto(analyticsView.getStateRegionId(), analyticsView.getStateRegionName(), analyticsView.getStateShortName());
 
         return new AnalyticsDto(
