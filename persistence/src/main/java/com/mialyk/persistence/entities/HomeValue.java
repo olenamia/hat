@@ -19,7 +19,7 @@ public class HomeValue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    //@Column(name = "id", columnDefinition = "BIGINT")
+    @Column(name = "id", columnDefinition = "INT")
     private Integer id;
     
     @Column(name = "value", columnDefinition = "DECIMAL(9, 2)")
@@ -33,28 +33,28 @@ public class HomeValue {
     @Column(name = "region_type", insertable=true, updatable=false)
     private RegionType regionType;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @ManyToOne
     @JoinTable(name = "home_values_state",
             joinColumns = @JoinColumn(name = "home_id"),
             inverseJoinColumns = @JoinColumn(name = "state_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"home_id"}))
     private State stateValue;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @ManyToOne
     @JoinTable(name = "home_values_county",
             joinColumns = @JoinColumn(name = "home_id"),
             inverseJoinColumns = @JoinColumn(name = "county_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"home_id"}))
     private County countyValue;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @ManyToOne
     @JoinTable(name = "home_values_metro",
             joinColumns = @JoinColumn(name = "home_id"),
             inverseJoinColumns = @JoinColumn(name = "metro_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"home_id"}))
     private MetroArea metroValue;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @ManyToOne
     @JoinTable(name = "home_values_country",
             joinColumns = @JoinColumn(name = "home_id"),
             inverseJoinColumns = @JoinColumn(name = "country_id"),

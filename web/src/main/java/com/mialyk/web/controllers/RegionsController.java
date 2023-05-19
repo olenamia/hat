@@ -52,7 +52,7 @@ public class RegionsController {
         @ApiResponse(responseCode = "200", description = "OK")
     })
     public ResponseEntity<List<StateDto>> getStates() { 
-        List<StateDto> stateDtos = stateService.getStateDtos();
+        List<StateDto> stateDtos = stateService.getStates();
         return ResponseEntity.ok(stateDtos);
     }
 
@@ -62,7 +62,7 @@ public class RegionsController {
         @ApiResponse(responseCode = "200", description = "OK")
     })
     public  ResponseEntity<List<CountyDto>> getCounties() { 
-        List<CountyDto> countyDtos = countyService.getCountyDtos();
+        List<CountyDto> countyDtos = countyService.getCounties();
         return ResponseEntity.ok(countyDtos);
     }
 
@@ -73,7 +73,7 @@ public class RegionsController {
         @ApiResponse(responseCode = "404", description = "State not fount")
     })
     public ResponseEntity<List<CountyDto>> getCounties(@PathVariable String stateName) { 
-        List<CountyDto> countyDtos = countyService.getCountyDtos(stateName);
+        List<CountyDto> countyDtos = countyService.getCounties(stateName);
         return ResponseEntity.ok(countyDtos);
     }
 

@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mialyk.business.dtos.CountyDto;
+import com.mialyk.business.mappers.CountyDtoMapper;
 import com.mialyk.persistence.entities.County;
 import com.mialyk.persistence.entities.State;
 import com.mialyk.persistence.repositories.CountyRepository;
+import com.mialyk.persistence.repositories.HomeValueRepository;
 import com.mialyk.persistence.repositories.StateRepository;
 
 @Service
@@ -21,15 +23,16 @@ public class CountyServiceImpl implements CountyService {
     private CountyRepository countyRepository;
     @Autowired
     private StateRepository stateRepository;
+    @Autowired
+    private CountyDtoMapper countyDtoMapper;
 
-    @Transactional
     @Override
-    public List<CountyDto> getCountyDtos() {
+    public List<CountyDto> getCounties() {
         List<County> counties = countyRepository.findAll(Sort.by(Sort.Direction.ASC, "regionName"));
         List<CountyDto> countyDtos = new ArrayList<>();
 
         for (County county : counties) {
-            countyDtos.add(new CountyDto(county));
+            countyDtos.add(countyDtoMapper.map(county));
         }
         return countyDtos;
     }
@@ -61,7 +64,7 @@ public class CountyServiceImpl implements CountyService {
     }
 
     @Override
-    public List<CountyDto> getCountyDtos(String stateName) {
+    public List<CountyDto> getCounties(String stateName) {
         Optional<State> state = stateRepository.findByRegionName(stateName);
 
         if (!state.isPresent()) {
@@ -72,9 +75,63 @@ public class CountyServiceImpl implements CountyService {
         List<CountyDto> countyDtos  = new ArrayList<>();
 
         for (County county : counties) {
-            countyDtos.add(new CountyDto(county));
+            countyDtos.add(countyDtoMapper.map(county));
         }
-
         return countyDtos;
+    }
+
+    @Override
+    public CountyDto getCounty(Integer id) {
+
+        Optional<County> county = countyRepository.findById(id);
+
+        if (!county.isPresent()) {
+            throw new IllegalArgumentException("County with ID " + id + " not found");
+        }
+        return countyDtoMapper.map(county.get());
+     }
+
+    @Transactional
+    @Override
+    public CountyDto createCounty(CountyDto countyDto) {
+        County county = countyDtoMapper.map(countyDto);
+        return countyDtoMapper.map(countyRepository.save(county));
+     }
+
+    @Transactional
+    @Override
+    public CountyDto updateCounty(Integer id, CountyDto countyDto) {
+        Optional<County> countyOptional = countyRepository.findById(id);
+
+        if (!countyOptional.isPresent()) {
+            throw new IllegalArgumentException("County with ID " + id + " not found");
+        }
+        County county = countyOptional.get();
+        county.setRegionName(countyDto.getName());
+        county.setRegionId(countyDto.getRegionId());
+        county.setSizeRank(countyDto.getSizeRank());
+        county.setStateCodeFips(countyDto.getStateCodeFips());
+        county.setMetroCodeFips(countyDto.getMetroCodeFips());
+        county.setMetroState(countyDto.getMetroState());
+
+        Integer newStateId = countyDto.getState().getId();
+        Optional<State> stateOptional = stateRepository.findById(newStateId);
+
+        if (!stateOptional.isPresent()) {
+            throw new IllegalArgumentException("State with ID " + id + " not found");
+        }
+        county.setState(stateOptional.get());
+        return countyDtoMapper.map(countyRepository.save(county));
+     }
+
+    @Transactional
+    @Override
+    public void deleteCounty(Integer id) {
+        Optional<County> county = countyRepository.findById(id);
+
+        if (!county.isPresent()) {
+            throw new IllegalArgumentException("County with ID " + id + " not found");
+        }
+        countyRepository.deleteById(id);
     }
 }

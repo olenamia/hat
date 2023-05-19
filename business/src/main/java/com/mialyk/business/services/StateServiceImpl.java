@@ -11,13 +11,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mialyk.business.dtos.StateDto;
+import com.mialyk.business.mappers.StateDtoMapper;
 import com.mialyk.persistence.entities.State;
 import com.mialyk.persistence.repositories.StateRepository;
 
 @Service
 public class StateServiceImpl implements StateService {
     @Autowired
-    StateRepository stateRepository;
+    private StateRepository stateRepository;
+    @Autowired
+    private StateDtoMapper stateDtoMapper;
 
     private static HashMap<String, String> shortStateNames;
     static {
@@ -76,11 +79,11 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
-    public List<StateDto> getStateDtos() {
+    public List<StateDto> getStates() {
         List<State> states = stateRepository.findAll(Sort.by(Sort.Direction.ASC, "regionName"));
         List<StateDto> statesDto = new ArrayList<>();
         for (State state : states) {
-            statesDto.add(new StateDto(state));
+            statesDto.add(stateDtoMapper.map(state));
         }
         return statesDto;
     }
@@ -106,12 +109,8 @@ public class StateServiceImpl implements StateService {
     @Transactional
     @Override
     public StateDto createState(StateDto stateDto) {
-        State state = new State();
-        state.setRegionName(stateDto.getName());
-        state.setStateName(stateDto.getShortName());
-        state.setRegionId(stateDto.getRegionId());
-        state.setSizeRank(stateDto.getSizeRank());
-        return new StateDto(stateRepository.save(state));
+        State state = stateDtoMapper.map(stateDto);
+        return stateDtoMapper.map(stateRepository.save(state));
     }
 
     @Override
@@ -121,8 +120,7 @@ public class StateServiceImpl implements StateService {
         if (!state.isPresent()) {
             throw new IllegalArgumentException("State with ID " + id + " not found");
         }
-
-        return new StateDto(state.get());
+        return stateDtoMapper.map(state.get());
     }
 
     @Transactional
@@ -138,7 +136,8 @@ public class StateServiceImpl implements StateService {
         state.setStateName(stateDto.getShortName());
         state.setRegionId(stateDto.getRegionId());
         state.setSizeRank(stateDto.getSizeRank());
-        return new StateDto(stateRepository.save(state));
+
+        return stateDtoMapper.map(stateRepository.save(state));
     }
 
     @Transactional

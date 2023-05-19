@@ -7,7 +7,7 @@ import com.mialyk.persistence.entities.State;
 
 public interface StateService {
 
-    List<StateDto> getStateDtos();
+    List<StateDto> getStates();
 
     State getOrCreateState(String regionName, String stateName, int regionId, int sizeRank);
 

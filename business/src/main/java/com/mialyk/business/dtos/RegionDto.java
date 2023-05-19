@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(value = Include.NON_NULL)
-public class RegionDto implements Serializable  {
+public class RegionDto implements Serializable {
     private Integer id;
     private Integer regionId;
     private String name;

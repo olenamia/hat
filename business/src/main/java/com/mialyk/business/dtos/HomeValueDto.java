@@ -19,10 +19,4 @@ public class HomeValueDto implements Serializable {
     private Date date;
     private Double homeValue;
     private Double yoyChange;
-
-    public HomeValueDto(int id, Date date, Double homeValue) {
-            this.id = id;
-            this.date = date;
-            this.homeValue = homeValue;
-    }
 }

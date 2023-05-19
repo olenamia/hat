@@ -7,10 +7,17 @@ import com.mialyk.persistence.entities.County;
 
 public interface CountyService {
 
-    List<CountyDto> getCountyDtos();
+    List<CountyDto> getCounties();
 
-    County getOrCreateCounty(String regionName, String stateName, int regionId, int sizeRank, int stateCodeFips,
-            int metroCodeFips, String metro);
+    List<CountyDto> getCounties(String stateName);
 
-    List<CountyDto> getCountyDtos(String stateName);
+    County getOrCreateCounty(String regionName, String stateName, int regionId, int sizeRank, int stateCodeFips, int metroCodeFips, String metro);
+
+    CountyDto getCounty(Integer id);
+
+    CountyDto createCounty(CountyDto countyDto);
+
+    CountyDto updateCounty(Integer id, CountyDto countyDto);
+
+    void deleteCounty(Integer id);
 }

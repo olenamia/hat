@@ -39,7 +39,7 @@ public class WebController {
         String historicalData = restTemplate.getForObject(url, String.class);
 
         model.addAttribute("regionTypes", regionService.getRegionTypes());
-        model.addAttribute("states", stateService.getStateDtos());
+        model.addAttribute("states", stateService.getStates());
         model.addAttribute("defaultStateHistoricalData", historicalData);
         model.addAttribute("defaultState", defaultState);
         return "charts";
