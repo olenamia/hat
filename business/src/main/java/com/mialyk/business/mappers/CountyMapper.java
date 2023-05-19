@@ -7,9 +7,9 @@ import com.mialyk.business.dtos.CountyDto;
 import com.mialyk.persistence.entities.County;
 
 @Component
-public class CountyDtoMapper {
+public class CountyMapper {
     @Autowired
-    private StateDtoMapper stateDtoMapper;
+    private StateMapper stateDtoMapper;
 
     public County map(CountyDto countyDto) {
         County county = new County();

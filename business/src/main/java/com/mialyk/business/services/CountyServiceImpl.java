@@ -10,11 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mialyk.business.dtos.CountyDto;
-import com.mialyk.business.mappers.CountyDtoMapper;
+import com.mialyk.business.mappers.CountyMapper;
 import com.mialyk.persistence.entities.County;
 import com.mialyk.persistence.entities.State;
 import com.mialyk.persistence.repositories.CountyRepository;
-import com.mialyk.persistence.repositories.HomeValueRepository;
 import com.mialyk.persistence.repositories.StateRepository;
 
 @Service
@@ -24,7 +23,7 @@ public class CountyServiceImpl implements CountyService {
     @Autowired
     private StateRepository stateRepository;
     @Autowired
-    private CountyDtoMapper countyDtoMapper;
+    private CountyMapper countyDtoMapper;
 
     @Override
     public List<CountyDto> getCounties() {

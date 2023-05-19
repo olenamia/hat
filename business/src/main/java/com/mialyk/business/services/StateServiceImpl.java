@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mialyk.business.dtos.StateDto;
-import com.mialyk.business.mappers.StateDtoMapper;
+import com.mialyk.business.mappers.StateMapper;
 import com.mialyk.persistence.entities.State;
 import com.mialyk.persistence.repositories.StateRepository;
 
@@ -20,7 +20,7 @@ public class StateServiceImpl implements StateService {
     @Autowired
     private StateRepository stateRepository;
     @Autowired
-    private StateDtoMapper stateDtoMapper;
+    private StateMapper stateDtoMapper;
 
     private static HashMap<String, String> shortStateNames;
     static {

@@ -6,7 +6,7 @@ import com.mialyk.business.dtos.StateDto;
 import com.mialyk.persistence.entities.State;
 
 @Component
-public class StateDtoMapper {
+public class StateMapper {
 
     public State map(StateDto stateDto) {
         State state = new State();

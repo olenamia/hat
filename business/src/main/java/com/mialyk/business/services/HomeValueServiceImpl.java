@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mialyk.business.dtos.AnalyticsDto;
 import com.mialyk.business.dtos.HomeValueDto;
-import com.mialyk.business.mappers.AnalyticsDtoMapper;
-import com.mialyk.business.mappers.HomeValueDtoMapper;
+import com.mialyk.business.mappers.AnalyticsMapper;
+import com.mialyk.business.mappers.HomeValueMapper;
 import com.mialyk.persistence.repositories.HomeValueRepository;
 import com.mialyk.persistence.views.HistoricalTrendsView;
 import com.mialyk.persistence.views.StateAnalyticsView;
@@ -20,9 +20,9 @@ public class HomeValueServiceImpl implements HomeValueService {
     @Autowired
     private HomeValueRepository homeValueZillowRepository;
     @Autowired
-    private AnalyticsDtoMapper analyticsDtoMapper;
+    private AnalyticsMapper analyticsDtoMapper;
     @Autowired
-    private HomeValueDtoMapper homeValueDtoMapper;
+    private HomeValueMapper homeValueDtoMapper;
 
     @Override
     @Transactional

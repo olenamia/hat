@@ -8,7 +8,7 @@ import com.mialyk.persistence.entities.HomeValue;
 import com.mialyk.persistence.views.HistoricalTrendsView;
 
 @Component
-public class HomeValueDtoMapper {
+public class HomeValueMapper {
     public HomeValueDto map(HistoricalTrendsView historicalTrendsView) {
         HomeValueDto homeValueDto = new HomeValueDto();
 

@@ -9,7 +9,7 @@ import com.mialyk.business.dtos.StateDto;
 import com.mialyk.persistence.views.StateAnalyticsView;
 
 @Component
-public class AnalyticsDtoMapper {
+public class AnalyticsMapper {
 
     public AnalyticsDto map(StateAnalyticsView analyticsView) {
         RegionDto regionDto = new StateDto(analyticsView.getStateRegionId(), analyticsView.getStateRegionName(), analyticsView.getStateShortName());
