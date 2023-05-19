@@ -28,5 +28,25 @@
     "name": "dbseeder.zillow.storagepath",
     "type": "java.lang.String",
     "description": "A description for 'dbseeder.zillow.storagepath'"
+  },
+  {
+    "name": "hat.google-maps-api-key",
+    "type": "java.lang.String",
+    "description": "A description for 'hat.google-maps-api-key'"
+  },
+  {
+    "name": "hat.default-state",
+    "type": "java.lang.String",
+    "description": "A description for 'hat.default-state'"
+  },
+  {
+    "name": "hat.modification-api-key",
+    "type": "java.lang.String",
+    "description": "A description for 'hat.modification-api-key'"
+  },
+  {
+    "name": "server.host",
+    "type": "java.lang.String",
+    "description": "A description for 'server.host'"
   }
 ]}

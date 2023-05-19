@@ -11,14 +11,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "county")
 @DiscriminatorValue("COUNTY")
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class County extends Region {
 
     @Column(name = "size_rank", columnDefinition = "INT")
