@@ -10,7 +10,7 @@ The Minimum Viable Product (MVP) for the Housing Analytics Tool focuses on essen
 ## Project Description:
 HAT (Housing Analytics Tool) provides an API for housing statistics and analytics, crucial for understanding market health and trends.
 
-## Technical features and details: 
+Technical features and details: 
 1) The project utilizes a multi-modular, 3-tier architecture for organized development and clear separation of responsibilities. 
 2) The application employs an automated ETL process to provide updated data and integrates the OpenCsv library for handling CSV data. 
 3) The API supports CRUD operations and performs analytics calculations. 
