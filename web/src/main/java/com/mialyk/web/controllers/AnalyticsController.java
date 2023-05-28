@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
-@Tag(name = "Analytics", description = "Endpoints to get recent trends analytics for different region types")
+@Tag(name = "Recent Trends Analytics", description = "Endpoints to get recent trends analytics for different region types")
 @RestController
 @RequestMapping("hat/api/analytics")
 public class AnalyticsController {

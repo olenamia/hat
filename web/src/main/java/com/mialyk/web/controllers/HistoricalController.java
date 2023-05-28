@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "Historical Data", description = "Endpoints to get changes in home value within a period")
+@Tag(name = "Historical Data Analytics", description = "Endpoints to get changes in home value within a period")
 @RestController
 @RequestMapping("hat/api/historical")
 public class HistoricalController {
