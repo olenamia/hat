@@ -1,8 +1,8 @@
-package com.mialyk.persistence.views;
+package com.mialyk.persistence.projections;
 
 import java.sql.Date;
 
-public interface StateAnalyticsView {
+public interface StateAnalyticsProjection {
 
     Double getValue();
     Date getDate();

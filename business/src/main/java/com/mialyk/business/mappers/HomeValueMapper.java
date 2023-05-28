@@ -5,11 +5,11 @@ import org.springframework.stereotype.Component;
 import com.mialyk.business.common.Utils;
 import com.mialyk.business.dtos.HomeValueDto;
 import com.mialyk.persistence.entities.HomeValue;
-import com.mialyk.persistence.views.HistoricalTrendsView;
+import com.mialyk.persistence.projections.HistoricalTrendsProjection;
 
 @Component
 public class HomeValueMapper {
-    public HomeValueDto map(HistoricalTrendsView historicalTrendsView) {
+    public HomeValueDto map(HistoricalTrendsProjection historicalTrendsView) {
         HomeValueDto homeValueDto = new HomeValueDto();
 
         homeValueDto.setId(historicalTrendsView.getId());

@@ -4,8 +4,8 @@ import java.sql.Date;
 import java.util.List;
 
 import com.mialyk.persistence.entities.HomeValue;
-import com.mialyk.persistence.views.HistoricalTrendsView;
-import com.mialyk.persistence.views.StateAnalyticsView;
+import com.mialyk.persistence.projections.HistoricalTrendsProjection;
+import com.mialyk.persistence.projections.StateAnalyticsProjection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -65,7 +65,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
                 AND state.region_name = prev_month_state
             """,
         nativeQuery = true)
-    List<StateAnalyticsView> GetAnalyticsForStates();
+    List<StateAnalyticsProjection> GetAnalyticsForStates();
 
     @Query(value = """
         SELECT MAX(hv.date) AS max_date
@@ -102,7 +102,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
             ORDER BY hvz.date;
             """, 
         nativeQuery = true)
-    List<HistoricalTrendsView> getYearlyHomeValuesByState(@Param("regionName") String regionName); 
+    List<HistoricalTrendsProjection> getYearlyHomeValuesByState(@Param("regionName") String regionName); 
 
     @Query(value = """
         WITH find_max_date AS (
@@ -128,7 +128,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
             ORDER BY hvz.date;
         """,
     nativeQuery = true)
-    List<HistoricalTrendsView> getYearlyHomeValuesByCountyRegionId(@Param("regionId") Integer regionId);
+    List<HistoricalTrendsProjection> getYearlyHomeValuesByCountyRegionId(@Param("regionId") Integer regionId);
 
     @Query(value = """
         WITH find_max_date AS (
@@ -154,7 +154,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
             ORDER BY hvz.date;
         """,
     nativeQuery = true)
-    List<HistoricalTrendsView> getYearlyHomeValuesByMetroRegionId(@Param("regionId") Integer regionId);
+    List<HistoricalTrendsProjection> getYearlyHomeValuesByMetroRegionId(@Param("regionId") Integer regionId);
 
     @Query(value = """
         WITH find_max_date AS (
@@ -176,7 +176,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
             ORDER BY hvz.date;
         """,
     nativeQuery = true)
-    List<HistoricalTrendsView> getYearlyHomeValuesByUS();
+    List<HistoricalTrendsProjection> getYearlyHomeValuesByUS();
 
     @Query(value = """
         WITH find_max_date AS (
@@ -214,7 +214,7 @@ public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
             ORDER BY hvz.date;
         """,
     nativeQuery = true)
-    List<HistoricalTrendsView> getYearlyHomeValuesByRegionIdAndRegionType(@Param("regionId") Integer regionId, @Param("regionType") String regionType);
+    List<HistoricalTrendsProjection> getYearlyHomeValuesByRegionIdAndRegionType(@Param("regionId") Integer regionId, @Param("regionType") String regionType);
 
     @Query(value = """
         SELECT MAX(hv.date)
