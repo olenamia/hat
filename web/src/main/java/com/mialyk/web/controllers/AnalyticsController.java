@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mialyk.business.dtos.AnalyticsDto;
-import com.mialyk.business.services.HomeValueService;
+import com.mialyk.business.services.AnalyticsService;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,15 +21,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @RequestMapping("hat/api/analytics")
 public class AnalyticsController {
     @Autowired
-    private HomeValueService homeValueZillowService;
+    private AnalyticsService analyticsService;
 
     @GetMapping({"/states"})
     @Operation(summary = "Recent trends by state", description = "Returns recent home value and year-over-year change for US states")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
     })
-    public ResponseEntity<List<AnalyticsDto>> getHomeValuesForStates() { 
-        List<AnalyticsDto> statesAnalytics = homeValueZillowService.GetAnalyticsForStates();
+    public ResponseEntity<List<AnalyticsDto>> getAnalyticsForStates() { 
+        List<AnalyticsDto> statesAnalytics = analyticsService.GetAnalyticsForStates();
         return ResponseEntity.ok(statesAnalytics);
     }
 }

@@ -14,8 +14,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(value = Include.NON_NULL)
-public class HomeValueDto implements Serializable {
-    private int id;
+public class HistoricalTrendsDto implements Serializable {
     private Date date;
     private Double homeValue;
     private Double yoyChange;

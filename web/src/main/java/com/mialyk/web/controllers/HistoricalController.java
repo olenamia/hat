@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mialyk.business.dtos.HomeValueDto;
-import com.mialyk.business.services.HomeValueService;
+import com.mialyk.business.dtos.HistoricalTrendsDto;
+import com.mialyk.business.services.AnalyticsService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,16 +21,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("hat/api/historical")
 public class HistoricalController {
     @Autowired
-    private HomeValueService homeValueZillowService;
+    private AnalyticsService analyticsService;
 
     @GetMapping({"/values/state/{stateName}"})
     @Operation(summary = "Historical data for the state", description = "Returns home values and year-over-year changes for the state for more than 20 years")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
     })
-    public ResponseEntity<List<HomeValueDto>> getHomeValuesByState(@PathVariable String stateName) { 
-        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHomeValuesByState(stateName);
-        return ResponseEntity.ok(homeValuesDtos);
+    public ResponseEntity<List<HistoricalTrendsDto>> getHistoricalTrendsByState(@PathVariable String stateName) { 
+        List<HistoricalTrendsDto> historicalTrendsDto = analyticsService.getHistoricalTrendsByState(stateName);
+        return ResponseEntity.ok(historicalTrendsDto);
     }
 
     @GetMapping({"/values/US"})
@@ -38,9 +38,9 @@ public class HistoricalController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
     })
-    public ResponseEntity<List<HomeValueDto>> getHomeValuesUS() { 
-        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHistoricalDataUS();
-        return ResponseEntity.ok(homeValuesDtos);
+    public ResponseEntity<List<HistoricalTrendsDto>> getHistoricalTrendsUS() { 
+        List<HistoricalTrendsDto> historicalTrendsDto = analyticsService.getHistoricalTrendsUS();
+        return ResponseEntity.ok(historicalTrendsDto);
     }
 
     @GetMapping({"/values/metro/{stateName}/{metroRegionId}"})
@@ -48,9 +48,9 @@ public class HistoricalController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
     })
-    public ResponseEntity<List<HomeValueDto>> getHomeValuesByMetro(@PathVariable String stateName, @PathVariable Integer metroRegionId) { 
-        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHistoricalDataByMetroRegionId(metroRegionId);
-        return ResponseEntity.ok(homeValuesDtos);
+    public ResponseEntity<List<HistoricalTrendsDto>> getHistoricalTrendsByMetro(@PathVariable String stateName, @PathVariable Integer metroRegionId) { 
+        List<HistoricalTrendsDto> historicalTrendsDto = analyticsService.getHistoricalTrendsByMetroRegionId(metroRegionId);
+        return ResponseEntity.ok(historicalTrendsDto);
     }
 
     @GetMapping({"/values/county/{stateName}/{countyRegionId}"})
@@ -58,8 +58,8 @@ public class HistoricalController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
     })
-    public ResponseEntity<List<HomeValueDto>> getHomeValuesByCounty(@PathVariable String stateName, @PathVariable Integer countyRegionId) { 
-        List<HomeValueDto> homeValuesDtos = homeValueZillowService.getHistoricalDataByCountyRegionId(countyRegionId);
-        return ResponseEntity.ok(homeValuesDtos);
+    public ResponseEntity<List<HistoricalTrendsDto>> getHistoricalTrendsByCounty(@PathVariable String stateName, @PathVariable Integer countyRegionId) { 
+        List<HistoricalTrendsDto> historicalTrendsDto = analyticsService.getHistoricalTrendsByCountyRegionId(countyRegionId);
+        return ResponseEntity.ok(historicalTrendsDto);
     }
 }

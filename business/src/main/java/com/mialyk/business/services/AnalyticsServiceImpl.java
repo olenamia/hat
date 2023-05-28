@@ -8,63 +8,63 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mialyk.business.dtos.AnalyticsDto;
-import com.mialyk.business.dtos.HomeValueDto;
+import com.mialyk.business.dtos.HistoricalTrendsDto;
 import com.mialyk.business.mappers.AnalyticsMapper;
-import com.mialyk.business.mappers.HomeValueMapper;
+import com.mialyk.business.mappers.HistoricalTrendsMapper;
 import com.mialyk.persistence.projections.HistoricalTrendsProjection;
 import com.mialyk.persistence.projections.StateAnalyticsProjection;
 import com.mialyk.persistence.repositories.HomeValueRepository;
 
 @Service
-public class HomeValueServiceImpl implements HomeValueService {
+public class AnalyticsServiceImpl implements AnalyticsService {
     @Autowired
-    private HomeValueRepository homeValueZillowRepository;
+    private HomeValueRepository homeValueRepository;
     @Autowired
     private AnalyticsMapper analyticsDtoMapper;
     @Autowired
-    private HomeValueMapper homeValueDtoMapper;
+    private HistoricalTrendsMapper historicalTrendsMapper;
 
     @Override
     @Transactional
-    public List<HomeValueDto> getHomeValuesByState(String stateName) {
+    public List<HistoricalTrendsDto> getHistoricalTrendsByState(String stateName) {
 
-        List<HistoricalTrendsProjection> historicalTrendsViewList = homeValueZillowRepository.getYearlyHomeValuesByState(stateName);
+        List<HistoricalTrendsProjection> historicalTrendsViewList = homeValueRepository.getYearlyHomeValuesByState(stateName);
 
         return historicalTrendsViewList.stream().map(historicalTrendsView -> {
-            return homeValueDtoMapper.map(historicalTrendsView);
+            return historicalTrendsMapper.map(historicalTrendsView);
         }).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public List<HomeValueDto> getHistoricalDataUS() {
+    public List<HistoricalTrendsDto> getHistoricalTrendsUS() {
 
-        List<HistoricalTrendsProjection> historicalTrendsViewList = homeValueZillowRepository.getYearlyHomeValuesByUS();
+        List<HistoricalTrendsProjection> historicalTrendsViewList = homeValueRepository.getYearlyHomeValuesByUS();
 
         return historicalTrendsViewList.stream().map(historicalTrendsView -> {
-            return homeValueDtoMapper.map(historicalTrendsView);
+            return historicalTrendsMapper.map(historicalTrendsView);
         }).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public List<HomeValueDto> getHistoricalDataByCountyRegionId(Integer regionId) {
+    public List<HistoricalTrendsDto> getHistoricalTrendsByCountyRegionId(Integer regionId) {
 
-        List<HistoricalTrendsProjection> historicalTrendsViewList = homeValueZillowRepository.getYearlyHomeValuesByCountyRegionId(regionId);
+        List<HistoricalTrendsProjection> historicalTrendsViewList = homeValueRepository.getYearlyHomeValuesByCountyRegionId(regionId);
 
         return historicalTrendsViewList.stream().map(historicalTrendsView -> {
-            return homeValueDtoMapper.map(historicalTrendsView);
+            return historicalTrendsMapper.map(historicalTrendsView);
         }).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public List<HomeValueDto> getHistoricalDataByMetroRegionId(Integer regionId) {
+    public List<HistoricalTrendsDto> getHistoricalTrendsByMetroRegionId(Integer regionId) {
 
-        List<HistoricalTrendsProjection> historicalTrendsViewList = homeValueZillowRepository.getYearlyHomeValuesByMetroRegionId(regionId);
+        List<HistoricalTrendsProjection> historicalTrendsViewList = homeValueRepository.getYearlyHomeValuesByMetroRegionId(regionId);
     
         return historicalTrendsViewList.stream().map(historicalTrendsView -> {
-            return homeValueDtoMapper.map(historicalTrendsView);
+            return historicalTrendsMapper.map(historicalTrendsView);
         }).collect(Collectors.toList());
     }
 
@@ -72,7 +72,7 @@ public class HomeValueServiceImpl implements HomeValueService {
     @Transactional
     public List<AnalyticsDto> GetAnalyticsForStates() {
 
-        List<StateAnalyticsProjection> analyticsList = homeValueZillowRepository.GetAnalyticsForStates();
+        List<StateAnalyticsProjection> analyticsList = homeValueRepository.GetAnalyticsForStates();
 
         return analyticsList.stream().map(analyticsView -> {
             return analyticsDtoMapper.map(analyticsView);
