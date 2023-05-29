@@ -1,6 +1,7 @@
 package com.mialyk.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,13 +46,13 @@ public class StateController {
     @PostMapping("")
     @Operation(summary = "Create a state", description = "Create a single state. Returns created state")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "State successfully created"),
+        @ApiResponse(responseCode = "201", description = "State successfully created"),
         @ApiResponse(responseCode =  "401", description = "Unauthorized")
     })
     public ResponseEntity<StateDto> createState(@RequestBody StateDto stateDto, @RequestHeader("apiKey") String apiKey) { 
         apiKeyValidator.validate(apiKey);
         StateDto createdStateDto = stateService.createState(stateDto);
-        return ResponseEntity.ok(createdStateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdStateDto);
     }
 
     @PutMapping("/{stateId}")

@@ -1,6 +1,7 @@
 package com.mialyk.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,13 +46,13 @@ public class CountyController {
     @PostMapping("")
     @Operation(summary = "Create a county", description = "Create a single county. Returns created county")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "County successfully created"),
+        @ApiResponse(responseCode = "201", description = "County successfully created"),
         @ApiResponse(responseCode =  "401", description = "Unauthorized")
     })
     public ResponseEntity<CountyDto> createCounty(@RequestBody CountyDto countyDto, @RequestHeader("apiKey") String apiKey) { 
         apiKeyValidator.validate(apiKey);
         CountyDto newCountyDto = countyService.createCounty(countyDto);
-        return ResponseEntity.ok(newCountyDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newCountyDto);
     }
 
     @PutMapping("/{countyId}")

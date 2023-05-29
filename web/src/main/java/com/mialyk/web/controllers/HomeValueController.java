@@ -1,6 +1,7 @@
 package com.mialyk.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,13 +45,13 @@ public class HomeValueController {
     @PostMapping("")
     @Operation(summary = "Create a home value", description = "Create a single home value. Returns created home value")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Home value successfully created"),
+        @ApiResponse(responseCode = "201", description = "Home value successfully created"),
         @ApiResponse(responseCode =  "401", description = "Unauthorized")
     })
     public ResponseEntity<HomeValueDto> createHomeValue(@RequestBody HomeValueDto homeValueDto, @RequestHeader("apiKey") String apiKey) { 
         apiKeyValidator.validate(apiKey);
         HomeValueDto newHomeValueDto = homeValueService.createHomeValue(homeValueDto);
-        return ResponseEntity.ok(newHomeValueDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newHomeValueDto);
     }
 
     @PutMapping("/{homeValueId}")
