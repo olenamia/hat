@@ -2,6 +2,7 @@ package com.mialyk.persistence.repositories;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.mialyk.persistence.entities.HomeValue;
 import com.mialyk.persistence.projections.HistoricalTrendsProjection;
@@ -12,6 +13,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface HomeValueRepository extends JpaRepository<HomeValue, Integer> {
+
+    Optional<HomeValue> findById(Integer id);
+
     @Query(value = """
         WITH find_dates AS (
             SELECT MAX(hv.date) AS max_date,

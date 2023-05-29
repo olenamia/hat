@@ -54,3 +54,14 @@ content-type: application/json
 
 ###
 
+POST http://localhost:8080/hat/api/homevalue
+content-type: application/json
+apiKey: 58ed6522-62a0-4ae0-bde5-46e9f4177fad
+
+{
+  "id": 13953,
+  "date": "2023-04-30",
+  "homeValue": 728121.08,
+  "regionType": "STATE",
+  "regionId": 1
+}
