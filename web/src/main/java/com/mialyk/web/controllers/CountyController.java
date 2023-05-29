@@ -55,7 +55,7 @@ public class CountyController {
     }
 
     @PutMapping("/{countyId}")
-    @Operation(summary = "Update a county by ID", description = "Update a single county by it's ID. Returns created county")
+    @Operation(summary = "Update a county by ID", description = "Update a single county by it's ID. Returns updated county")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "County successfully updated"),
         @ApiResponse(responseCode = "404", description = "County not found"),
