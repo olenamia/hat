@@ -80,5 +80,5 @@ function updateMap(type) {
 
 function drawTable(analyticsDataTable) {
     var table = new google.visualization.Table( document.getElementById('analytics_table_chart'));
-    table.draw(analyticsDataTable, {showRowNumber: true, width: '100%', height: '100%'});
+    table.draw(analyticsDataTable, {showRowNumber: true, width: '100%', height: '100%', 'pageSize': 25});
 }

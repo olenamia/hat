@@ -122,7 +122,7 @@ function drawTableChart(histoticalData, htmlElement) {
     });
 
     var table = new google.visualization.Table(htmlElement);
-    table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+    table.draw(data, {showRowNumber: true, width: '100%', height: '100%', 'pageSize': 25});
 }
 
 function drawColumnChart(histoticalData, htmlElement) {
