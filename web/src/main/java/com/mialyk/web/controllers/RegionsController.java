@@ -39,7 +39,8 @@ public class RegionsController {
     @GetMapping("/types")
     @Operation(summary = "Get available region types", description = "Returns collection of available region types")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "OK")
+        @ApiResponse(responseCode = "200", description = "OK"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<List<String>> getRegionTypes() { 
         List<String> regionTypes = regionService.getRegionTypes();
@@ -49,7 +50,8 @@ public class RegionsController {
     @GetMapping("/states")
     @Operation(summary = "Get all states", description = "Get all states. Returns collection of all states")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "OK")
+        @ApiResponse(responseCode = "200", description = "OK"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<List<StateDto>> getStates() { 
         List<StateDto> stateDtos = stateService.getStates();
@@ -59,7 +61,8 @@ public class RegionsController {
     @GetMapping("/counties")
     @Operation(summary = "Get all counties", description = "Get all counties. Returns collection of all counties")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "OK")
+        @ApiResponse(responseCode = "200", description = "OK"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public  ResponseEntity<List<CountyDto>> getCounties() { 
         List<CountyDto> countyDtos = countyService.getCounties();
@@ -70,7 +73,8 @@ public class RegionsController {
     @Operation(summary = "Get counties by state name", description = "Returns collection of counties for the state")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
-        @ApiResponse(responseCode = "404", description = "State not fount")
+        @ApiResponse(responseCode = "404", description = "State not fount"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<List<CountyDto>> getCounties(@PathVariable String stateName) { 
         List<CountyDto> countyDtos = countyService.getCounties(stateName);
@@ -80,7 +84,8 @@ public class RegionsController {
     @GetMapping("/metros")
     @Operation(summary = "Get all metro areas", description = "Get all metro areas. Returns collection of all metro areas")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "OK")
+        @ApiResponse(responseCode = "200", description = "OK"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<List<MetroAreaDto>> getMetros() { 
         List<MetroAreaDto> metroDtos = metroAreaService.getMetroAreaDtos();
@@ -91,7 +96,8 @@ public class RegionsController {
     @Operation(summary = "Get metro areas by state name", description = "Returns collection of metro areas for the state")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
-        @ApiResponse(responseCode = "404", description = "State not fount")
+        @ApiResponse(responseCode = "404", description = "State not fount"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<List<MetroAreaDto>> getMetros(@PathVariable String stateName) { 
         List<MetroAreaDto> metroDtos = metroAreaService.getMetroAreaDtos(stateName);

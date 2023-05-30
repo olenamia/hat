@@ -27,6 +27,7 @@ public class AnalyticsController {
     @Operation(summary = "Recent trends by state", description = "Returns recent home value and year-over-year change for US states")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<List<AnalyticsDto>> getAnalyticsForStates() { 
         List<AnalyticsDto> statesAnalytics = analyticsService.GetAnalyticsForStates();

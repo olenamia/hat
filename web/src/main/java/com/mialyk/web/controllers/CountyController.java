@@ -36,7 +36,8 @@ public class CountyController {
     @Operation(summary = "Get a county by ID", description = "Get a single county by its ID and. Returns a county")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "County successfully rerurned"),
-        @ApiResponse(responseCode = "404", description = "County not found")
+        @ApiResponse(responseCode = "404", description = "County not found"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<CountyDto> getCounty(@PathVariable Integer countyId) { 
         CountyDto countyDto =  countyService.getCounty(countyId);
@@ -47,7 +48,8 @@ public class CountyController {
     @Operation(summary = "Create a county", description = "Create a single county. Returns created county")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "County successfully created"),
-        @ApiResponse(responseCode =  "401", description = "Unauthorized")
+        @ApiResponse(responseCode =  "401", description = "Unauthorized"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<CountyDto> createCounty(@RequestBody CountyDto countyDto, @RequestHeader("apiKey") String apiKey) { 
         apiKeyValidator.validate(apiKey);
@@ -60,7 +62,8 @@ public class CountyController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "County successfully updated"),
         @ApiResponse(responseCode = "404", description = "County not found"),
-        @ApiResponse(responseCode =  "401", description = "Unauthorized")
+        @ApiResponse(responseCode =  "401", description = "Unauthorized"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<CountyDto> updateCounty(@PathVariable Integer countyId, @RequestBody CountyDto countyDto, @RequestHeader("apiKey") String apiKey) { 
         apiKeyValidator.validate(apiKey);
@@ -73,7 +76,8 @@ public class CountyController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "204", description = "County successfully deleted"),
         @ApiResponse(responseCode = "404", description = "County not found"),
-        @ApiResponse(responseCode =  "401", description = "Unauthorized")
+        @ApiResponse(responseCode =  "401", description = "Unauthorized"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<Void> deleteCounty(@PathVariable Integer countyId, @RequestHeader("apiKey") String apiKey) {
         apiKeyValidator.validate(apiKey);

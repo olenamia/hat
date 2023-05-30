@@ -35,7 +35,8 @@ public class HomeValueController {
     @Operation(summary = "Get a home value by ID", description = "Get a single home value by its ID and. Returns a home value: date and value")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Home value successfully returned"),
-        @ApiResponse(responseCode = "404", description = "Home value not found")
+        @ApiResponse(responseCode = "404", description = "Home value not found"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<HomeValueDto> getHomeValue(@PathVariable Integer homeValueId) { 
         HomeValueDto homeValueDto =  homeValueService.getHomeValue(homeValueId);
@@ -46,7 +47,8 @@ public class HomeValueController {
     @Operation(summary = "Create a home value", description = "Create a single home value. Returns created home value")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Home value successfully created"),
-        @ApiResponse(responseCode =  "401", description = "Unauthorized")
+        @ApiResponse(responseCode =  "401", description = "Unauthorized"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<HomeValueDto> createHomeValue(@RequestBody HomeValueDto homeValueDto, @RequestHeader("apiKey") String apiKey) { 
         apiKeyValidator.validate(apiKey);
@@ -59,7 +61,8 @@ public class HomeValueController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Home value successfully updated"),
         @ApiResponse(responseCode = "404", description = "Home value not found"),
-        @ApiResponse(responseCode =  "401", description = "Unauthorized")
+        @ApiResponse(responseCode =  "401", description = "Unauthorized"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<HomeValueDto> updateHomeValue(@PathVariable Integer homeValueId, @RequestBody HomeValueDto homeValueDto, @RequestHeader("apiKey") String apiKey) { 
         apiKeyValidator.validate(apiKey);
@@ -72,7 +75,8 @@ public class HomeValueController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "204", description = "Home value successfully deleted"),
         @ApiResponse(responseCode = "404", description = "Home value not found"),
-        @ApiResponse(responseCode =  "401", description = "Unauthorized")
+        @ApiResponse(responseCode =  "401", description = "Unauthorized"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<Void> deleteHomeValue(@PathVariable Integer homeValueId, @RequestHeader("apiKey") String apiKey) {
         apiKeyValidator.validate(apiKey);

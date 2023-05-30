@@ -27,6 +27,7 @@ public class HistoricalController {
     @Operation(summary = "Historical data for the state", description = "Returns home values and year-over-year changes for the state for more than 20 years")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<List<HistoricalTrendsDto>> getHistoricalTrendsByState(@PathVariable String stateName) { 
         List<HistoricalTrendsDto> historicalTrendsDto = analyticsService.getHistoricalTrendsByState(stateName);
@@ -37,6 +38,7 @@ public class HistoricalController {
     @Operation(summary = "Historical data for the US", description = "Returns home values and year-over-year changes for the US for more than 20 years")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<List<HistoricalTrendsDto>> getHistoricalTrendsUS() { 
         List<HistoricalTrendsDto> historicalTrendsDto = analyticsService.getHistoricalTrendsUS();
@@ -47,6 +49,7 @@ public class HistoricalController {
     @Operation(summary = "Historical data for the metro area", description = "Returns home values and year-over-year changes for the metro area for more than 20 years")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<List<HistoricalTrendsDto>> getHistoricalTrendsByMetro(@PathVariable String stateName, @PathVariable Integer metroRegionId) { 
         List<HistoricalTrendsDto> historicalTrendsDto = analyticsService.getHistoricalTrendsByMetroRegionId(metroRegionId);
@@ -57,6 +60,7 @@ public class HistoricalController {
     @Operation(summary = "Historical data for the county", description = "Returns home values and year-over-year changes for the county for more than 20 years")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<List<HistoricalTrendsDto>> getHistoricalTrendsByCounty(@PathVariable String stateName, @PathVariable Integer countyRegionId) { 
         List<HistoricalTrendsDto> historicalTrendsDto = analyticsService.getHistoricalTrendsByCountyRegionId(countyRegionId);

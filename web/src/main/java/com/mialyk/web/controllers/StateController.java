@@ -36,7 +36,8 @@ public class StateController {
     @Operation(summary = "Get a state by ID", description = "Get a single state by it's ID. Returns a state")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "State successfully rerurned"),
-        @ApiResponse(responseCode = "404", description = "State not found")
+        @ApiResponse(responseCode = "404", description = "State not found"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<StateDto> getState(@PathVariable Integer stateId) { 
         StateDto stateDto =  stateService.getState(stateId);
@@ -47,7 +48,8 @@ public class StateController {
     @Operation(summary = "Create a state", description = "Create a single state. Returns created state")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "State successfully created"),
-        @ApiResponse(responseCode =  "401", description = "Unauthorized")
+        @ApiResponse(responseCode =  "401", description = "Unauthorized"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<StateDto> createState(@RequestBody StateDto stateDto, @RequestHeader("apiKey") String apiKey) { 
         apiKeyValidator.validate(apiKey);
@@ -60,7 +62,8 @@ public class StateController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "State successfully updated"),
         @ApiResponse(responseCode = "404", description = "State not found"),
-        @ApiResponse(responseCode =  "401", description = "Unauthorized")
+        @ApiResponse(responseCode =  "401", description = "Unauthorized"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<StateDto> updateState(@PathVariable Integer stateId, @RequestBody StateDto stateDto, @RequestHeader("apiKey") String apiKey) { 
         apiKeyValidator.validate(apiKey);
@@ -73,7 +76,8 @@ public class StateController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "204", description = "State successfully deleted"),
         @ApiResponse(responseCode = "404", description = "State not found"),
-        @ApiResponse(responseCode =  "401", description = "Unauthorized")
+        @ApiResponse(responseCode =  "401", description = "Unauthorized"),
+        @ApiResponse(responseCode =  "500", description = "Internal Server Error")
     })
     public ResponseEntity<Void> deleteState(@PathVariable Integer stateId, @RequestHeader("apiKey") String apiKey) {
         apiKeyValidator.validate(apiKey);
