@@ -1,20 +1,14 @@
-package com.mialyk.business;
+package com.mialyk.business.configuration;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-
-@SpringBootApplication
+@Configuration
 @EnableJpaRepositories(basePackages = {"com.mialyk.persistence.repositories"})
 @EntityScan(basePackages = {"com.mialyk.persistence.entities"})
 @ComponentScan(basePackages = {"com.mialyk.persistence"})
-public class BusinessApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(BusinessApplication.class, args);
-	}
-
+public class BusinessConfiguration {
+    
 }

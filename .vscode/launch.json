@@ -12,9 +12,8 @@
         },
         {
             "type": "java",
-            "name": "BusinessApplication",
+            "name": "BusinessModule",
             "request": "launch",
-            "mainClass": "com.mialyk.business.BusinessApplication",
             "projectName": "business"
         },
         {
@@ -26,9 +25,8 @@
         },
         {
             "type": "java",
-            "name": "PersistenceApplication",
+            "name": "PersistenceModule",
             "request": "launch",
-            "mainClass": "com.mialyk.persistence.PersistenceApplication",
             "projectName": "persistence"
         },
         {
