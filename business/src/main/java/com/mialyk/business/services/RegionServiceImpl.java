@@ -18,6 +18,8 @@ import com.mialyk.persistence.repositories.CountyRepository;
 import com.mialyk.persistence.repositories.MetroAreaRepository;
 import com.mialyk.persistence.repositories.StateRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class RegionServiceImpl implements RegionService {
     @Autowired
@@ -42,28 +44,28 @@ public class RegionServiceImpl implements RegionService {
         if (regionType == RegionType.STATE) {
             Optional<State> stateOptional = stateRepository.findById(regionId);
             if (!stateOptional.isPresent()) {
-                throw new IllegalArgumentException("State with ID " + regionId + " not found");
+                throw new EntityNotFoundException("State with ID " + regionId + " not found");
             }
             return stateOptional.get();
         }
         else if (regionType == RegionType.COUNTY) {
             Optional<County> countyOptional = countyRepository.findById(regionId);
             if (!countyOptional.isPresent()) {
-                throw new IllegalArgumentException("County with ID " + regionId + " not found");
+                throw new EntityNotFoundException("County with ID " + regionId + " not found");
             }
             return countyOptional.get();
         }
         else if (regionType == RegionType.METRO) {
             Optional<MetroArea> metroOptional = metroRepository.findById(regionId);
             if (!metroOptional.isPresent()) {
-                throw new IllegalArgumentException("Metro with ID " + regionId + " not found");
+                throw new EntityNotFoundException("Metro with ID " + regionId + " not found");
             }
             return metroOptional.get();
         }
         else if (regionType == RegionType.COUNTRY) {
             Optional<Country> countryOptional = countryRepository.findById(regionId);
             if (!countryOptional.isPresent()) {
-                throw new IllegalArgumentException("Country with ID " + regionId + " not found");
+                throw new EntityNotFoundException("Country with ID " + regionId + " not found");
             }
             return countryOptional.get();
         }

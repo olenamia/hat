@@ -15,6 +15,8 @@ import com.mialyk.business.mappers.StateMapper;
 import com.mialyk.persistence.entities.State;
 import com.mialyk.persistence.repositories.StateRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class StateServiceImpl implements StateService {
     @Autowired
@@ -118,7 +120,7 @@ public class StateServiceImpl implements StateService {
         Optional <State> state = stateRepository.findById(id);
 
         if (!state.isPresent()) {
-            throw new IllegalArgumentException("State with ID " + id + " not found");
+            throw new EntityNotFoundException("State with ID " + id + " not found");
         }
         return stateDtoMapper.map(state.get());
     }
@@ -129,7 +131,7 @@ public class StateServiceImpl implements StateService {
         Optional <State> stateOptional = stateRepository.findById(id);
 
         if (!stateOptional.isPresent()) {
-            throw new IllegalArgumentException("State with ID " + id + " not found");
+            throw new EntityNotFoundException("State with ID " + id + " not found");
         }
         State state = stateOptional.get();
         state.setRegionName(stateDto.getName());
@@ -146,7 +148,7 @@ public class StateServiceImpl implements StateService {
         Optional <State> stateOptional = stateRepository.findById(id);
 
         if (!stateOptional.isPresent()) {
-            throw new IllegalArgumentException("State with ID " + id + " not found");
+            throw new EntityNotFoundException("State with ID " + id + " not found");
         }
         stateRepository.deleteById(id);
     }

@@ -16,6 +16,8 @@ import com.mialyk.persistence.entities.State;
 import com.mialyk.persistence.repositories.CountyRepository;
 import com.mialyk.persistence.repositories.StateRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class CountyServiceImpl implements CountyService {
     @Autowired
@@ -54,7 +56,7 @@ public class CountyServiceImpl implements CountyService {
 
             Optional<State> state = stateRepository.findByStateName(stateName);
             if (!state.isPresent()) {
-                throw new IllegalArgumentException("State " + stateName + " not found");
+                throw new EntityNotFoundException("State " + stateName + " not found");
             }
             county.setState(state.get());
             county.setMetroState(metro);
@@ -67,7 +69,7 @@ public class CountyServiceImpl implements CountyService {
         Optional<State> state = stateRepository.findByRegionName(stateName);
 
         if (!state.isPresent()) {
-            throw new IllegalArgumentException("State " + stateName + " not found");
+            throw new EntityNotFoundException("State " + stateName + " not found");
         }
 
         List<County>  counties = countyRepository.findByStateIdOrderByRegionNameAsc(state.get().getId());
@@ -85,7 +87,7 @@ public class CountyServiceImpl implements CountyService {
         Optional<County> county = countyRepository.findById(id);
 
         if (!county.isPresent()) {
-            throw new IllegalArgumentException("County with ID " + id + " not found");
+            throw new EntityNotFoundException("County with ID " + id + " not found");
         }
         return countyDtoMapper.map(county.get());
      }
@@ -103,7 +105,7 @@ public class CountyServiceImpl implements CountyService {
         Optional<County> countyOptional = countyRepository.findById(id);
 
         if (!countyOptional.isPresent()) {
-            throw new IllegalArgumentException("County with ID " + id + " not found");
+            throw new EntityNotFoundException("County with ID " + id + " not found");
         }
         County county = countyOptional.get();
         county.setRegionName(countyDto.getName());
@@ -117,7 +119,7 @@ public class CountyServiceImpl implements CountyService {
         Optional<State> stateOptional = stateRepository.findById(newStateId);
 
         if (!stateOptional.isPresent()) {
-            throw new IllegalArgumentException("State with ID " + id + " not found");
+            throw new EntityNotFoundException("State with ID " + id + " not found");
         }
         county.setState(stateOptional.get());
         return countyDtoMapper.map(countyRepository.save(county));
@@ -129,7 +131,7 @@ public class CountyServiceImpl implements CountyService {
         Optional<County> county = countyRepository.findById(id);
 
         if (!county.isPresent()) {
-            throw new IllegalArgumentException("County with ID " + id + " not found");
+            throw new EntityNotFoundException("County with ID " + id + " not found");
         }
         countyRepository.deleteById(id);
     }

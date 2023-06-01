@@ -12,6 +12,8 @@ import com.mialyk.business.mappers.HomeValueMapper;
 import com.mialyk.persistence.entities.HomeValue;
 import com.mialyk.persistence.repositories.HomeValueRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class HomeValueServiceImpl implements HomeValueService {
     @Autowired
@@ -26,7 +28,7 @@ public class HomeValueServiceImpl implements HomeValueService {
         Optional<HomeValue> homeValue = homeValueRepository.findById(homeValueId);
 
         if (!homeValue.isPresent()) {
-            throw new IllegalArgumentException("Home Value with ID " + homeValueId + " not found");
+            throw new EntityNotFoundException("Home Value with ID " + homeValueId + " not found");
         }
         return homeValueDtoMapper.map(homeValue.get());
     }
@@ -44,7 +46,7 @@ public class HomeValueServiceImpl implements HomeValueService {
         Optional<HomeValue> homeValueOptional = homeValueRepository.findById(homeValueId);
 
         if (!homeValueOptional.isPresent()) {
-            throw new IllegalArgumentException("Home value with ID " + homeValueId + " not found");
+            throw new EntityNotFoundException("Home value with ID " + homeValueId + " not found");
         }
         HomeValue homeValue = homeValueOptional.get();
         homeValue.setValue(new BigDecimal(homeValueDto.getHomeValue()));
@@ -60,7 +62,7 @@ public class HomeValueServiceImpl implements HomeValueService {
         Optional<HomeValue> homeValue = homeValueRepository.findById(homeValueId);
 
         if (!homeValue.isPresent()) {
-            throw new IllegalArgumentException("Home Value with ID " + homeValueId + " not found");
+            throw new EntityNotFoundException("Home Value with ID " + homeValueId + " not found");
         }
         homeValueRepository.deleteById(homeValueId);
     }

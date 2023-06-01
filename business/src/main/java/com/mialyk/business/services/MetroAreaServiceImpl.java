@@ -15,6 +15,8 @@ import com.mialyk.persistence.entities.State;
 import com.mialyk.persistence.repositories.MetroAreaRepository;
 import com.mialyk.persistence.repositories.StateRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class MetroAreaServiceImpl implements MetroAreaService {
     @Autowired
@@ -38,7 +40,7 @@ public class MetroAreaServiceImpl implements MetroAreaService {
 
             Optional<State> state = stateRepository.findByStateName(stateName);
             if (!state.isPresent()) {
-                throw new IllegalArgumentException("State " + stateName + " not found");
+                throw new EntityNotFoundException("State " + stateName + " not found");
             }
             metroArea.setState(state.get());
             return metroAreaRepository.save(metroArea);
@@ -60,7 +62,7 @@ public class MetroAreaServiceImpl implements MetroAreaService {
         Optional<State> state = stateRepository.findByRegionName(stateName);
 
         if (!state.isPresent()) {
-            throw new IllegalArgumentException("State " + stateName + " not found");
+            throw new EntityNotFoundException("State " + stateName + " not found");
         }
 
         List<MetroArea>  metros = metroAreaRepository.findByStateIdOrderByRegionNameAsc(state.get().getId());
