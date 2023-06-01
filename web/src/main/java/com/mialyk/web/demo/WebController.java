@@ -32,6 +32,10 @@ public class WebController {
         return "index";
     }
 
+    /*
+    * Application services should be called, or the demo should be a standalone application that calls the API.
+    * The API call within the same module was made due to a formal project requirement.
+    */
     @GetMapping("/charts")
     public String getPieChart(Model model) {
 
