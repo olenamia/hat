@@ -1,4 +1,4 @@
-package com.mialyk.web.exseptionhandlers;
+package com.mialyk.web.exceptionhandlers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
