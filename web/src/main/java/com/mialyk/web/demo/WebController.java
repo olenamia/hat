@@ -29,6 +29,7 @@ public class WebController {
 
     @GetMapping("/")
     public String getStarter(Model model) {
+        model.addAttribute("activePage", "analytics");
         return "index";
     }
 
@@ -57,6 +58,18 @@ public class WebController {
 
         model.addAttribute("defaultStateAnalytics", result);
         return "maps";
+    }
+
+    @GetMapping("/project")
+    public String getProjectPage(Model model) {
+        model.addAttribute("activePage", "project");
+        return "project";
+    }
+
+    @GetMapping("/about")
+    public String getAboutPage(Model model) {
+        model.addAttribute("activePage", "about");
+        return "about";
     }
 
     private String getBaseUrl() {

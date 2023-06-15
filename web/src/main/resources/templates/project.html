@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>HAT - Housing Analytics Tool</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="fragments/navigation :: navigation"></div>
+<div class="container" style="margin-top: 70px;">
+<div class="row">
+    <div class="col">
+        <!-- Project Description Buttons -->
+        <ul id="projButtons" style="float: right;">
+            <li data-toggle="tab" href="#goals_pane" class="btn btn-outline-secondary active" style="width: 120px; margin-right: 5px;">Goals</li>
+            <li data-toggle="tab" href="#solution_pane" class="btn btn-outline-secondary" style="width: 120px; margin-right: 5px;">Solution</li>
+            <li data-toggle="tab" href="#architect_pane" class="btn btn-outline-secondary" style="width: 120px;">Architecture</li>
+            <li data-toggle="tab" href="#db_pane" class="btn btn-outline-secondary" style="width: 120px;">Database</li>  
+            <li data-toggle="tab" href="#future_pane" class="btn btn-outline-secondary" style="width: 120px;">Future</li> 
+        </ul>
+    </div>
+</div>
+<div class="row">
+        <div class="tab-content my-0" >
+            <!-- Goals Tab -->
+            <div class="tab-pane active" id="goals_pane">
+                <div class="card bg-light mb-3">
+                    <div class="card-body">
+                        <!--h5 class="card-title">Project Description</h5-->
+                        <p  class="card-text">HAT (Housing Analytics Tool) provides an API for housing statistics and analytics, crucial for understanding market health and trends.
+                        </p>
+                    </div>
+                </div>
+                <div class="card bg-light  my-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Technical Features and Details:</h5>
+                        <ul>
+                            <li>The project utilizes a multi-modular, 3-tier architecture for organized development and clear separation of responsibilities.</li>
+                            <li>The application employs an automated ETL process to provide updated data and integrates the OpenCsv library for handling CSV data.</li>
+                            <li>The API supports CRUD operations and performs analytics calculations.</li>
+                            <li>Security is based on API key authentication for modification operations.</li>
+                            <li>Swagger UI is used for user-friendly API documentation, interactive exploration, and Try It Out functionality.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card bg-light my-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Personal Study Goal:</h5>
+                        <ul>
+                            <li>Master Java and Spring Boot </li>
+                            <li>Improve architectural design skills</li>
+                            <li>Improve system design and OOD skills  </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card bg-light my-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Project Tech Stack:</h5>
+                        <ul>
+                            <li>Server-Side Framework: Java, Spring Boot, JPA/Hibernate
+                            <li>Build Tool: Maven
+                            <li>Libraries: OpenCsv, Swagger
+                            <li>Database: Postgres
+                            <li>Frontend Technologies: JavaScript, HTML/CSS, jQuery, Bootstrap, GoogleCharts, Thymeleaf.
+                        </ul>
+                    </div>
+                </div>
+                <div class="card bg-light my-3">
+                    <div class="card-body">
+                        <h5 class="card-title">API Used:</h5>
+                        <p>The HAT Application connects to the Zillow endpoint to retrieve and process housing data. Additionally, HAT provides its own analytics API and showcases its usage through a demo, utilizing the built API.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- MVP Tab -->
+            <div class="tab-pane" id="solution_pane">
+                <div class="card bg-light mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">MVP</h5>
+                        <p class="card-text">The Minimum Viable Product (MVP) for the Housing Analytics Tool focuses on essential features, which include:</p>
+                        <ul>
+                            <li>A dedicated tool that efficiently retrieves and processes data from the Zillow endpoint.</li>
+                            <li>Basic analytics that present the existing state of house values and the growth of house values over different periods of time.</li>
+                            <li>An API that responds to user requests, delivering relevant data and allowing authorized users to create, update, and delete data.</li>
+                            <li>Security is based on API key authentication for modification operations.</li>
+                            <li>The user interface demonstration displays current home value trends on a map and in a table view. It also shows historical trend charts and offers the ability to filter data by region type (country, state, metro, county).</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card bg-light  my-3">
+                    <div class="card-body">
+                        <h5 class="card-title"> Architecture Overview</h5>
+                        <p class="card-text">The Minimum Viable Product (MVP) for the Housing Analytics Tool focuses on essential features, which include:</p>
+                        <ol type="1">
+                            <li>Standalone Application: Initiates the data retrieval process from Zillow Datapoint and seeds the database.</li>
+                            <li>API:</li>
+                            <ul>
+                                <li>Presents Swagger UI with API documentation.</li>
+                                <li>Provides access to the Housing Analytics Tool (HAT) API for retrieving analytics.</li>
+                                <li>Requires API Key authentication for data modifications.</li>
+                            </ul>
+                            <li>Demo User Interface (UI):</li>
+                            <ul>
+                                <li>Built with Thymeleaf.</li>
+                                <li>Utilizes the HAT API to retrieve analytics.</li>
+                                <li>Demonstrates how the calculated analytics can be used.</li>
+                            </ul>
+                        </ol>
+                        <p class="card-text">Note:</p>
+                        <ul>
+                            <li>Business logic and data access layers are shared across projects that provide the analytics API and database seeder.</li>
+                            <li>The API is open for read operations, but modifications to the data require authentication via an API Key.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Architecture Tab -->
+            <div class="tab-pane" id="architect_pane">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Housing Analytics Tool</h5>
+                        <img src="/images/architecture.png" class="card-img-top" alt="Project Architecture">
+                    </div>
+                </div>
+            </div>
+            <!-- DB Schema Tab -->
+            <div class="tab-pane" id="db_pane" >
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Housing Analytics Tool Database</h5>
+                        <img src="/images/db_schema.png" class="card-img-top" alt="DB Schema">
+                    </div>
+                </div>
+            </div>
+            <!-- Future Tab -->
+            <div class="tab-pane card bg-light" id="future_pane">
+                <div class="card-body">
+                    <h5 class="card-title">The Future of the Project</h5>
+                    <p>Future project development plans will be added here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- GitHub block -->
+    <div class="row">
+        <div class="col">
+            <a href="https://github.com/olenamia/hat" class="image-link" style="float: right;" target="_blank">
+                <img src="/images/icon_github.png" alt="GitHub" style="width: 20px; height: auto; margin-right: 5px;">/olenamia/hat
+            </a>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+<script>
+    $(document).ready(function() {
+        $('#projButtons li').click(function (e) {
+            e.preventDefault();
+            var href = $(this).attr('href');
+            $('#projButtons li').removeClass('active');
+
+            // Add active class to clicked button
+            $(this).addClass('active');
+            $(href).addClass('active').siblings().removeClass('active');
+        });
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

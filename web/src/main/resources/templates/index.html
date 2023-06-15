@@ -9,28 +9,7 @@
 </head>
 <body>
 <!-- Global Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="/" style="font-size: 20px; display: flex; align-items: center; color:#ffd237;">HAT - Housing Analytics Tool</a>
-        <ul class="navbar-nav ml-auto" style="float: right; margin:0; padding:0; height:40px; display: flex; align-items: center">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Analytics</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Project</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="swagger-ui/index.html" target="_blank">API</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<div th:replace="fragments/navigation :: navigation"></div>
 <!-- Tabs -->
 <div class="container" style="margin-bottom: 70px; margin-top: 35px;">
     <div class="row">
@@ -48,16 +27,7 @@
     </div>
 </div>
 <!-- Footer -->
-<footer class="navbar navbar-light bg-secondaty py-0" style="position: fixed; bottom: 0; width: 100%; background-color: white;">
-    <div class="container border-top py-0 my-0">
-        <span class="navbar-text mr-auto">
-            Developed & Designed by Olena Mialyk © 2023
-        </span>
-        <span class="navbar-text">
-            Data Source: <a href="https://www.zillow.com/research/data/" target="_blank" style="color: #007bff;">Zillow Housing Data</a>
-        </span>
-    </div>
-</footer>
+<div th:replace="fragments/footer :: footer"></div>
 
 <script>
     // Switch tabs by click
@@ -80,7 +50,7 @@
     });
 
     // Initial load of Recent Trends tab (default tab)
-    $('#recent').load($('.nav-link.active').attr("data-url"), function (result) {
+    $('#recent').load($('#contentTabs .nav-link.active').attr("data-url"), function (result) {
         $('#recent').attr('data-loaded', 'true');
     });
 </script>

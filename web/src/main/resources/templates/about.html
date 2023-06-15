@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>HAT - Housing Analytics Tool</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="fragments/navigation :: navigation"></div>
+<!-- Tabs -->
+<div class="container" style="margin-top: 70px;">
+    <div class="card bg-light">
+        <div class="card-body">
+            <div class="row" >
+                <div class="col" style="float: right;">
+                    <p>Experienced software engineer with more than 7 years of professional experience working with teams of varying sizes, 
+                        from startups to larger teams exceeding 30 members, utilizing the Agile methodologies. 
+                        Proficient in diverse domains and technology stacks. Holds a Master's degrees in Computer Science and in Finance. 
+                        Returning to work after a visa-related career break.</p>
+                    <a href="https://github.com/olenamia/hat" class="image-link" style="float: left;" target="_blank">
+                        <img src="/images/icon_github.png" alt="GitHub" style="width: 20px; height: auto; margin-right: 5px;">/olenamia/hat
+                    </a>
+                    <br/>
+                    <a href="https://www.linkedin.com/in/olena-mialyk/" class="image-link" style="float: left;" target="_blank">
+                        <img src="/images/icon_linkedin.png" alt="GitHub" style="width: 20px; height: auto; margin-right: 5px;">/in/olena-mialyk
+                    </a>
+                </div>
+                <div class="col">
+                    <h5 style="text-align: right;">Coding makes me happy</h5>
+                    <!--div class="rounded-circle" style="width: 200px; height: 200px; overflow: hidden; float: right; margin-right: 15px;">
+                        <img src="/images/om_pencil.jpeg" alt="Photo" class="img-fluid">
+                    </div-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+
+<script>
+    $(document).ready(function() {
+        var url = "/swagger-ui/index.html";
+        $('#swaggerTab').load(url, function (result){
+        })
+    });
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
