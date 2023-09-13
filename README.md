@@ -55,6 +55,16 @@ The challenge was addressed by utilizing native queries and projections to calcu
 
 As a result, the execution time of the main queries decreased significantly from approximately 5.5 seconds to just 78 milliseconds, marking a remarkable 7000% improvement in speed.
 
+## UI 
+
+![UI Map View](./web/src/main/resources/static/images/demo_map.png)
+
+![UI Chart View](./web/src/main/resources/static/images/demo_chart.png)
+
+## API 
+
+![API Swagger View](./web/src/main/resources/static/images/demo_swagger.png)
+
 ## Futher Improvements
 
 CRUD functionality was added as a requirement at the end of the project, so it wasn't completely finished. Things to improve:
