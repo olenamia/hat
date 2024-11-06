@@ -67,8 +67,6 @@ As a result, the execution time of the main queries decreased significantly from
 
 ## Futher Improvements
 
-CRUD functionality was added as a requirement at the end of the project, so it wasn't completely finished. Things to improve:
-
 - Validation of incoming data
 - Separation of request and response data strucrures (dtos)
 - Role based API key authentification (with admin page, that allows to generate an API key) or OAuth authentification
